@@ -1,5 +1,6 @@
-interface Olt {
-  miranda: string;
+interface OltConfig {
+  template: string;
+  oltName: string;
 }
 
 export class scriptText {
@@ -26,8 +27,10 @@ export class scriptText {
   }
 
   chima(): string {
-    const script: any = {
-      MIRANDA: `\
+    const oltConfigs: OltConfig[] = [
+      {
+        oltName: "MIRANDA",
+        template: `\
 interface gpon-olt_${this.pon}
 onu ${this.id} type ZTE-F601 sn ${this.sn} 
 ! 
@@ -42,9 +45,11 @@ pon-onu-mng gpon-onu_${this.pon}:${this.id}
 service inter gemport 1 vlan ${this.vlan}
 performance ethuni eth_0/1 start 
 vlan port eth_0/1 mode tag vlan ${this.vlan}
-! 
-`,
-      ITAPOA: `\
+!`,
+      },
+      {
+        oltName: "ITAPOA",
+        template: `\
 interface gpon-olt_${this.pon}
 onu ${this.id} type ZTE-F601 sn ${this.sn}
 !
@@ -63,23 +68,14 @@ vlan-filter iphost 1 priority 0 vid ${this.vlan}
 vlan port eth_0/1 mode tag vlan ${this.vlan}
 security-mng 1 state enable mode permit
 !`,
-      VILA_NOVA: `\
-interface gpon-olt_${this.pon}
-onu ${this.id} type ZTE-F601 sn ${this.sn}
-!
-interface gpon-onu_${this.pon}:${this.id}
-description ${this.client}
-tcont 2 name Tcont100M profile OT
-gemport 1 name Gemport1 unicast tcont 2 dir both queue 1
-switchport mode trunk vport 1
-switchport vlan ${this.vlan} tag vport 1
-! 
-pon-onu-mng gpon-onu_${this.pon}:${this.id}
-service inter gemport 1 vlan ${this.vlan}
-performance ethuni eth_0/1 start
-vlan port eth_0/1 mode tag vlan ${this.vlan}
-!`,
-      PADRÃO: `\
+      },
+      {
+        oltName: "VILA NOVA",
+        template: `\interface gpon-olt_${this.pon}onu ${this.id} type ZTE-F601 sn ${this.sn}!interface gpon-onu_${this.pon}:${this.id}description ${this.client}tcont 2 name Tcont100M profile OTgemport 1 name Gemport1 unicast tcont 2 dir both queue 1switchport mode trunk vport 1switchport vlan ${this.vlan} tag vport 1! pon-onu-mng gpon-onu_${this.pon}:${this.id}service inter gemport 1 vlan ${this.vlan}performance ethuni eth_0/1 startvlan port eth_0/1 mode tag vlan ${this.vlan}!`,
+      },
+    ];
+
+    const defaultScript = `\
 interface gpon-olt_${this.pon}
 onu ${this.id} type ZTE-F601 sn CMSZ3B0A44DE 
 ! 
@@ -94,18 +90,23 @@ pon-onu-mng gpon-onu_${this.pon}:${this.id}
 service inter gemport 1 vlan ${this.vlan}
 performance ethuni eth_0/1 start 
 vlan port eth_0/1 mode tag vlan ${this.vlan}
-! 
-      `,
-    };
+!`;
 
-    return script[this.olt.replace(" ", "_")]
-      ? script[this.olt.replace(" ", "_")]
-      : script["PADRÃO"];
+    const config = oltConfigs.find((cfg) => cfg.oltName === this.olt);
+
+    if (config) {
+      return config.template;
+    } else {
+      // Handle the case when the OLT is not found (e.g., return a default script)
+      return defaultScript;
+    }
   }
   /// onu zte
   zte(): string {
-    const script: any = {
-      VILA_NOVA: `\
+    const oltConfigs: OltConfig[] = [
+      {
+        oltName: "VILA NOVA",
+        template: `\
 interface gpon-olt_${this.pon}
 onu ${this.id} type ZTE-F601 sn ${this.sn}
 !
@@ -124,7 +125,10 @@ vlan-filter iphost 1 priority 0 vid ${this.vlan}
 vlan port eth_0/1 mode tag vlan ${this.vlan}
 security-mng 1 state enable mode permit
 !`,
-      ITAPOA: `\
+      },
+      {
+        oltName: "ITAPOA",
+        template: `\
 interface gpon-olt_${this.pon}
 onu ${this.id} type ZTE-F601 sn ${this.sn}
 !
@@ -143,26 +147,32 @@ vlan-filter iphost 1 priority 0 vid ${this.vlan}
 vlan port eth_0/1 mode tag vlan ${this.vlan}
 security-mng 1 state enable mode permit
 !`,
-      MIRANDA: `\
+      },
+      {
+        oltName: "MIRANDA",
+        template: `\
 interface gpon-olt_${this.pon}
 onu ${this.id} type ZTE-F601 sn ${this.sn}
 !
 interface gpon-onu_${this.pon}:${this.id}
 description ${this.client}
 tcont 2 name Tcont100M profile OT
-gemport 1 name Gemport1 unicast tcont 2 dir both queue 1
+gemport 1 name Gemport1 unicast tcont 2 dir both
 switchport mode trunk vport 1
 switchport vlan ${this.vlan} tag vport 1
 !
 pon-onu-mng gpon-onu_${this.pon}:${this.id}
-service dataservice gemport 1 cos 0 vlan ${this.vlan}
+service dataservice type internet gemport 1 cos 0 vlan ${this.vlan}
 switchport-bind switch_0/1 iphost 1
 vlan-filter-mode iphost 1 tag-filter vid-filter untag-filter discard
 vlan-filter iphost 1 priority 0 vid ${this.vlan}
 vlan port eth_0/1 mode tag vlan ${this.vlan}
 security-mng 1 state enable mode permit
 !`,
-      PADRÃO: `\
+      },
+    ];
+
+    const defaultScript = `\
 interface gpon-olt_${this.pon}
 onu ${this.id} type ZTE-F601 sn ${this.sn}
 !
@@ -177,14 +187,22 @@ pon-onu-mng gpon-onu_${this.pon}:${this.id}
 service dataservice gemport 1 cos 0 vlan ${this.vlan}
 switchport-bind switch_0/1 iphost 1
 vlan port eth_0/1 mode tag vlan ${this.vlan}
-!`,
-    };
-    return script[this.olt.replace(" ", "_")]
-      ? script[this.olt.replace(" ", "_")]
-      : script["PADRÃO"];
+!`;
+
+    const config = oltConfigs.find((cfg) => cfg.oltName === this.olt);
+
+    if (config) {
+      return config.template;
+    } else {
+      // Handle the case when the OLT is not found (e.g., return a default script)
+      return defaultScript;
+    }
   }
+
+  //SCRIPT PARA VALENET
+
   valenet(): string {
-    const script = `\
+    const defaultScript = `\
 interface gpon-olt_${this.pon}
 onu ${this.id} type ZTE-F601 sn ${this.sn}
 !
@@ -199,6 +217,6 @@ pon-onu-mng gpon-onu_${this.pon}:${this.id}
 service dataservice gemport 1 cos 0 vlan ${this.vlan} 
 performance ethuni eth_0/1 start
 !`;
-    return script;
+    return defaultScript;
   }
 }

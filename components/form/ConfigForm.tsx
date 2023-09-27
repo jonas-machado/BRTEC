@@ -15,10 +15,6 @@ import { useForm, Controller, FieldValues } from "react-hook-form";
 import ComboboxInput from "../inputs/comboboxInput";
 
 import { cadastro } from "@/lib/text/cadastro";
-import { valenet } from "@/lib/text/valenet";
-import { vilaNova } from "@/lib/text/vilanova";
-import { itapoa } from "@/lib/text/itapoa";
-import { chima, zte } from "@/lib/text/padrão";
 import { intelbrasI } from "@/lib/text/intelbrasI";
 import { intelbrasG } from "@/lib/text/intelbrasG";
 import { datacom } from "@/lib/text/datacom";
@@ -26,6 +22,9 @@ import { scriptText } from "@/lib/text/zte";
 //constants
 import { plans } from "@/constants/plans";
 import { ponExceptions } from "@/constants/ponException";
+
+//ZOD
+import { z } from "zod";
 
 const ontType = [{ name: "ONU" }, { name: "ONT" }];
 const intelbrasModel = [{ name: "ITBS" }, { name: "ZNTS" }];
@@ -71,6 +70,18 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
   const [cadastroTextArea, setCadastroText] = useState<string>();
   const [pppoeTextArea, setpppoeText] = useState<string>();
   const [pppoeTextArea2, setpppoeText2] = useState<string>();
+
+  const schema = z.object({
+    oltScript: z.string().min(2).max(100), // Adjust min and max lengths as needed
+    ontType: z.string().min(2).max(100), // Replace with appropriate validation rules
+    sn: z.string().min(2).max(50),
+    pon: z.string().min(2).max(20),
+    idLivre: z.string().min(2).max(20),
+    idOnu: z.string().min(2).max(20), // Add more fields and validation rules as needed
+    client: z.string().min(2).max(50),
+    customVlan: z.string().min(2).max(20),
+    customProfile: z.string().min(2).max(20),
+  });
 
   const {
     register,
@@ -206,14 +217,6 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     pon,
   }: FieldValues) => {
     console.log(idOnu);
-    // const script = new scriptText(
-    //   pon,
-    //   idLivre,
-    //   sn,
-    //   client,
-    //   selected?.olt,
-    //   handleVlan(pon, selected?.vlan, customVlan)
-    // );
     const name = client
       .normalize("NFD")
       .replace(/-/g, " ")
@@ -231,244 +234,128 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
       .trim()
       .split(" ");
 
-    axios
-      .post("http://127.0.0.1:5000/configure-onu", {
-        onutype: ontType,
-        serial: sn,
-        olt: selected?.ip,
-        pon,
-        idLivre,
-        idOnu,
-        customVlan,
-        cliente: name,
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // axios
+    //   .post("http://127.0.0.1:5000/configure-onu", {
+    //     onutype: ontType,
+    //     serial: sn,
+    //     olt: selected?.ip,
+    //     pon,
+    //     idLivre,
+    //     idOnu,
+    //     customVlan,
+    //     cliente: name,
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
+    const script = new scriptText(
+      pon.trim(),
+      idLivre.trim(),
+      sn.trim(),
+      name,
+      selected?.olt,
+      handleVlan(pon.trim(), selected?.vlan, customVlan.trim())
+    );
 
     setpppoeText(pppoeText(clientPPPoE).join("\n"));
     setpppoeText2(pppoeText2(clientPPPoE).join("\n"));
-    // if (selectedRadio.name == "ZTE/ITBS" && selected?.brand == "ZTE") {
-    //   setCadastroText(
-    //     cadastro(comando(pon, idLivre, "ZTE"), currentUser, selected, sn)
-    //   );
-    //   if (sn.substring(0, 5) == "ZTEG3") {
-    //     console.log("pass");
-    //     return setConfigText(script.valenet());
-    //   }
-    //   if (sn.substring(0, 4) == "ZTEG") {
-    //     console.log("pass");
-    //     return setConfigText(script.zte());
-    //   }
-    //   if (sn.substring(0, 4) == "CMSZ") {
-    //     console.log("pass");
-    //     return setConfigText(script.chima());
-    //   }
-    //   console.log("pass");
-    //   return setConfigText(script.chima());
 
-    //   // switch (
-    //   //   selected?.olt
-    //   //   case "VILA NOVA":
-    //   //     sn.substring(0, 4) == "ZTEG"
-    //   //       ? setConfigText(
-    //   //           vilaNova(
-    //   //             pon,
-    //   //             idLivre,
-    //   //             sn,
-    //   //             name,
-    //   //             handleVlan(pon, selected?.vlan, customVlan),
-    //   //             "ZTEG"
-    //   //           )
-    //   //         )
-    //   //       : setConfigText(
-    //   //           vilaNova(
-    //   //             pon,
-    //   //             idLivre,
-    //   //             sn,
-    //   //             name,
-    //   //             handleVlan(pon, selected?.vlan, customVlan)
-    //   //           )
-    //   //         );
-    //   //     break;
-    //   //   case "ITAPOA":
-    //   //     setConfigText(
-    //   //       itapoa(
-    //   //         pon,
-    //   //         idLivre,
-    //   //         sn,
-    //   //         name,
-    //   //         handleVlan(pon, selected.vlan, customVlan)
-    //   //       )
-    //   //     );
-    //   //     break;
-    //   //   case "BRV04":
-    //   //     for (let i = 0; i < brv04.length; i++) {
-    //   //       if (pon == brv04[i].pon) {
-    //   //         return sn.substring(0, 4) == "ZTEG"
-    //   //           ? setConfigText(
-    //   //               zte(
-    //   //                 pon,
-    //   //                 idLivre,
-    //   //                 sn,
-    //   //                 name,
-    //   //                 handleVlan(pon, brv04[i].vlan, customVlan)
-    //   //               )
-    //   //             )
-    //   //           : setConfigText(
-    //   //               chima(
-    //   //                 pon,
-    //   //                 idLivre,
-    //   //                 sn,
-    //   //                 name,
-    //   //                 handleVlan(pon, brv04[i].vlan, customVlan)
-    //   //               )
-    //   //             );
-    //   //       }
-    //   //     }
-    //   //   case "VIAPIANA NEW":
-    //   //     for (let i = 0; i < viapiana.length; i++) {
-    //   //       if (pon == viapiana[i].pon) {
-    //   //         return sn.substring(0, 4) == "ZTEG"
-    //   //           ? setConfigText(
-    //   //               zte(
-    //   //                 pon,
-    //   //                 idLivre,
-    //   //                 sn,
-    //   //                 name,
-    //   //                 handleVlan(pon, viapiana[i].vlan, customVlan)
-    //   //               )
-    //   //             )
-    //   //           : setConfigText(
-    //   //               chima(
-    //   //                 pon,
-    //   //                 idLivre,
-    //   //                 sn,
-    //   //                 name,
-    //   //                 handleVlan(pon, viapiana[i].vlan, customVlan)
-    //   //               )
-    //   //             );
-    //   //       }
-    //   //     }
-    //   //   case "MIRANDA":
-    //   //   case "PENHA":
-    //   //   case "PIÇARRAS":
-    //   //   case "NOVA BRASÍLIA":
-    //   //   case "JOINVILLE":
-    //   //     setConfigText(script.chima());
-    //   //     break;
-    //   //   case "BS02":
-    //   //   case "ITACOLOMI":
-    //   //   case "SAGUAÇU":
-    //   //   case "VILA DA GLORIA":
-    //   //   case "ITINGA":
-    //   //   case "ESTRADA DA ILHA":
-    //   //     return sn.substring(0, 4) == "ZTEG"
-    //   //       ? setConfigText(
-    //   //           zte(
-    //   //             pon,
-    //   //             idLivre,
-    //   //             sn,
-    //   //             name,
-    //   //             handleVlan(pon, selected.vlan, customVlan)
-    //   //           )
-    //   //         )
-    //   //       : setConfigText(
-    //   //           chima(
-    //   //             pon,
-    //   //             idLivre,
-    //   //             sn,
-    //   //             name,
-    //   //             handleVlan(pon, selected.vlan, customVlan)
-    //   //           )
-    //   //         );
-    //   //   case "ITAPOA2":
-    //   //     return setConfigText(
-    //   //       chima(pon, idLivre, sn, name, handleVlan(pon, customVlan))
-    //   //     );
-    //   //   default:
-    //   //     return setConfigText(
-    //   //       chima(pon, idLivre, sn, name, handleVlan(pon, customVlan))
-    //   //     );
-    //   // ) {
-    //   // }
-    // }
-    // if (
-    //   selectedRadio.name == "ZTE/ITBS" &&
-    //   selected?.brand.includes("INTELBRAS")
-    // ) {
-    //   switch (selected?.olt) {
-    //     case "ERVINO":
-    //       setCadastroText(
-    //         cadastro(
-    //           comando(pon, idLivre, "IntelbrasI"),
-    //           currentUser,
-    //           selected,
-    //           sn
-    //         )
-    //       );
-    //       setConfigText(
-    //         intelbrasI(
-    //           pon,
-    //           idLivre,
-    //           idOnu,
-    //           name,
-    //           handleVlan(pon, selected?.vlan)
-    //         )
-    //       );
-    //       break;
-    //     case "GARUVA":
-    //     case "SFS":
-    //     default:
-    //       setCadastroText(
-    //         cadastro(
-    //           comando(pon, idLivre, "IntelbrasG"),
-    //           currentUser,
-    //           selected,
-    //           sn
-    //         )
-    //       );
-    //       setConfigText(
-    //         intelbrasG(
-    //           pon,
-    //           idLivre,
-    //           sn,
-    //           name,
-    //           intelbrasModel,
-    //           handleVlan(pon, selected?.vlan)
-    //         )
-    //       );
-    //       break;
-    //   }
-    // }
+    if (selectedRadio.name == "ZTE/ITBS" && selected?.brand == "ZTE") {
+      setCadastroText(
+        cadastro(comando(pon, idLivre, "ZTE"), currentUser, selected, sn)
+      );
+      if (sn.substring(0, 5) == "ZTEG3") {
+        console.log("pass");
+        return setConfigText(script.valenet());
+      }
+      if (sn.substring(0, 4) == "ZTEG") {
+        console.log("pass");
+        return setConfigText(script.zte());
+      }
+      if (sn.substring(0, 4) == "CMSZ") {
+        console.log("pass");
+        return setConfigText(script.chima());
+      }
+      return setConfigText(script.chima());
+    }
 
-    // if (selectedRadio.name == "Datacom" && selected?.brand == "DATACOM") {
-    //   setCadastroText(
-    //     cadastro(comando(pon, idLivre, "Datacom"), currentUser, selected, sn)
-    //   );
-    //   switch (selected?.olt) {
-    //     case "JACU":
-    //     case "ARAQUARI":
-    //     case "BRUSQUE":
-    //     case "BS1":
-    //     case "ITAPOCU":
-    //     case "SNL101":
-    //     default:
-    //       setConfigText(
-    //         datacom(
-    //           pon,
-    //           idLivre,
-    //           sn,
-    //           name,
-    //           ontType,
-    //           selected,
-    //           customProfile,
-    //           handleVlanDatacom(ontType, pon, selected?.vlan, customVlan)
-    //         )
-    //       );
-    //       break;
-    //   }
-    // }
+    if (
+      selectedRadio.name == "ZTE/ITBS" &&
+      selected?.brand.includes("INTELBRAS")
+    ) {
+      switch (selected?.olt) {
+        case "ERVINO":
+          setCadastroText(
+            cadastro(
+              comando(pon, idLivre, "IntelbrasI"),
+              currentUser,
+              selected,
+              sn
+            )
+          );
+          setConfigText(
+            intelbrasI(
+              pon,
+              idLivre,
+              idOnu,
+              name,
+              handleVlan(pon, selected?.vlan)
+            )
+          );
+          break;
+        case "GARUVA":
+        case "SFS":
+        default:
+          setCadastroText(
+            cadastro(
+              comando(pon, idLivre, "IntelbrasG"),
+              currentUser,
+              selected,
+              sn
+            )
+          );
+          setConfigText(
+            intelbrasG(
+              pon,
+              idLivre,
+              sn,
+              name,
+              intelbrasModel,
+              handleVlan(pon, selected?.vlan)
+            )
+          );
+          break;
+      }
+    }
+
+    if (selectedRadio.name == "Datacom" && selected?.brand == "DATACOM") {
+      setCadastroText(
+        cadastro(comando(pon, idLivre, "Datacom"), currentUser, selected, sn)
+      );
+      switch (selected?.olt) {
+        case "JACU":
+        case "ARAQUARI":
+        case "BRUSQUE":
+        case "BS1":
+        case "ITAPOCU":
+        case "SNL101":
+        default:
+          setConfigText(
+            datacom(
+              pon,
+              idLivre,
+              sn,
+              name,
+              ontType,
+              selected,
+              customProfile,
+              handleVlanDatacom(ontType, pon, selected?.vlan, customVlan)
+            )
+          );
+          break;
+      }
+    }
   };
 
   return (
