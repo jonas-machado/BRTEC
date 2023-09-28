@@ -15,7 +15,7 @@ export default async function RootLayout({
 }) {
   const currentUser = await getCurrentUser();
   const schedules = await getSchedule();
-  console.log(currentUser?.user.backgroundImage);
+
   return (
     <PageWrapper>
       <MotionPage>

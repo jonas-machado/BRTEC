@@ -25,6 +25,7 @@ import { ponExceptions } from "@/constants/ponException";
 
 //ZOD
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const ontType = [{ name: "ONU" }, { name: "ONT" }];
 const intelbrasModel = [{ name: "ITBS" }, { name: "ZNTS" }];
@@ -83,13 +84,9 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     customProfile: z.string().min(2).max(20),
   });
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, control, reset, formState } = useForm({
+    resolver: zodResolver(schema),
+  });
 
   const resetForm = () => {
     setSn("");
