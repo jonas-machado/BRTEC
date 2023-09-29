@@ -27,6 +27,7 @@ import { ponExceptions } from "@/constants/ponException";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+//constants
 const ontType = [{ name: "ONU" }, { name: "ONT" }];
 const intelbrasModel = [{ name: "ITBS" }, { name: "ZNTS" }];
 
@@ -72,22 +73,45 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
   const [pppoeTextArea, setpppoeText] = useState<string>();
   const [pppoeTextArea2, setpppoeText2] = useState<string>();
 
-  const schema = z.object({
-    oltScript: z.string().min(2).max(100), // Adjust min and max lengths as needed
-    ontType: z.string().min(2).max(100), // Replace with appropriate validation rules
-    sn: z.string().min(2).max(50),
-    pon: z.string().min(2).max(20),
-    idLivre: z.string().min(2).max(20),
-    idOnu: z.string().min(2).max(20), // Add more fields and validation rules as needed
-    client: z.string().min(2).max(50),
-    customVlan: z.string().min(2).max(20),
-    customProfile: z.string().min(2).max(20),
-  });
+  const schema: any = {
+    ZTE: z.object({
+      sn: z.string().trim().min(2).max(12),
+      pon: z.string().trim().min(1).max(6),
+      idLivre: z.number().int().min(1).max(3),
+      client: z.string().trim().min(2).max(50),
+      customVlan: z.number().int().optional(),
+    }),
+    Intelbras: z.object({
+      sn: z.string().trim().min(2).max(12),
+      pon: z.string().trim().min(1).max(6),
+      idLivre: z.number().int().min(1).max(3),
+      idOnu: z.number().int().min(1), // Add more fields and validation rules as needed
+      client: z.string().trim().min(2).max(50),
+      customVlan: z.number().int().optional(),
+      customProfile: z.string().trim().optional(),
+    }),
+    Datacom: z.object({
+      ontType: z.string(), // Replace with appropriate validation rules
+      sn: z.string().trim().min(2).max(12),
+      pon: z.string().trim().min(1).max(6),
+      idLivre: z.number().int().min(1).max(3),
+      idOnu: z.number().int().min(1), // Add more fields and validation rules as needed
+      client: z.string().trim().min(2).max(50),
+      customVlan: z.number().int().optional(),
+      customProfile: z.string().trim().optional(),
+    }),
+  };
 
-  const { register, handleSubmit, control, reset, formState } = useForm({
-    resolver: zodResolver(schema),
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema[oltCompany]),
   });
-
+  console.log(errors);
   const resetForm = () => {
     setSn("");
     setConfigText("");
@@ -106,7 +130,9 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
         setOltCompanyArray(
           olt.filter((olt: any) => olt.brand.includes("INTELBRAS"))
         );
-        setOltCompany("Intelbras");
+        selected?.olt == "ERVINO"
+          ? setOltCompany("IntelbrasI")
+          : setOltCompany("IntelbrasG");
       }
     }
     if (selectedRadio.name == "Datacom" && sn) {
@@ -247,12 +273,12 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     //   });
 
     const script = new scriptText(
-      pon.trim(),
-      idLivre.trim(),
-      sn.trim(),
+      pon,
+      idLivre,
+      sn,
       name,
       selected?.olt,
-      handleVlan(pon.trim(), selected?.vlan, customVlan.trim())
+      handleVlan(pon, selected?.vlan, customVlan)
     );
 
     setpppoeText(pppoeText(clientPPPoE).join("\n"));

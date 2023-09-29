@@ -276,7 +276,7 @@ function Navbar({ currentUser, schedules }: NavbarProps) {
                     <Menu.Button className="flex rounded-lg bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="sr-only">Open user menu</span>
                       <Image
-                        className="h-8 w-8 rounded-lg "
+                        className="h-8 w-8 rounded-lg bg-cover"
                         src={
                           currentUser?.user.image
                             ? currentUser?.user.image!
@@ -284,9 +284,7 @@ function Navbar({ currentUser, schedules }: NavbarProps) {
                         }
                         height={30}
                         width={30}
-                        objectFit="cover"
                         alt="user picture"
-                        placeholder="blur"
                         blurDataURL={
                           currentUser?.user.image
                             ? currentUser?.user.image!
