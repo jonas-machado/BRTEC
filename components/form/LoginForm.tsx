@@ -17,7 +17,7 @@ export default function LoginForm() {
 
   const router = useRouter();
   const { data: session, status } = useSession();
-
+  console.log(status);
   const notify = (text: any) =>
     toast.error(text, {
       theme: "dark",
@@ -53,11 +53,11 @@ export default function LoginForm() {
       redirect: false,
       callbackUrl: "/config/manual",
     }).then((callback) => {
-      setIsLoading(false);
       if (callback?.error) {
+        setIsLoading(false);
         return notify(callback.error);
       }
-      router.push("/config/manual");
+      //router.push("/config/manual");
     });
   };
 
