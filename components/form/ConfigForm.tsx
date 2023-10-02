@@ -77,28 +77,28 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     ZTE: z.object({
       sn: z.string().trim().min(2).max(12),
       pon: z.string().trim().min(1).max(6),
-      idLivre: z.number().int().min(1).max(3),
+      idLivre: z.string().min(1).max(3),
       client: z.string().trim().min(2).max(50),
-      customVlan: z.number().int().optional(),
+      customVlan: z.string().nullish(),
     }),
     Intelbras: z.object({
       sn: z.string().trim().min(2).max(12),
       pon: z.string().trim().min(1).max(6),
-      idLivre: z.number().int().min(1).max(3),
-      idOnu: z.number().int().min(1), // Add more fields and validation rules as needed
+      idLivre: z.string().min(1).max(3),
+      idOnu: z.string().min(1), // Add more fields and validation rules as needed
       client: z.string().trim().min(2).max(50),
-      customVlan: z.number().int().optional(),
-      customProfile: z.string().trim().optional(),
+      customVlan: z.string().nullish(),
+      customProfile: z.string().trim().nullish(),
     }),
     Datacom: z.object({
       ontType: z.string(), // Replace with appropriate validation rules
       sn: z.string().trim().min(2).max(12),
       pon: z.string().trim().min(1).max(6),
-      idLivre: z.number().int().min(1).max(3),
-      idOnu: z.number().int().min(1), // Add more fields and validation rules as needed
+      idLivre: z.string().min(1).max(3),
+      idOnu: z.string().min(1), // Add more fields and validation rules as needed
       client: z.string().trim().min(2).max(50),
-      customVlan: z.number().int().optional(),
-      customProfile: z.string().trim().optional(),
+      customVlan: z.string().nullish(),
+      customProfile: z.string().trim().nullish(),
     }),
   };
 
@@ -405,11 +405,13 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               />
             )}
 
-            <InputLabel
+            <Input
               value={sn}
               label="SN"
               placeholder="Serial"
               id="serial"
+              register={register}
+              required
               onChange={(e: any) => setSn(e.target.value)}
             />
             <div className="flex w-full flex-col lg:flex-row gap-2 lg:gap-0 lg:space-y-0">
