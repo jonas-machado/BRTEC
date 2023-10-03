@@ -77,27 +77,27 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     ZTE: z.object({
       sn: z.string().trim().min(2).max(12),
       pon: z.string().trim().min(1).max(6),
-      idLivre: z.string().min(1).max(3),
+      idLivre: z.string().trim().min(1).max(3),
       client: z.string().trim().min(2).max(50),
-      customVlan: z.string().nullish(),
+      customVlan: z.string().trim().nullish(),
     }),
     Intelbras: z.object({
       sn: z.string().trim().min(2).max(12),
       pon: z.string().trim().min(1).max(6),
-      idLivre: z.string().min(1).max(3),
-      idOnu: z.string().min(1), // Add more fields and validation rules as needed
-      client: z.string().trim().min(2).max(50),
-      customVlan: z.string().nullish(),
-      customProfile: z.string().trim().nullish(),
+      idLivre: z.string().trim().min(1).max(3),
+      idOnu: z.string().trim().min(1), // Add more fields and validation rules as needed
+      client: z.string().trim().trim().min(2).max(50),
+      customVlan: z.string().trim().nullish(),
+      customProfile: z.string().trim().trim().nullish(),
     }),
     Datacom: z.object({
-      ontType: z.string(), // Replace with appropriate validation rules
+      ontType: z.string().trim(), // Replace with appropriate validation rules
       sn: z.string().trim().min(2).max(12),
       pon: z.string().trim().min(1).max(6),
-      idLivre: z.string().min(1).max(3),
-      idOnu: z.string().min(1), // Add more fields and validation rules as needed
+      idLivre: z.string().trim().min(1).max(3),
+      idOnu: z.string().trim().min(1), // Add more fields and validation rules as needed
       client: z.string().trim().min(2).max(50),
-      customVlan: z.string().nullish(),
+      customVlan: z.string().trim().nullish(),
       customProfile: z.string().trim().nullish(),
     }),
   };
@@ -107,11 +107,17 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     handleSubmit,
     control,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema[oltCompany]),
   });
+
+  const showAll = watch();
+
   console.log(errors);
+  console.log(showAll);
+
   const resetForm = () => {
     setSn("");
     setConfigText("");
