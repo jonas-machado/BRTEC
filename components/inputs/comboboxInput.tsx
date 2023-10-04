@@ -5,7 +5,6 @@ import { FieldValues, UseFormRegister, Controller } from "react-hook-form";
 import { RadioGroup } from "@headlessui/react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { Label } from "@headlessui/react/dist/components/label/label";
 
 interface selectedType {
   createdAt: any;

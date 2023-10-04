@@ -60,9 +60,6 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
   const [selected, setSelected] = useState<selectedType>();
   const [selectedRadio, setSelectedRadio] = useState(plans[0]);
 
-  //inputs config
-  const [sn, setSn] = useState("");
-
   //models handlers
   const [oltCompanyArray, setOltCompanyArray] = useState<any[]>([]);
   const [oltCompany, setOltCompany] = useState("");
@@ -113,13 +110,11 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     resolver: zodResolver(schema[oltCompany]),
   });
 
-  const showAll = watch();
-
+  const { serial, pon, idLivre, client, customVlan, oltName } = watch();
   console.log(errors);
-  console.log(showAll);
+  console.log(watch());
 
   const resetForm = () => {
-    setSn("");
     setConfigText("");
     setCadastroText("");
     setpppoeText("");
@@ -128,8 +123,8 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
   };
 
   useEffect(() => {
-    if (selectedRadio.name == "ZTE/ITBS" && sn) {
-      if (sn.length > 8) {
+    if (selectedRadio.name == "ZTE/ITBS" && serial) {
+      if (serial.length > 8) {
         setOltCompanyArray(olt.filter((olt: any) => olt.brand == "ZTE"));
         setOltCompany("ZTE");
       } else {
@@ -141,11 +136,11 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
           : setOltCompany("IntelbrasG");
       }
     }
-    if (selectedRadio.name == "Datacom" && sn) {
+    if (selectedRadio.name == "Datacom" && serial) {
       setOltCompanyArray(olt.filter((olt: any) => olt.brand == "DATACOM"));
       setOltCompany("Datacom");
     }
-  }, [sn, selectedRadio, olt]);
+  }, [serial, selectedRadio, olt]);
 
   const handleVlan = (pon: string, vlan?: number, customVlan?: number) => {
     if (vlan && !customVlan) {
@@ -266,7 +261,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     // axios
     //   .post("http://127.0.0.1:5000/configure-onu", {
     //     onutype: ontType,
-    //     serial: sn,
+    //     serial,
     //     olt: selected?.ip,
     //     pon,
     //     idLivre,
@@ -281,7 +276,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     const script = new scriptText(
       pon,
       idLivre,
-      sn,
+      serial,
       name,
       selected?.olt,
       handleVlan(pon, selected?.vlan, customVlan)
@@ -292,17 +287,17 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
 
     if (selectedRadio.name == "ZTE/ITBS" && selected?.brand == "ZTE") {
       setCadastroText(
-        cadastro(comando(pon, idLivre, "ZTE"), currentUser, selected, sn)
+        cadastro(comando(pon, idLivre, "ZTE"), currentUser, selected, serial)
       );
-      if (sn.substring(0, 5) == "ZTEG3") {
+      if (serial.substring(0, 5) == "ZTEG3") {
         console.log("pass");
         return setConfigText(script.valenet());
       }
-      if (sn.substring(0, 4) == "ZTEG") {
+      if (serial.substring(0, 4) == "ZTEG") {
         console.log("pass");
         return setConfigText(script.zte());
       }
-      if (sn.substring(0, 4) == "CMSZ") {
+      if (serial.substring(0, 4) == "CMSZ") {
         console.log("pass");
         return setConfigText(script.chima());
       }
@@ -320,7 +315,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               comando(pon, idLivre, "IntelbrasI"),
               currentUser,
               selected,
-              sn
+              serial
             )
           );
           setConfigText(
@@ -341,14 +336,14 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               comando(pon, idLivre, "IntelbrasG"),
               currentUser,
               selected,
-              sn
+              serial
             )
           );
           setConfigText(
             intelbrasG(
               pon,
               idLivre,
-              sn,
+              serial,
               name,
               intelbrasModel,
               handleVlan(pon, selected?.vlan)
@@ -360,7 +355,12 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
 
     if (selectedRadio.name == "Datacom" && selected?.brand == "DATACOM") {
       setCadastroText(
-        cadastro(comando(pon, idLivre, "Datacom"), currentUser, selected, sn)
+        cadastro(
+          comando(pon, idLivre, "Datacom"),
+          currentUser,
+          selected,
+          serial
+        )
       );
       switch (selected?.olt) {
         case "JACU":
@@ -374,7 +374,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
             datacom(
               pon,
               idLivre,
-              sn,
+              serial,
               name,
               ontType,
               selected,
@@ -412,13 +412,11 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
             )}
 
             <Input
-              value={sn}
               label="SN"
               placeholder="Serial"
               id="serial"
               register={register}
               required
-              onChange={(e: any) => setSn(e.target.value)}
             />
             <div className="flex w-full flex-col lg:flex-row gap-2 lg:gap-0 lg:space-y-0">
               <ComboboxInput
