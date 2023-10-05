@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 //import io from "socket.io-client";
 import Input from "../inputs/inputLabelUseForm";
-import InputLabel from "../inputs/InputLabel";
 import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -11,8 +10,15 @@ import { useSession } from "next-auth/react";
 import ControlledInputDescription from "../inputs/controlledInputDescription";
 import ControlledInput from "../inputs/controlledInput";
 import ControlledInputConfig from "../inputs/controlledInputConfig";
-import { useForm, Controller, FieldValues } from "react-hook-form";
-import ComboboxInput from "../inputs/comboboxInput";
+import {
+  useForm,
+  Controller,
+  FieldValues,
+  FieldErrors,
+  FieldError,
+  Merge,
+  FieldErrorsImpl,
+} from "react-hook-form";
 
 import { cadastro } from "@/lib/text/cadastro";
 import { intelbrasI } from "@/lib/text/intelbrasI";
@@ -26,20 +32,15 @@ import { ponExceptions } from "@/constants/ponException";
 //ZOD
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import AutocompleteInput from "../inputs/AutocompleteInput";
+
+//toast
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 //constants
 const ontType = [{ name: "ONU" }, { name: "ONT" }];
 const intelbrasModel = [{ name: "ITBS" }, { name: "ZNTS" }];
-
-interface selectedType {
-  createdAt: any;
-  id: string;
-  olt: string;
-  updatedAt: any;
-  vlan: number;
-  brand: string;
-  ip: string;
-}
 
 interface ConfigProps {
   currentUser?: User | null;
@@ -50,6 +51,19 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
   const session = useSession();
   const router = useRouter();
 
+  const notError = (msg: any) => {
+    return toast.error(msg, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+
   useEffect(() => {
     if (session?.status == "unauthenticated") {
       router.push("/");
@@ -57,7 +71,6 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
   }, [session?.status, router]);
 
   //selections
-  const [selected, setSelected] = useState<selectedType>();
   const [selectedRadio, setSelectedRadio] = useState(plans[0]);
 
   //models handlers
@@ -72,27 +85,33 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
 
   const schema: any = {
     ZTE: z.object({
-      sn: z.string().trim().min(2).max(12),
+      serial: z.string().trim().min(2).max(12),
       pon: z.string().trim().min(1).max(6),
       idLivre: z.string().trim().min(1).max(3),
       client: z.string().trim().min(2).max(50),
       customVlan: z.string().trim().nullish(),
     }),
-    Intelbras: z.object({
-      sn: z.string().trim().min(2).max(12),
+    IntelbrasI: z.object({
+      serial: z.string().trim().min(2).max(12),
       pon: z.string().trim().min(1).max(6),
       idLivre: z.string().trim().min(1).max(3),
       idOnu: z.string().trim().min(1), // Add more fields and validation rules as needed
       client: z.string().trim().trim().min(2).max(50),
       customVlan: z.string().trim().nullish(),
-      customProfile: z.string().trim().trim().nullish(),
     }),
-    Datacom: z.object({
-      ontType: z.string().trim(), // Replace with appropriate validation rules
-      sn: z.string().trim().min(2).max(12),
+    IntelbrasG: z.object({
+      serial: z.string().trim().min(2).max(12),
       pon: z.string().trim().min(1).max(6),
       idLivre: z.string().trim().min(1).max(3),
       idOnu: z.string().trim().min(1), // Add more fields and validation rules as needed
+      client: z.string().trim().trim().min(2).max(50),
+      customVlan: z.string().trim().nullish(),
+    }),
+    Datacom: z.object({
+      ontType: z.string().trim(), // Replace with appropriate validation rules
+      serial: z.string().trim().min(2).max(12),
+      pon: z.string().trim().min(1).max(6),
+      idLivre: z.string().trim().min(1).max(3),
       client: z.string().trim().min(2).max(50),
       customVlan: z.string().trim().nullish(),
       customProfile: z.string().trim().nullish(),
@@ -111,8 +130,17 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
   });
 
   const { serial, pon, idLivre, client, customVlan, oltName } = watch();
-  console.log(errors);
   console.log(watch());
+
+  useEffect(() => {
+    if (errors) {
+      console.log(errors);
+      for (let error in errors) {
+        notError(errors[error]?.message);
+      }
+      //notError(errors);
+    }
+  }, [errors]);
 
   const resetForm = () => {
     setConfigText("");
@@ -131,7 +159,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
         setOltCompanyArray(
           olt.filter((olt: any) => olt.brand.includes("INTELBRAS"))
         );
-        selected?.olt == "ERVINO"
+        oltName?.olt == "ERVINO"
           ? setOltCompany("IntelbrasI")
           : setOltCompany("IntelbrasG");
       }
@@ -147,7 +175,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
       return vlan;
     } else if (customVlan) {
       return customVlan;
-    } else if (selected?.olt == "ITAPOA2") {
+    } else if (oltName?.olt == "ITAPOA2") {
       const lastPon = pon.split("/");
       const lastVlanSlot1 = 0 + lastPon[2];
       const lastVlanSlot2 = parseInt(lastPon[2]) + 16;
@@ -158,10 +186,10 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
           return Number("5" + lastVlanSlot2);
       }
     } else if (
-      ponExceptions[selected!.olt] &&
-      ponExceptions[selected!.olt].includes(pon)
+      ponExceptions[oltName!.olt] &&
+      ponExceptions[oltName!.olt].includes(pon)
     ) {
-      return ponExceptions[selected!.olt].vlan;
+      return ponExceptions[oltName!.olt].vlan;
     } else if (!vlan && !customVlan) {
       return Number(pon.replace(/[/]/gi, ""));
     }
@@ -278,16 +306,16 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
       idLivre,
       serial,
       name,
-      selected?.olt,
-      handleVlan(pon, selected?.vlan, customVlan)
+      oltName?.olt,
+      handleVlan(pon, oltName?.vlan, customVlan)
     );
 
     setpppoeText(pppoeText(clientPPPoE).join("\n"));
     setpppoeText2(pppoeText2(clientPPPoE).join("\n"));
 
-    if (selectedRadio.name == "ZTE/ITBS" && selected?.brand == "ZTE") {
+    if (selectedRadio.name == "ZTE/ITBS" && oltName?.brand == "ZTE") {
       setCadastroText(
-        cadastro(comando(pon, idLivre, "ZTE"), currentUser, selected, serial)
+        cadastro(comando(pon, idLivre, "ZTE"), currentUser, oltName, serial)
       );
       if (serial.substring(0, 5) == "ZTEG3") {
         console.log("pass");
@@ -306,15 +334,15 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
 
     if (
       selectedRadio.name == "ZTE/ITBS" &&
-      selected?.brand.includes("INTELBRAS")
+      oltName?.brand.includes("INTELBRAS")
     ) {
-      switch (selected?.olt) {
+      switch (oltName?.olt) {
         case "ERVINO":
           setCadastroText(
             cadastro(
               comando(pon, idLivre, "IntelbrasI"),
               currentUser,
-              selected,
+              oltName,
               serial
             )
           );
@@ -324,7 +352,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               idLivre,
               idOnu,
               name,
-              handleVlan(pon, selected?.vlan)
+              handleVlan(pon, oltName?.vlan)
             )
           );
           break;
@@ -335,7 +363,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
             cadastro(
               comando(pon, idLivre, "IntelbrasG"),
               currentUser,
-              selected,
+              oltName,
               serial
             )
           );
@@ -346,23 +374,18 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               serial,
               name,
               intelbrasModel,
-              handleVlan(pon, selected?.vlan)
+              handleVlan(pon, oltName?.vlan)
             )
           );
           break;
       }
     }
 
-    if (selectedRadio.name == "Datacom" && selected?.brand == "DATACOM") {
+    if (selectedRadio.name == "Datacom" && oltName?.brand == "DATACOM") {
       setCadastroText(
-        cadastro(
-          comando(pon, idLivre, "Datacom"),
-          currentUser,
-          selected,
-          serial
-        )
+        cadastro(comando(pon, idLivre, "Datacom"), currentUser, oltName, serial)
       );
-      switch (selected?.olt) {
+      switch (oltName?.olt) {
         case "JACU":
         case "ARAQUARI":
         case "BRUSQUE":
@@ -377,9 +400,9 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               serial,
               name,
               ontType,
-              selected,
+              oltName,
               customProfile,
-              handleVlanDatacom(ontType, pon, selected?.vlan, customVlan)
+              handleVlanDatacom(ontType, pon, oltName?.vlan, customVlan)
             )
           );
           break;
@@ -419,7 +442,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               required
             />
             <div className="flex w-full flex-col lg:flex-row gap-2 lg:gap-0 lg:space-y-0">
-              <ComboboxInput
+              {/* <ComboboxInput
                 id="olt"
                 selected={selected}
                 onChange={setSelected}
@@ -431,23 +454,29 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
                   selected?.brand != "INTELBRAS I" &&
                   "lg:rounded-r-none"
                 }
+              /> */}
+              <AutocompleteInput
+                id="olt"
+                name="oltName"
+                label="OLT"
+                options={oltCompanyArray}
+                placeHolder="Selecione a OLT"
+                control={control}
+                className={oltCompany == "IntelbrasG" && "lg:rounded-r-none"}
               />
-              {oltCompany == "Intelbras" &&
-                selected?.brand != "INTELBRAS I" && (
-                  <div className="flex w-full lg:w-[8rem]">
-                    <ControlledInputConfig
-                      name="intelbrasModel"
-                      control={control}
-                      array={intelbrasModel}
-                    />
-                  </div>
-                )}
+              {oltCompany == "IntelbrasG" && (
+                <div className="flex w-full lg:w-[8rem]">
+                  <ControlledInputConfig
+                    name="intelbrasModel"
+                    control={control}
+                    array={intelbrasModel}
+                  />
+                </div>
+              )}
             </div>
             <Input
               label="PON"
-              placeholder={
-                selected?.brand.includes("INTELBRAS") ? "0" : "0/0/0"
-              }
+              placeholder={oltName?.brand.includes("INTELBRAS") ? "0" : "0/0/0"}
               id="pon"
               register={register}
               required
@@ -459,7 +488,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               register={register}
               required
             />
-            {selected?.brand == "INTELBRAS I" && (
+            {oltName?.brand == "INTELBRAS I" && (
               <>
                 <Input
                   label="ID Onu"
@@ -553,6 +582,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
           />
         </div>
       </section>
+      <ToastContainer />
     </div>
   );
 }
