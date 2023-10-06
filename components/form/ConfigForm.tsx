@@ -10,15 +10,7 @@ import { useSession } from "next-auth/react";
 import ControlledInputDescription from "../inputs/controlledInputDescription";
 import ControlledInput from "../inputs/controlledInput";
 import ControlledInputConfig from "../inputs/controlledInputConfig";
-import {
-  useForm,
-  Controller,
-  FieldValues,
-  FieldErrors,
-  FieldError,
-  Merge,
-  FieldErrorsImpl,
-} from "react-hook-form";
+import { useForm, FieldValues } from "react-hook-form";
 
 import { cadastro } from "@/lib/text/cadastro";
 import { intelbrasI } from "@/lib/text/intelbrasI";
@@ -51,7 +43,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
   const session = useSession();
   const router = useRouter();
 
-  const notError = (msg: any) => {
+  const toastError = (msg: any) => {
     return toast.error(msg, {
       position: "top-right",
       autoClose: 5000,
@@ -85,34 +77,108 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
 
   const schema: any = {
     ZTE: z.object({
-      serial: z.string().trim().min(2).max(12),
-      pon: z.string().trim().min(1).max(6),
-      idLivre: z.string().trim().min(1).max(3),
-      client: z.string().trim().min(2).max(50),
+      serial: z
+        .string()
+        .trim()
+        .min(2, { message: "O serial deve conter entre 2 e 12 caracteres" })
+        .max(12, { message: "O serial deve conter entre 2 e 12 caracteres" })
+        .toUpperCase(),
+      pon: z
+        .string()
+        .trim()
+        .min(1, { message: "A pon deve conter entre 2 e 12 caracteres" })
+        .max(6, { message: "A pon deve conter entre 2 e 12 caracteres" }),
+      idLivre: z
+        .string()
+        .trim()
+        .min(1, { message: "O ID deve conter entre 1 e 3 caracteres" })
+        .max(3, { message: "O ID deve conter entre 1 e 3 caracteres" }),
+      client: z
+        .string()
+        .trim()
+        .min(2, { message: "O cliente deve conter entre 2 e 50 caracteres" })
+        .max(50, { message: "O cliente deve conter entre 2 e 50 caracteres" }),
       customVlan: z.string().trim().nullish(),
     }),
     IntelbrasI: z.object({
-      serial: z.string().trim().min(2).max(12),
-      pon: z.string().trim().min(1).max(6),
-      idLivre: z.string().trim().min(1).max(3),
-      idOnu: z.string().trim().min(1), // Add more fields and validation rules as needed
-      client: z.string().trim().trim().min(2).max(50),
+      serial: z
+        .string()
+        .trim()
+        .min(2, { message: "O serial deve conter entre 2 e 12 caracteres" })
+        .max(12, { message: "O serial deve conter entre 2 e 12 caracteres" })
+        .toUpperCase(),
+      pon: z
+        .string()
+        .trim()
+        .min(1, { message: "A pon deve conter entre 2 e 12 caracteres" })
+        .max(6, { message: "A pon deve conter entre 2 e 12 caracteres" }),
+      idLivre: z
+        .string()
+        .trim()
+        .min(1, { message: "O ID deve conter entre 1 e 3 caracteres" })
+        .max(3, { message: "O ID deve conter entre 1 e 3 caracteres" }),
+      client: z
+        .string()
+        .trim()
+        .min(2, { message: "O cliente deve conter entre 2 e 50 caracteres" })
+        .max(50, { message: "O cliente deve conter entre 2 e 50 caracteres" }),
+      idOnu: z.string().trim().min(1, {
+        message: "O ID da ONU deve ser preenchido",
+      }), // Add more fields and validation rules as needed      customVlan: z.string().trim().nullish(),
       customVlan: z.string().trim().nullish(),
     }),
     IntelbrasG: z.object({
-      serial: z.string().trim().min(2).max(12),
-      pon: z.string().trim().min(1).max(6),
-      idLivre: z.string().trim().min(1).max(3),
-      idOnu: z.string().trim().min(1), // Add more fields and validation rules as needed
-      client: z.string().trim().trim().min(2).max(50),
+      serial: z
+        .string()
+        .trim()
+        .min(2, { message: "O serial deve conter entre 2 e 12 caracteres" })
+        .max(12, { message: "O serial deve conter entre 2 e 12 caracteres" })
+        .toUpperCase(),
+      pon: z
+        .string()
+        .trim()
+        .min(1, { message: "A pon deve conter entre 2 e 12 caracteres" })
+        .max(6, { message: "A pon deve conter entre 2 e 12 caracteres" }),
+      idLivre: z
+        .string()
+        .trim()
+        .min(1, { message: "O ID deve conter entre 1 e 3 caracteres" })
+        .max(3, { message: "O ID deve conter entre 1 e 3 caracteres" }),
+      client: z
+        .string()
+        .trim()
+        .min(2, { message: "O cliente deve conter entre 2 e 50 caracteres" })
+        .max(50, { message: "O cliente deve conter entre 2 e 50 caracteres" }),
+      intelbrasModel: z.string().min(1, {
+        message: "O modelo de onu deve ser preenchido entre ITBS e ZNTS",
+      }),
       customVlan: z.string().trim().nullish(),
     }),
     Datacom: z.object({
-      ontType: z.string().trim(), // Replace with appropriate validation rules
-      serial: z.string().trim().min(2).max(12),
-      pon: z.string().trim().min(1).max(6),
-      idLivre: z.string().trim().min(1).max(3),
-      client: z.string().trim().min(2).max(50),
+      ontType: z.string().min(1, {
+        message: "O tipo deve ser preenchido entre ONU e ONT",
+      }), // Replace with appropriate validation rules
+      serial: z
+        .string()
+        .trim()
+        .min(2, { message: "O serial deve conter entre 2 e 12 caracteres" })
+        .max(12, { message: "O serial deve conter entre 2 e 12 caracteres" })
+        .toUpperCase(),
+      pon: z
+        .string()
+        .trim()
+        .min(1, { message: "A pon deve conter entre 2 e 12 caracteres" })
+        .max(6, { message: "A pon deve conter entre 2 e 12 caracteres" }),
+      idLivre: z
+        .string()
+        .trim()
+        .min(1, { message: "O ID deve conter entre 1 e 3 caracteres" })
+        .max(3, { message: "O ID deve conter entre 1 e 3 caracteres" }),
+      client: z
+        .string()
+        .trim()
+        .min(2, { message: "O cliente deve conter entre 2 e 50 caracteres" })
+        .max(50, { message: "O cliente deve conter entre 2 e 50 caracteres" }),
       customVlan: z.string().trim().nullish(),
       customProfile: z.string().trim().nullish(),
     }),
@@ -126,7 +192,9 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     watch,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(schema[oltCompany]),
+    resolver: zodResolver(
+      schema[oltCompany] ? schema[oltCompany] : schema["ZTE"]
+    ),
   });
 
   const { serial, pon, idLivre, client, customVlan, oltName } = watch();
@@ -136,9 +204,8 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     if (errors) {
       console.log(errors);
       for (let error in errors) {
-        notError(errors[error]?.message);
+        toastError(errors[error]?.message);
       }
-      //notError(errors);
     }
   }, [errors]);
 
@@ -148,6 +215,13 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     setpppoeText("");
     setpppoeText2("");
     reset();
+  };
+
+  const resetText = () => {
+    setConfigText("");
+    setCadastroText("");
+    setpppoeText("");
+    setpppoeText2("");
   };
 
   useEffect(() => {
@@ -268,7 +342,8 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     ontType,
     pon,
   }: FieldValues) => {
-    console.log(idOnu);
+    resetText();
+
     const name = client
       .normalize("NFD")
       .replace(/-/g, " ")
@@ -356,8 +431,6 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
             )
           );
           break;
-        case "GARUVA":
-        case "SFS":
         default:
           setCadastroText(
             cadastro(
@@ -386,12 +459,6 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
         cadastro(comando(pon, idLivre, "Datacom"), currentUser, oltName, serial)
       );
       switch (oltName?.olt) {
-        case "JACU":
-        case "ARAQUARI":
-        case "BRUSQUE":
-        case "BS1":
-        case "ITAPOCU":
-        case "SNL101":
         default:
           setConfigText(
             datacom(
@@ -431,6 +498,8 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
                 name="ontType"
                 array={ontType}
                 control={control}
+                defaultValue="ONU"
+                error={errors}
               />
             )}
 
@@ -438,6 +507,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               label="SN"
               placeholder="Serial"
               id="serial"
+              error={errors}
               register={register}
               required
             />
@@ -470,6 +540,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
                     name="intelbrasModel"
                     control={control}
                     array={intelbrasModel}
+                    error={errors}
                   />
                 </div>
               )}
@@ -478,6 +549,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               label="PON"
               placeholder={oltName?.brand.includes("INTELBRAS") ? "0" : "0/0/0"}
               id="pon"
+              error={errors}
               register={register}
               required
             />
@@ -485,6 +557,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               label="ID Livre"
               placeholder="Posição"
               id="idLivre"
+              error={errors}
               register={register}
               required
             />
@@ -494,6 +567,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
                   label="ID Onu"
                   placeholder="ID Onu"
                   id="idOnu"
+                  error={errors}
                   register={register}
                   required
                 />
@@ -503,11 +577,13 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               label="Cliente"
               placeholder="Nome"
               id="client"
+              error={errors}
               register={register}
               required
             />
             <Input
               label="Vlan"
+              error={errors}
               placeholder="Custom Vlan"
               id="customVlan"
               register={register}
@@ -516,6 +592,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
             {selectedRadio.name == "Datacom" && (
               <Input
                 label="Profile"
+                error={errors}
                 placeholder="Custom Profile"
                 id="customProfile"
                 register={register}

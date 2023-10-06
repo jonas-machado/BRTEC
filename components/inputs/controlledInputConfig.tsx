@@ -8,8 +8,9 @@ interface input {
   name: string;
   control: any;
   array: any;
+  error?: any;
 }
-const ControlledInputConfig = ({ name, control, array }: input) => {
+const ControlledInputConfig = ({ name, control, array, error }: input) => {
   return (
     <>
       <Controller
@@ -22,7 +23,7 @@ const ControlledInputConfig = ({ name, control, array }: input) => {
               {...field}
               onChange={(value) => field.onChange(value)}
               value={field.value}
-              className={`w-full`}
+              className={`w-full `}
             >
               <div className="flex w-full h-full items-center justify-between">
                 {array.map((arr: any) => (
@@ -36,7 +37,11 @@ const ControlledInputConfig = ({ name, control, array }: input) => {
                       active: any;
                       checked: any;
                     }) =>
-                      `z-0 relative flex cursor-pointer rounded-lg h-full min-h-[2.7rem] border border-gray-900 first:rounded-r-none lg:first:rounded-none last:rounded-l-none shadow-sm shadow-black focus:outline-none w-full transition-all ${
+                      `${
+                        error[name]
+                          ? "shadow-[0px_0px_3px] shadow-purple-600"
+                          : ""
+                      } z-0 relative flex cursor-pointer rounded-lg h-full min-h-[2.7rem] border border-gray-900 first:rounded-r-none lg:first:rounded-none last:rounded-l-none shadow-sm shadow-black focus:outline-none w-full transition-all ${
                         checked
                           ? "bg-gray-700 bg-opacity-60 text-white shadow-md shadow-black"
                           : "bg-gray-900 bg-opacity-60"

@@ -31,8 +31,8 @@ const ControlledInputDescription = ({
                 `
                   ${
                     checked
-                      ? "bg-gray-700 bg-opacity-75 text-white"
-                      : "bg-gray-900 "
+                      ? "bg-gray-700 bg-opacity-75 text-white "
+                      : "bg-gray-900 shadow-inner shadow-black"
                   }
                     relative flex cursor-pointer rounded-lg px-3 py-2 shadow-md focus:outline-none w-full transition-all`
               }

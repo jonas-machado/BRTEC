@@ -8,20 +8,31 @@ interface input {
   name: string;
   control: any;
   array: any;
+  defaultValue?: string;
+  error?: any;
 }
-const ControlledInput = ({ name, control, array }: input) => {
+const ControlledInput = ({
+  name,
+  control,
+  array,
+  defaultValue,
+  error,
+}: input) => {
   return (
     <>
       <Controller
         name={name}
         control={control}
-        defaultValue=""
+        defaultValue={defaultValue}
         render={({ field }) => (
           <>
             <RadioGroup
               {...field}
               onChange={(value) => field.onChange(value)}
               value={field.value}
+              className={
+                error[name] ? "shadow-[0px_0px_3px] shadow-purple-600" : ""
+              }
             >
               <div className="flex w-full h-full items-center justify-between gap-2">
                 {array.map((arr: any) => (
@@ -37,8 +48,8 @@ const ControlledInput = ({ name, control, array }: input) => {
                     }) =>
                       `relative flex cursor-pointer rounded-lg px-3 py-2 shadow-sm shadow-black focus:outline-none w-full transition-all ${
                         checked
-                          ? "bg-gray-700 bg-opacity-60 text-white shadow-md shadow-black"
-                          : "bg-gray-900 bg-opacity-60"
+                          ? "bg-gray-700 bg-opacity-60 text-white "
+                          : "bg-gray-900 bg-opacity-60 shadow-black shadow-inner"
                       }`
                     }
                   >
