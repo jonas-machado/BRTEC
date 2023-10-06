@@ -6,10 +6,12 @@ import Input from "@/components/inputs/inputLabelUseForm";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { socket } from "@/lib/socket";
-import ComboboxInput from "../inputs/comboboxInput";
 import { AnimatePresence, motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AutocompleteInput from "../inputs/AutocompleteInput";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const VerifyCTO = ({ olt }: any) => {
   const [text, setText] = useState<string>("");
@@ -22,12 +24,24 @@ const VerifyCTO = ({ olt }: any) => {
   const [response, setResponse] = useState<any>();
   const [selected, setSelected] = useState<any>();
 
+  const schema: any = {
+    pon: z
+      .string()
+      .trim()
+      .min(1, { message: "A pon deve conter entre 2 e 12 caracteres" })
+      .max(6, { message: "A pon deve conter entre 2 e 12 caracteres" }),
+  };
+
   const {
     register,
     handleSubmit,
+    control,
     reset,
+    watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
 
   const notify = (text: any) => {
     console.log("toast running");
@@ -53,13 +67,13 @@ const VerifyCTO = ({ olt }: any) => {
           onSubmit={handleSubmit(onSubmit)}
           autoComplete="off"
         >
-          <ComboboxInput
+          <AutocompleteInput
             id="olt"
-            selected={selected}
-            onChange={setSelected}
             label="OLT"
             placeHolder="Selecione a OLT"
-            oltCompanyArray={olt}
+            options={olt}
+            control={control}
+            name="oltName"
           />
           <Input
             label="PON"
