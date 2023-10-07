@@ -8,6 +8,7 @@ import { getCurrentUser } from "../api/auth/[...nextauth]/route";
 import MotionPage from "@/lib/motionPage";
 import Image from "next/image";
 import Nav from "@/components/navLink/Nav";
+import { useRef } from "react";
 
 export default async function RootLayout({
   children,
@@ -43,9 +44,7 @@ export default async function RootLayout({
           showSpinner={false}
         />
         {children}
-        <div className="fixed bottom-20 left-1/2 -translate-x-1/2">
-          <Nav classname="flex bg-gray-800 items-center rounded-full h-5 p-4 pl-0 bg-opacity-90 shadow-md shadow-black" />
-        </div>
+        <Nav classname="" />
       </MotionPage>
     </PageWrapper>
   );

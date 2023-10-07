@@ -18,7 +18,7 @@ export default function MotionPage({
     <>
       <motion.div
         key={id}
-        className={className}
+        className={className + "h-full w-full"}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
