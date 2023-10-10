@@ -29,8 +29,8 @@ const Input = ({
   console.log(error);
   return (
     <div
-      className={`transition flex rounded-md shadow-sm ${
-        error[id] ? "shadow-[0px_-0.3px_5px] shadow-purple-600" : ""
+      className={`flex transition-all rounded-md ${
+        error[id] ? "shadow-[0px_0px_4px_0_rgb(147_51_234/1)]" : ""
       }
     `}
     >

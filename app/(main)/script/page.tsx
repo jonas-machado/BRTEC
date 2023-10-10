@@ -1,5 +1,5 @@
 import getCurrentUser from "@/lib/actions/getCurrentUser";
-import ScriptForm from "@/components/form/ScriptForm";
+import ScriptForm from "@/components/form/scriptForm/ScriptForm";
 import MotionPage from "@/lib/motionPage";
 
 const script = async () => {

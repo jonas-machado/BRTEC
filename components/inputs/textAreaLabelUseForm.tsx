@@ -25,8 +25,8 @@ const TextAreaUseForm = ({
   return (
     <div
       className={`${
-        error[id] ? "shadow-[0px_-0.3px_5px] shadow-purple-600" : ""
-      } flex rounded-md shadow-sm transition`}
+        error[id] ? "shadow-[0px_0px_4px_0_rgb(147_51_234/1)]" : ""
+      } flex rounded-md transition-all`}
     >
       <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-900 bg-gray-700 bg-opacity-60 px-3 text-sm text-gray-200">
         {label}

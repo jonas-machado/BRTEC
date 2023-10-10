@@ -43,14 +43,16 @@ const ControlledInput = ({
                       active: any;
                       checked: any;
                     }) =>
-                      `transition ${
+                      `transition-all ${
                         error[name]
-                          ? "shadow-[0px_-0.3px_5px] shadow-purple-600"
-                          : ""
-                      } relative flex cursor-pointer rounded-lg px-3 py-2 shadow-sm shadow-black focus:outline-none w-full transition-all ${
+                          ? "shadow-[0px_0px_4px_0_rgb(147_51_234/1)]"
+                          : checked
+                          ? " text-white "
+                          : "shadow-black shadow-inner"
+                      } relative flex cursor-pointer rounded-lg px-3 py-2  focus:outline-none w-full transition-all ${
                         checked
-                          ? "bg-gray-700 bg-opacity-60 text-white "
-                          : "bg-gray-900 bg-opacity-60 shadow-black shadow-inner"
+                          ? "bg-gray-700 bg-opacity-60"
+                          : "bg-gray-900 bg-opacity-60"
                       }`
                     }
                   >

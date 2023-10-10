@@ -37,11 +37,11 @@ const Nav = ({ classname }: { classname: string }) => {
   const [showNav, setShowNav] = useState(false);
   return (
     <div
-      className="fixed bottom-16 left-1/2 -translate-x-1/2 z-50 w-full"
+      className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 w-full h-28"
       onMouseEnter={() => setIsShowing(true)}
       onMouseLeave={() => setShowNav(false)}
     >
-      <div className="flex justify-center">
+      <div className="flex justify-center h-full items-center">
         <Transition
           show={!isShowing}
           enter="transition ease-out duration-200"
