@@ -29,7 +29,7 @@ export default async function RootLayout({
           }
           alt="bg"
           fill
-          className=" -z-50 bg-no-repeat bg-fit h-full min-h-screen shadow-black shadow-[inset_0_-40px_37px_-10px_rgba(0,0,0,0.6)]"
+          className=" -z-50 bg-no-repeat bg-fit h-full min-h-screen shadow-[inset_0_-40px_37px_-10px_rgba(0,0,0,0.6)]"
           placeholder="blur"
           blurDataURL={
             currentUser?.user.backgroundImage
@@ -44,7 +44,9 @@ export default async function RootLayout({
           showSpinner={false}
         />
         {children}
-        <Nav classname="" />
+        <div className="h-16">
+          <Nav classname="" />
+        </div>
       </MotionPage>
     </PageWrapper>
   );
