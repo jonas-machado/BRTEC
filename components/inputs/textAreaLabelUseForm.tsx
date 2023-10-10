@@ -9,6 +9,7 @@ interface input {
   name?: string;
   onChange?: any;
   required: boolean;
+  error: any;
   register: UseFormRegister<FieldValues>;
 }
 const TextAreaUseForm = ({
@@ -19,9 +20,14 @@ const TextAreaUseForm = ({
   register,
   required,
   placeholder,
+  error,
 }: input) => {
   return (
-    <div className="flex rounded-md shadow-sm">
+    <div
+      className={`${
+        error[id] ? "shadow-[0px_-0.3px_5px] shadow-purple-600" : ""
+      } flex rounded-md shadow-sm transition`}
+    >
       <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-900 bg-gray-700 bg-opacity-60 px-3 text-sm text-gray-200">
         {label}
       </span>

@@ -512,19 +512,6 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               required
             />
             <div className="flex w-full flex-col lg:flex-row gap-2 lg:gap-0 lg:space-y-0">
-              {/* <ComboboxInput
-                id="olt"
-                selected={selected}
-                onChange={setSelected}
-                label="OLT"
-                placeHolder="Selecione a OLT"
-                oltCompanyArray={oltCompanyArray}
-                className={
-                  oltCompany == "Intelbras" &&
-                  selected?.brand != "INTELBRAS I" &&
-                  "lg:rounded-r-none"
-                }
-              /> */}
               <AutocompleteInput
                 id="olt"
                 name="oltName"

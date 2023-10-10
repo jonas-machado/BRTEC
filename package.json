@@ -18,7 +18,7 @@
     "@editorjs/link": "^2.5.0",
     "@editorjs/list": "^1.8.0",
     "@editorjs/table": "^2.2.2",
-    "@headlessui/react": "^1.7.17",
+    "@headlessui/react": "^0.0.0-insiders.1469b85",
     "@heroicons/react": "^2.0.17",
     "@hookform/resolvers": "^3.1.0",
     "@material-tailwind/react": "^2.0.1",

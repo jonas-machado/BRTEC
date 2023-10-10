@@ -30,9 +30,6 @@ const ControlledInput = ({
               {...field}
               onChange={(value) => field.onChange(value)}
               value={field.value}
-              className={
-                error[name] ? "shadow-[0px_0px_3px] shadow-purple-600" : ""
-              }
             >
               <div className="flex w-full h-full items-center justify-between gap-2">
                 {array.map((arr: any) => (
@@ -46,7 +43,11 @@ const ControlledInput = ({
                       active: any;
                       checked: any;
                     }) =>
-                      `relative flex cursor-pointer rounded-lg px-3 py-2 shadow-sm shadow-black focus:outline-none w-full transition-all ${
+                      `transition ${
+                        error[name]
+                          ? "shadow-[0px_-0.3px_5px] shadow-purple-600"
+                          : ""
+                      } relative flex cursor-pointer rounded-lg px-3 py-2 shadow-sm shadow-black focus:outline-none w-full transition-all ${
                         checked
                           ? "bg-gray-700 bg-opacity-60 text-white "
                           : "bg-gray-900 bg-opacity-60 shadow-black shadow-inner"

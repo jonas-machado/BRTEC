@@ -30,7 +30,7 @@ const Input = ({
   return (
     <div
       className={`transition flex rounded-md shadow-sm ${
-        error[id] ? "shadow-[0px_-0.2px_5px] shadow-purple-600" : ""
+        error[id] ? "shadow-[0px_-0.3px_5px] shadow-purple-600" : ""
       }
     `}
     >
