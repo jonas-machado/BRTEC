@@ -188,6 +188,7 @@ Chamado aberto: ${value.base} ${filtered[0].maintenance}
           <form
             className="flex flex-col gap-2 p-4"
             onSubmit={handleSubmit(onSubmit)}
+            autoComplete="off"
           >
             <AnimatePresence mode="wait">
               {openTab == "padraoEmail" && (
@@ -207,11 +208,12 @@ Chamado aberto: ${value.base} ${filtered[0].maintenance}
                 />
               )}
             </AnimatePresence>
-            <div className="w-full rounded-md border border-gray-900 bg-gray-900 py-2 px-3 text-sm font-medium leading-4 text-gray-200 shadow-sm hover:bg-gray-600 focus:outline-none">
-              <button type="submit" className="flex w-full justify-center ">
-                GERAR
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="w-full rounded-md border border-gray-900 bg-gray-900 py-2 px-3 text-sm font-medium leading-4 text-gray-200 shadow-sm hover:bg-gray-600 focus:outline-none"
+            >
+              GERAR
+            </button>
           </form>
           <textarea
             value={text}

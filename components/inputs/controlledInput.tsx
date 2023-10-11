@@ -48,7 +48,7 @@ const ControlledInput = ({
                           ? "shadow-[0px_0px_4px_0_rgb(147_51_234/1)]"
                           : checked
                           ? " text-white "
-                          : "shadow-black shadow-inner"
+                          : "shadow-black shadow-[inset_0_0px_10px_-3px]"
                       } relative flex cursor-pointer rounded-lg px-3 py-2  focus:outline-none w-full transition-all ${
                         checked
                           ? "bg-gray-700 bg-opacity-60"

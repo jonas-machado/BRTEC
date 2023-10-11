@@ -21,22 +21,24 @@ export default async function RootLayout({
   return (
     <PageWrapper>
       <MotionPage>
-        <Image
-          src={
-            currentUser?.user.backgroundImage
-              ? currentUser?.user.backgroundImage!
-              : `/images/backgroundConfig.gif`
-          }
-          alt="bg"
-          fill
-          className=" -z-50 bg-no-repeat bg-fit h-full min-h-screen shadow-[inset_0_-40px_37px_-10px_rgba(0,0,0,0.6)]"
-          placeholder="blur"
-          blurDataURL={
-            currentUser?.user.backgroundImage
-              ? currentUser?.user.backgroundImage!
-              : `/images/backgroundConfig.gif`
-          }
-        />
+        <div className="">
+          <Image
+            src={
+              currentUser?.user.backgroundImage
+                ? currentUser?.user.backgroundImage!
+                : `/images/backgroundConfig.gif`
+            }
+            alt="bg"
+            fill
+            className=" -z-50 bg-no-repeat bg-fit h-full"
+            placeholder="blur"
+            blurDataURL={
+              currentUser?.user.backgroundImage
+                ? currentUser?.user.backgroundImage!
+                : `/images/backgroundConfig.gif`
+            }
+          />
+        </div>
         <Navbar currentUser={currentUser} schedules={schedules} />
         <NextTopLoader
           color="#000000"
