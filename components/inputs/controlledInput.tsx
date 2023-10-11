@@ -49,7 +49,7 @@ const ControlledInput = ({
                           : checked
                           ? " text-white "
                           : "shadow-black shadow-[inset_0_0px_10px_-3px]"
-                      } relative flex cursor-pointer rounded-lg px-3 py-2  focus:outline-none w-full transition-all ${
+                      } relative flex cursor-pointer rounded-lg p-2  focus:outline-none w-full transition-all ${
                         checked
                           ? "bg-gray-700 bg-opacity-60"
                           : "bg-gray-900 bg-opacity-60"

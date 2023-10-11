@@ -51,7 +51,7 @@ const AutocompleteInput = ({
                 </label>
                 <Combobox.Input
                   placeholder={placeHolder}
-                  className="w-full border border-r-none border-gray-900 outline-none py-3 pl-3 pr-10 text-sm leading-5 text-gray-300 bg-gray-900 bg-opacity-70"
+                  className="w-full border border-r-none border-gray-900 outline-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-300 bg-gray-900 bg-opacity-70"
                   displayValue={(value: any) => value.olt}
                   onChange={(event) => setQuery(event.target.value)}
                 />

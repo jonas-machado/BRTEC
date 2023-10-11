@@ -33,7 +33,7 @@ const TextAreaUseForm = ({
       </span>
       <textarea
         id={id}
-        className=" items-center overflow-hidden caret-gray-200 outline-none w-full p-3 rounded-none rounded-r-md bg-gray-900 bg-opacity-60 pl-3 text-gray-200 border-gray-900 sm:text-sm autofill:shadow-[inset_0_0_0px_1000px_rgb(17,24,39,0.7)] border-b-[1px] border-t-[1px]"
+        className=" items-center overflow-hidden caret-gray-200 outline-none w-full p-2 rounded-none rounded-r-md bg-gray-900 bg-opacity-60 pl-3 text-gray-200 border-gray-900 sm:text-sm autofill:shadow-[inset_0_0_0px_1000px_rgb(17,24,39,0.7)] border-b-[1px] border-t-[1px]"
         placeholder={placeholder}
         spellCheck="false"
         rows={1}

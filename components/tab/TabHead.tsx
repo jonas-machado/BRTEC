@@ -13,7 +13,7 @@ const TabHead = ({ onClick, children, className, state, id }: tabHead) => {
     <>
       <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
         <a
-          className={`transition-all cursor-pointer text-xs font-bold rounded-none uppercase px-5 py-3 shadow-lg block leading-normal text-gray-200 ${
+          className={`transition-all cursor-pointer text-xs font-bold rounded-none uppercase px-5 py-2 shadow-lg block leading-normal text-gray-200 ${
             state == id
               ? "text-gray-300 rounded-xl shadow-lg shadow-black bg-gray-800 bg-opacity-90"
               : "text-gray-200"
