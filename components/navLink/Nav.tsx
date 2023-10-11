@@ -116,42 +116,44 @@ const Nav = ({ classname }: { classname: string }) => {
           <ChevronDoubleUpIcon className="h-10 w-10 text-gray-400" />
         </Transition>
       </footer>
-      <Transition
-        show={showNav}
-        enter="transition ease-out duration-200"
-        enterFrom="opacity-0 translate-y-6"
-        enterTo="opacity-100 translate-y-0"
-        leave="transition ease-in duration-100"
-        leaveFrom="opacity-100 translate-y-0"
-        leaveTo="opacity-0 translate-y-6"
-        afterLeave={() => setIsShowing(false)}
-        onMouseLeave={() => setShowNav(false)}
-        className={`absolute bottom-20 left-1/2 -translate-x-1/2`}
-      >
-        <div className="flex bg-black bg-opacity-70 backdrop-blur-sm items-center rounded-md h-10 p-4 pl-0 shadow-black border-gray-900 border-2 shadow-[0_0px_10px]">
-          <Link
-            href={home.link}
-            className="flex  rounded-md bg-gray-900 p-2 items-center mr-4 shadow-lg shadow-black"
-          >
-            <HomeIcon className="w-12 h-12 text-gray-300" />
-          </Link>
-          <ul className="flex gap-4">
-            {links.map((link) => (
-              <li
-                key={link.name}
-                className="text-gray-300 hover:text-gray-50 flex"
-              >
-                <label htmlFor={link.name} className="cursor-pointer">
-                  <link.icon className="w-6 h-6 pr-1" />
-                </label>
-                <Link id={link.name} href={link.link}>
-                  {link.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Transition>
+      <div className=" fixed bottom-20 left-1/2 -translate-x-1/2">
+        <Transition
+          show={showNav}
+          enter="transition ease-out duration-200"
+          enterFrom="opacity-0 translate-y-6"
+          enterTo="opacity-100 translate-y-0"
+          leave="transition ease-in duration-100"
+          leaveFrom="opacity-100 translate-y-0"
+          leaveTo="opacity-0 translate-y-6"
+          afterLeave={() => setIsShowing(false)}
+          onMouseLeave={() => setShowNav(false)}
+          className={`flex h-16 items-end`}
+        >
+          <div className="flex bg-black bg-opacity-70 backdrop-blur-sm items-center rounded-md h-10 p-4 pl-0 shadow-black border-gray-900 border-2 shadow-[0_0px_10px]">
+            <Link
+              href={home.link}
+              className="flex  rounded-md bg-gray-900 p-2 items-center mr-4 shadow-lg shadow-black"
+            >
+              <HomeIcon className="w-12 h-12 text-gray-300" />
+            </Link>
+            <ul className="flex gap-4">
+              {links.map((link) => (
+                <li
+                  key={link.name}
+                  className="text-gray-300 hover:text-gray-50 flex"
+                >
+                  <label htmlFor={link.name} className="cursor-pointer">
+                    <link.icon className="w-6 h-6 pr-1" />
+                  </label>
+                  <Link id={link.name} href={link.link}>
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Transition>
+      </div>
     </>
   );
 };
