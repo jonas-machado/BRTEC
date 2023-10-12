@@ -3,10 +3,10 @@ import { useState, useEffect, Fragment } from "react";
 import { useForm, Controller, FieldValues } from "react-hook-form";
 import Input from "@/components/inputs/inputLabelUseForm";
 import { socket } from "@/lib/socket";
-import ComboboxInput from "../inputs/comboboxInput";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ControlledCheckbox from "@/components/inputs/controlledCheckbox";
+import AutocompleteInput from "../inputs/AutocompleteInput";
 
 const VerifyPon = ({ olt, response, multipleResponse }: any) => {
   const [text, setText] = useState<string>("");
@@ -44,6 +44,7 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
     register: registerDown,
     handleSubmit: handleSubmitDown,
     reset: resetDown,
+    control,
     formState: { errors: errorsDown },
   } = useForm();
 
@@ -295,13 +296,13 @@ commit
             onSubmit={handleSubmit(onSubmit)}
             autoComplete="off"
           >
-            <ComboboxInput
+            <AutocompleteInput
               id="olt"
-              selected={selected}
-              onChange={setSelected}
+              name="olt"
               label="OLT"
               placeHolder="Selecione a OLT"
-              oltCompanyArray={olt}
+              options={olt}
+              control={control}
             />
             <Input
               id="pon"
@@ -309,6 +310,7 @@ commit
               register={register}
               required
               label="PON"
+              error={errors}
             />
             <div className="w-full ">
               <button
