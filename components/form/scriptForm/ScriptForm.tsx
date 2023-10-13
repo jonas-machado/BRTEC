@@ -88,6 +88,15 @@ const ScriptForm = ({ currentUser }: { currentUser?: User | null }) => {
       base: z.string({ required_error: "Selecione a base" }).min(1, {
         message: "Selecione a base",
       }),
+      inputs: z.array(
+        z.object({
+          input: z.string({ required_error: "Adicione pelo menos 1 CDA" }),
+          cda: z.string().min(1, { message: "CDA não pode estar vazia" }),
+          loc: z
+            .string()
+            .min(1, { message: "Localização não pode estar vazia" }),
+        })
+      ),
       clientLost: z
         .string()
         .trim()
@@ -121,6 +130,12 @@ const ScriptForm = ({ currentUser }: { currentUser?: User | null }) => {
       console.log(errors);
       for (let error in errors) {
         toastError(errors[error]?.message);
+      }
+      const cda: any = errors?.inputs;
+      for (let i = 0; i < cda?.length; i++) {
+        for (let input in cda[i]) {
+          toastError(i + 1 + "ª " + cda[i][input]?.message);
+        }
       }
     }
   }, [errors]);
@@ -164,7 +179,7 @@ ${currentUser?.name.split(" ").slice(0, 2).join(" ")}.
 Protocolo: ${value.protocol}
 Motivo: ${value.description}
 Cliente afetado: ${value.clientLost}
-${value.inputs.map((input: any) => `${input.cda}\n${input.loc}`).join("\n")}
+${value.inputs?.map((input: any) => `${input.cda}\n${input.loc}`).join("\n")}
 Chamado aberto: ${value.base} ${filtered[0].maintenance}
       `);
     }
@@ -205,6 +220,9 @@ Chamado aberto: ${value.base} ${filtered[0].maintenance}
                   control={control}
                   errors={errors}
                   register={register}
+                  fields={fields}
+                  append={append}
+                  remove={remove}
                 />
               )}
             </AnimatePresence>
@@ -218,7 +236,7 @@ Chamado aberto: ${value.base} ${filtered[0].maintenance}
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
-            className="m-4 ml-0 overflow-hidden min-h-[20rem] bg-gray-900 bg-opacity-60 outline-none p-4 rounded-md text-gray-300"
+            className="m-4 ml-0 overflow-hidden min-h-[20rem] bg-gray-900 bg-opacity-80 outline-none p-4 rounded-md text-gray-300"
           />
         </div>
       </div>

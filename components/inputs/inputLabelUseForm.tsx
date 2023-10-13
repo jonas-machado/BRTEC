@@ -6,13 +6,14 @@ interface input {
   label: string;
   placeholder?: string;
   id: string;
-  name?: string;
+  name?: any;
   onChange?: any;
   required?: boolean;
   value?: string;
   defaultValue?: string;
   register: UseFormRegister<FieldValues>;
   error?: any;
+  index?: any;
 }
 const Input = ({
   label,
@@ -25,11 +26,14 @@ const Input = ({
   value,
   defaultValue,
   error,
+  index,
 }: input) => {
   return (
     <div
       className={`flex transition-all rounded-md ${
-        error[id] ? "shadow-[0px_0px_4px_0_rgb(147_51_234/1)]" : ""
+        error[id] || error.inputs?.[index]?.[name]
+          ? "shadow-[0px_0px_4px_0_rgb(147_51_234/1)]"
+          : ""
       }
     `}
     >

@@ -29,17 +29,18 @@ const ScriptMaintenance = ({
   control,
   errors,
   register,
+  fields,
+  append,
+  remove,
 }: {
   currentUser?: User | null;
   control: any;
   errors: any;
   register: any;
+  fields: any;
+  append: any;
+  remove: any;
 }) => {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "inputs",
-  });
-
   const handleAddInput = () => {
     append({ input: "" });
   };
@@ -87,7 +88,7 @@ const ScriptMaintenance = ({
           register={register}
           required
         />
-        {fields.map((field, index) => (
+        {fields?.map((field: any, index: any) => (
           <div key={field.id} className="flex gap-2 w-full">
             <div className="flex flex-col gap-2 w-full">
               <Input
@@ -97,6 +98,8 @@ const ScriptMaintenance = ({
                 error={errors}
                 register={register}
                 required
+                index={index}
+                name="cda"
               />
               <Input
                 label="LOCALIZAÇÃO"
@@ -105,6 +108,8 @@ const ScriptMaintenance = ({
                 id={`inputs.${index}.loc`}
                 register={register}
                 required
+                index={index}
+                name="loc"
               />
             </div>
             <button

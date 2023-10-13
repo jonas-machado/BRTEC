@@ -44,9 +44,6 @@ const Nav = ({ classname }: { classname: string }) => {
 
   const [time, setTime] = useState("");
 
-  const date = new Date();
-  console.log(date);
-
   function updateTime(k: any) {
     if (k < 10) {
       return "0" + k;
@@ -56,16 +53,17 @@ const Nav = ({ classname }: { classname: string }) => {
   }
 
   function currentTime() {
-    var date = new Date(); /* creating object of Date class */
-    var hour = date.getHours();
-    var min = date.getMinutes();
-    var sec = date.getSeconds();
+    const date = new Date(); /* creating object of Date class */
+    let hour = date.getHours();
+    let min = date.getMinutes();
+    let sec = date.getSeconds();
     hour = updateTime(hour);
     min = updateTime(min);
     sec = updateTime(sec);
-    var y = date.getFullYear();
-    var d = new Date();
-    var weekday = new Array(7);
+    const y = date.getFullYear();
+    const d = "0" + date.getDate();
+    const m = date.getMonth() + 1;
+    const weekday = new Array(7);
     weekday[0] = "Domingo";
     weekday[1] = "Segunda-feira";
     weekday[2] = "Terça-feira";
@@ -73,11 +71,21 @@ const Nav = ({ classname }: { classname: string }) => {
     weekday[4] = "Quinta-feira";
     weekday[5] = "Sexta-feira";
     weekday[6] = "Sábado";
-    var n = weekday[d.getDay()];
+    const n = weekday[date.getDay()];
     setTime(
-      hour + " : " + min + " " + n + " " + y
+      hour +
+        " : " +
+        min +
+        " " +
+        n +
+        " " +
+        d.slice(-2) +
+        "/" +
+        m.toString().slice(-2) +
+        "/" +
+        y
     ); /* adding time to the div */
-    var t = setTimeout(function () {
+    const t = setTimeout(function () {
       currentTime();
     }, 1000); /* setting timer */
   }
@@ -85,7 +93,6 @@ const Nav = ({ classname }: { classname: string }) => {
   useEffect(() => {
     currentTime();
   }, []);
-  console.log(time);
   return (
     <>
       <footer className="shadow-[0_0px_10px_5px] shadow-black border-gray-950 border-t fixed bottom-0 left-0 z-20 w-full bg-black bg-opacity-80 backdrop-blur-lg ">
