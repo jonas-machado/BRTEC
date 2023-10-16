@@ -33,6 +33,7 @@ const Editor: React.FC<EditorProps> = () => {
 
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import("@editorjs/editorjs")).default;
+    // @ts-ignore
     const Header = (await import("@editorjs/header")).default;
     const Embed = (await import("@editorjs/embed")).default;
     const Table = (await import("@editorjs/table")).default;
