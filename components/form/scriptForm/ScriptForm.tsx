@@ -95,7 +95,8 @@ const ScriptForm = ({ currentUser }: { currentUser?: User | null }) => {
           loc: z
             .string()
             .min(1, { message: "Localização não pode estar vazia" }),
-        })
+        }),
+        { required_error: "Adicione pelo menos 1 CDA" }
       ),
       clientLost: z
         .string()
