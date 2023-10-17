@@ -7,7 +7,7 @@ async function textarea() {
   const post = await getPost();
   return (
     <div className="flex flex-col mx-auto mt-4 gap-4 w-11/12">
-      <Editor subredditId="test" />
+      <Editor />
       <div className="bg-gray-300 m">
         {post.map((el) => (
           <div key={el.id} className="">

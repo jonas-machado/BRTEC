@@ -13,12 +13,10 @@ import {
 } from "firebase/storage";
 import { v4 } from "uuid";
 import { usePathname, useRouter } from "next/navigation";
+import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-interface EditorProps {
-  subredditId: string;
-}
-
-const Editor: React.FC<EditorProps> = () => {
+const Editor = () => {
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
@@ -26,7 +24,7 @@ const Editor: React.FC<EditorProps> = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm();
 
   const _titleRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
