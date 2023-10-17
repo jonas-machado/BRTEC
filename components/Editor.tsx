@@ -47,7 +47,7 @@ const Editor = () => {
         onReady() {
           ref.current = editor;
         },
-        placeholder: "Type here to write your post...",
+        placeholder: "Digite aqui para escrever sua postagem...",
         inlineToolbar: true,
         data: { blocks: [] },
         tools: {
