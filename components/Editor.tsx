@@ -1,6 +1,5 @@
 "use client";
 
-import EditorJS from "@editorjs/editorjs";
 import { useCallback, useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { FieldValues, useForm } from "react-hook-form";
@@ -15,6 +14,7 @@ import { v4 } from "uuid";
 import { usePathname, useRouter } from "next/navigation";
 import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type EditorJS from "@editorjs/editorjs";
 
 const Editor = () => {
   const ref = useRef<EditorJS>();
@@ -43,7 +43,7 @@ const Editor = () => {
 
     if (!ref.current) {
       const editor = new EditorJS({
-        holder: "editorjs",
+        holder: "editor",
         onReady() {
           ref.current = editor;
         },
