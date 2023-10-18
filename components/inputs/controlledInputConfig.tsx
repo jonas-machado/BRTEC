@@ -41,7 +41,7 @@ const ControlledInputConfig = ({ name, control, array, error }: input) => {
                         error[name]
                           ? "shadow-[0px_0px_3px] shadow-purple-600"
                           : ""
-                      } z-0 relative flex cursor-pointer rounded-lg h-full min-h-[2.7rem] border border-gray-900 first:rounded-r-none lg:first:rounded-none last:rounded-l-none shadow-sm shadow-black focus:outline-none w-full transition-all ${
+                      } z-0 relative flex cursor-pointer rounded-lg h-full border border-gray-900 first:rounded-r-none lg:first:rounded-none last:rounded-l-none shadow-sm shadow-black focus:outline-none w-full transition-all ${
                         checked
                           ? "bg-gray-700 bg-opacity-60 text-white shadow-md shadow-black"
                           : "bg-gray-900 bg-opacity-60"

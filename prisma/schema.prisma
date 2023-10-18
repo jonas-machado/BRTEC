@@ -89,11 +89,10 @@ model Configured {
   user       User     @relation(fields: [userId], references: [id])
 }
 
-model Schedule {
+model NeutralNetwork {
   id      String @id @default(auto()) @map("_id") @db.ObjectId
   company String
   link    String
-  month   Int
 }
 
 model Solutions {

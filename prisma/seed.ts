@@ -1,28 +1,64 @@
 const { PrismaClient } = require("@prisma/client");
 const prismadb = new PrismaClient();
 
-async function schedule() {
-  await prismadb.schedule.createMany({
+async function neutralNetwork() {
+  await prismadb.neutralnetwork.createMany({
     data: [
       {
-        company: "OT",
-        link: "https://docs.google.com/spreadsheets/d/12C5yx6Wkj471-evPhYjHaDFTXDIyDVYyg8zKBUb1sgk/edit#gid=1776649205",
-        month: 7,
+        company: "TNFIBRAS",
+        link: "https://docs.google.com/spreadsheets/d/1OxdlBIvz3BSbjp5kv1eP8OEBFDwyWnzCgAr6uB1XP4A/edit#gid=0",
       },
       {
-        company: "Atele",
-        link: "https://docs.google.com/spreadsheets/d/1vN-ad64X6Bs0ojh6xp9Iz7xxVRZzpaeTQh9__vUwF50/edit#gid=1776649205",
-        month: 7,
+        company: "BRASIL CONECT",
+        link: "https://docs.google.com/spreadsheets/d/1mz8H-_o4VWL-_q_wu4psjZtbpMmaGV7DkDcV_ID7gSU/edit#gid=0",
       },
       {
-        company: "VOU",
-        link: "https://docs.google.com/spreadsheets/d/1wYefG6dVwKXuZFQQOlc0e6qAMHE7pG1ipM9w1xEZHqM/edit#gid=1997288757",
-        month: 7,
+        company: "SPEEDNET",
+        link: "https://docs.google.com/spreadsheets/d/1ttHSHydKh1oql9jeYzEMEA-n6jm6wmtffkIFBAYOX6o/edit#gid=0",
       },
       {
-        company: "Xtele",
-        link: "https://docs.google.com/spreadsheets/d/1UfNm5w6qy_zdV_m9HPf7tpckQRnk48heMZlol1yU-xI/edit#gid=1444777065",
-        month: 7,
+        company: "MASTERINFO",
+        link: "https://docs.google.com/spreadsheets/d/11P6te8G9gOdEvli3VAcFeUdHCzbBXDm_J7REpdG2tto/edit#gid=0",
+      },
+      {
+        company: "TRIUNFO",
+        link: "https://docs.google.com/spreadsheets/d/1ptv_EYKzOJuZE5sKSu2lnvAbq0E1bsw1TubhUO5mWOk/edit#gid=0",
+      },
+      {
+        company: "PAPANET",
+        link: "https://docs.google.com/spreadsheets/d/1Y6ceT2Mos4Vc846REWlmko0tEcSBpecPT4p6mQozEgU/edit#gid=0",
+      },
+      {
+        company: "USERTELECOM",
+        link: "https://docs.google.com/spreadsheets/d/10hCJFwFINMLcyPxfH-qOOUdh2s_UzzRYj-dYQOiPQC4/edit#gid=0",
+      },
+      {
+        company: "STARLYNK",
+        link: "https://docs.google.com/spreadsheets/d/1OZeoXiJi7ijnqbjPftrK6FmGITcFuwLB-xtOiblW-ks/edit#gid=0",
+      },
+      {
+        company: "ALT",
+        link: "https://docs.google.com/spreadsheets/d/1hxqP0_LaEnXj8smu_7j0HZSh-ULJK8U6j6hbyM5iTzc/edit#gid=0",
+      },
+      {
+        company: "TNFIBRA",
+        link: "https://docs.google.com/spreadsheets/d/1OxdlBIvz3BSbjp5kv1eP8OEBFDwyWnzCgAr6uB1XP4A/edit#gid=0",
+      },
+      {
+        company: "HCM",
+        link: "https://docs.google.com/spreadsheets/d/1eb12QM-YXS7jdVNmsYi7l4JbFyn6jb3FAq7kbLcnSfw/edit#gid=0",
+      },
+      {
+        company: "MIX",
+        link: "https://docs.google.com/spreadsheets/d/1oU0xrG7o3lxpOW3-HlPaIggZQMaRZZ3ABOxA4vXBYv8/edit#gid=0",
+      },
+      {
+        company: "UNIFIQUE",
+        link: "https://docs.google.com/spreadsheets/d/1bWuYAIKKh6xvkFOeyiYXVcwn0K3wGlyCMmTkzNLMczs/edit#gid=1658583346",
+      },
+      {
+        company: "FIBRAVILLE",
+        link: "https://docs.google.com/spreadsheets/d/17UCwBiiVQPdatqlaounCU7j-nb4bM4OShq8kKciTXwk/edit#gid=0",
       },
     ],
   });
@@ -104,7 +140,7 @@ const update = async () => {
   });
 };
 
-schedule()
+neutralNetwork()
   .then(async () => {
     await prismadb.$disconnect();
   })
