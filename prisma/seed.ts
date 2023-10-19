@@ -87,6 +87,25 @@ async function solutions() {
   });
 }
 
+async function firmware() {
+  await prismadb.firmware.createMany({
+    data: [
+      {
+        company: "Intelbras",
+        model: "RG1200",
+        link: "https://backend.intelbras.com/sites/default/files/2023-07/RG1200_2.1.7_0_0.zip",
+        version: "2.1.7",
+      },
+      {
+        company: "Intelbras",
+        model: "RF1200",
+        link: "https://backend.intelbras.com/sites/default/files/2023-03/RF1200_V1.2.2.zip",
+        version: "1.2.2",
+      },
+    ],
+  });
+}
+
 async function intelbras() {
   await prismadb.oltIntelbras.createMany({
     data: [],
@@ -140,7 +159,7 @@ const update = async () => {
   });
 };
 
-neutralNetwork()
+firmware()
   .then(async () => {
     await prismadb.$disconnect();
   })

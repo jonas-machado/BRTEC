@@ -95,6 +95,14 @@ model NeutralNetwork {
   link    String
 }
 
+model Firmware {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  company String
+  model   String
+  link    String
+  version String
+}
+
 model Solutions {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   title String
