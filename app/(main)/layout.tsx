@@ -2,7 +2,7 @@ import Navbar from "@/components/navbar/Navbar";
 //import getCurrentUser from "@/actions/getCurrentUser";
 import PageWrapper from "@/lib/pageWrapper";
 import NextTopLoader from "nextjs-toploader";
-import { getSchedule } from "@/lib/actions/getSchedule";
+import { getNeutralNetwork } from "@/lib/actions/neutralNetwork";
 import { motion, AnimatePresence } from "framer-motion";
 import { getCurrentUser } from "../api/auth/[...nextauth]/route";
 import MotionPage from "@/lib/motionPage";
@@ -16,7 +16,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const currentUser = await getCurrentUser();
-  const schedules = await getSchedule();
+  const neutralNetwork = await getNeutralNetwork();
 
   return (
     <PageWrapper>
@@ -37,7 +37,7 @@ export default async function RootLayout({
               : `/images/backgroundConfig.gif`
           }
         />
-        <Navbar currentUser={currentUser} schedules={schedules} />
+        <Navbar currentUser={currentUser} neutralNetwork={neutralNetwork} />
         <NextTopLoader
           color="#000000"
           shadow="0 40px 50px #ffffff,0 40px 50px #ffffff"

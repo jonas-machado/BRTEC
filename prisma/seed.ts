@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prismadb = new PrismaClient();
 
 async function neutralNetwork() {
-  await prismadb.neutralnetwork.createMany({
+  await prismadb.neutralNetwork.createMany({
     data: [
       {
         company: "TNFIBRAS",

@@ -32,10 +32,10 @@ function classNames(...classes: any) {
 
 interface NavbarProps {
   currentUser?: Session | null;
-  schedules: any;
+  neutralNetwork: any;
 }
 
-function Navbar({ currentUser, schedules }: NavbarProps) {
+function Navbar({ currentUser, neutralNetwork }: NavbarProps) {
   const isOpen = usePerfilModal((state) => state.isOpen);
   const onOpen: () => void = usePerfilModal((state) => state.onOpen);
   const onClose: () => void = usePerfilModal((state) => state.onClose);
@@ -474,33 +474,7 @@ function Navbar({ currentUser, schedules }: NavbarProps) {
                                 leave="transition duration-75 ease-out"
                                 leaveFrom="transform scale-100 opacity-100"
                                 leaveTo="transform scale-95 opacity-0"
-                              >
-                                <Disclosure.Panel className="text-gray-200 bg-gray-900 px-2 rounded-md mr-2 ">
-                                  {schedules.map((item: any) =>
-                                    item.month > date.getMonth() ? (
-                                      <a
-                                        key={item.id}
-                                        href={item.link}
-                                        className="-m-3 flex items-center rounded-md p-3 hover:bg-gray-700"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                      >
-                                        <CalendarIcon
-                                          className="h-6 w-6 flex-shrink-0 text-white"
-                                          aria-hidden="true"
-                                        />
-                                        <span className="ml-3 text-base font-medium text-gray-200">
-                                          {`Agenda ${item.company} ${
-                                            month[item.month - 1]
-                                          }`}
-                                        </span>
-                                      </a>
-                                    ) : (
-                                      ""
-                                    )
-                                  )}
-                                </Disclosure.Panel>
-                              </Transition>
+                              ></Transition>
                             </>
                           )}
                         </Disclosure>
