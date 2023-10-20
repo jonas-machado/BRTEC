@@ -77,7 +77,7 @@ security-mng 1 state enable mode permit
 
     const defaultScript = `\
 interface gpon-olt_${this.pon}
-onu ${this.id} type ZTE-F601 sn CMSZ3B0A44DE 
+onu ${this.id} type ZTE-F601 sn ${this.sn} 
 ! 
 interface gpon-onu_${this.pon}:${this.id}
 description ${this.client}
