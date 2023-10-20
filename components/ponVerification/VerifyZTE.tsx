@@ -1,6 +1,6 @@
 import React, { HtmlHTMLAttributes } from "react";
 import { useState, useEffect, Fragment } from "react";
-import { useForm, Controller, FieldValues } from "react-hook-form";
+import { useForm, Controller, FieldValues, useWatch } from "react-hook-form";
 import Input from "@/components/inputs/inputLabelUseForm";
 import { socket } from "@/lib/socket";
 import { ToastContainer, toast } from "react-toastify";
@@ -25,17 +25,13 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
   const [onuDyingGasp, setOnuDyingGasp] = useState<string[]>([]);
   const [onuOff, setOnuOff] = useState<string[]>([]);
   const [onuWorking, setOnuWorking] = useState<string[]>([]);
-
-  const [staticPon, setStaticPon] = useState<string>("");
-
-  const [selected, setSelected] = useState<any>();
-
   const [exclude, setExclude] = useState<boolean>(false);
 
-  console.log(staticPon);
   const {
     register,
     handleSubmit,
+    watch,
+    control,
     reset,
     formState: { errors },
   } = useForm();
@@ -44,7 +40,7 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
     register: registerDown,
     handleSubmit: handleSubmitDown,
     reset: resetDown,
-    control,
+    control: controlDown,
     formState: { errors: errorsDown },
   } = useForm();
 
@@ -56,17 +52,20 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
     });
   };
 
+  const oltSelected = watch().olt;
+  const pon = watch().pon;
+
   const onDetail = (ont: any, todos?: boolean) => {
-    if (selected?.brand == "ZTE") {
+    if (oltSelected?.brand == "ZTE") {
       if (!todos) {
         socket.emit("connectTelnet", {
-          ip: selected.ip,
+          ip: oltSelected.ip,
           command: `show gpon onu detail-info gpon-onu_${ont}`,
           commandType: "detail",
         });
       } else {
         socket.emit("multipleTelnet", {
-          ip: selected.ip,
+          ip: oltSelected.ip,
           commands: ont.map(
             (el: any) => `show gpon onu detail-info gpon-onu_${el}`
           ),
@@ -74,50 +73,53 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
         });
       }
     }
-    if (selected?.brand == "DATACOM") {
+    if (oltSelected?.brand == "DATACOM") {
       if (!todos) {
         socket.emit("connectTelnetDatacom", {
-          ip: selected.ip,
-          command: `do show inter gpon ${staticPon} onu ${ont}`,
+          ip: oltSelected.ip,
+          command: `do show inter gpon ${pon} onu ${ont}`,
           commandType: "detail",
         });
       } else {
         socket.emit("multipleDatacomTelnet", {
-          ip: selected.ip,
-          commands: ont.map(
-            (el: any) => `do show inter gpon ${staticPon} onu ${el}`
-          ),
+          ip: oltSelected.ip,
+          commands: ont.map((el: any) => `do show inter gpon ${pon} onu ${el}`),
           commandType: "detail",
         });
       }
     }
   };
 
-  const onSubmit = async ({ pon }: FieldValues) => {
-    setStaticPon(pon);
-    if (selected?.brand == "ZTE") {
-      socket.emit("connectTelnet", {
-        ip: selected.ip,
-        command: `show gpon onu state gpon-olt_${pon}`,
-        brand: selected.brand,
-        commandType: "state",
-      });
-    }
-    if (selected?.brand == "DATACOM") {
-      console.log(selected);
-      socket.emit("connectTelnetDatacom", {
-        ip: selected.ip,
-        command: `do show interface gpon ${pon} onu`,
-        brand: selected.brand,
-        commandType: "state",
-      });
-      socket.emit("connectTelnetDatacom", {
-        ip: selected.ip,
-        command: `show service-port gpon ${pon}`,
-        brand: selected.brand,
-        commandType: "showServicePort",
-      });
-    }
+  const onSubmit = async ({ pon, olt }: FieldValues) => {
+    socket.emit("connectTelnet", {
+      ip: olt.ip,
+      command: `show gpon onu state gpon-olt_${pon}`,
+      brand: olt.brand,
+      commandType: "state",
+    });
+    // if (selected?.brand == "ZTE") {
+    //   socket.emit("connectTelnet", {
+    //     ip: selected.ip,
+    //     command: `show gpon onu state gpon-olt_${pon}`,
+    //     brand: selected.brand,
+    //     commandType: "state",
+    //   });
+    // }
+    // if (selected?.brand == "DATACOM") {
+    //   console.log(selected);
+    //   socket.emit("connectTelnetDatacom", {
+    //     ip: selected.ip,
+    //     command: `do show interface gpon ${pon} onu`,
+    //     brand: selected.brand,
+    //     commandType: "state",
+    //   });
+    //   socket.emit("connectTelnetDatacom", {
+    //     ip: selected.ip,
+    //     command: `show service-port gpon ${pon}`,
+    //     brand: selected.brand,
+    //     commandType: "showServicePort",
+    //   });
+    // }
   };
 
   function isArrayIncluded(string: string, subArray: any[]) {
@@ -144,13 +146,13 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
     if (response?.commandType == "state") {
       setIdLivre([]);
       setText("");
-      if (selected?.brand == "ZTE") {
+      if (oltSelected?.brand == "ZTE") {
         if (response.res?.includes("Error")) {
           return notify("Pon vazia");
         }
         const res = response.data.replace(//g, "").split("\n");
         const toMatch = res.filter((el: any) => el.includes("ONU Number"));
-        const onuTotal = res.filter((el: any) => el.includes(`${staticPon}:`));
+        const onuTotal = res.filter((el: any) => el.includes(`${pon}:`));
         const startString = "ONU Number: ";
 
         // Create a regular expression pattern using the start and end strings
@@ -172,7 +174,7 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
           "VILA NOVA",
         ];
         const include = (value: any, find: any, not?: boolean) => {
-          if (exception.includes(selected.olt)) {
+          if (exception.includes(oltSelected.olt)) {
             return value
               .filter((onu: any) =>
                 not ? !onu.includes(find) : onu.includes(find)
@@ -203,7 +205,7 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
         setText(onuTotal.join("\n"));
 
         for (let i = 1; i <= 128; i++) {
-          const idToCheck = `${staticPon}:${i} `;
+          const idToCheck = `${pon}:${i} `;
           const verify = response.data.includes(idToCheck);
           if (verify) {
           } else {
@@ -211,12 +213,12 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
           }
         }
       }
-      if (selected?.brand == "DATACOM") {
+      if (oltSelected?.brand == "DATACOM") {
         console.log(response);
         setText(response.data);
         const res = response.data
           .split("\n")
-          .filter((el: any) => el.includes(`${staticPon}`));
+          .filter((el: any) => el.includes(`${pon}`));
 
         const include = (value: any, find: any, not?: boolean) => {
           return value
@@ -247,16 +249,16 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
   }, [response]);
 
   const onSubmitDown = ({ options }: FieldValues) => {
-    if (selected.brand == "ZTE") {
+    if (oltSelected.brand == "ZTE") {
       const onu = options.map((arr: string) => arr.split(":")[1]);
       console.log(onu);
       setExcludeText(`\
 conf t
-interface gpon-olt_${staticPon}
+interface gpon-olt_${pon}
 ${onu.map((el: string) => `no onu ${el}`).join("\n")} 
 `);
     }
-    if (selected.brand == "DATACOM") {
+    if (oltSelected.brand == "DATACOM") {
       const startString = "service-port ";
 
       const pattern = `${startString}(.*)`;
@@ -275,7 +277,7 @@ conf t
 ${onuServicePort.map((el) => `no service-port ${el}`).join("\n")}
 commit
 
-interface gpon ${staticPon}
+interface gpon ${pon}
 ${
   options.lenght > 1
     ? options.map((el: string) => `no onu ${el}`).join("\n")
@@ -332,7 +334,7 @@ commit
                 <p className="text-gray-300">
                   Quantidade DOWN: {onuDown?.length}
                 </p>
-                {selected?.brand == "ZTE" && (
+                {oltSelected?.brand == "ZTE" && (
                   <>
                     <p className="text-gray-300">
                       Equipamentos em LOS: {onuLos?.length}
@@ -357,7 +359,7 @@ commit
         </div>
 
         <div className="grid w-full col-span-3 grid-cols-4">
-          {selected?.brand == "ZTE" ? (
+          {oltSelected?.brand == "ZTE" ? (
             <>
               <div className="my-2">
                 <h1 className="text-gray-300 text-xl font-bold text-center">
@@ -470,7 +472,7 @@ commit
                         onClick={() => onDetail(onu)}
                         className="text-gray-300 bg-gray-900 bg-opacity-80 p-1 hover:bg-gray-700 transition-all rounded-md"
                       >
-                        {`${staticPon} onu ${onu}`}
+                        {`${pon} onu ${onu}`}
                       </button>
                     </>
                   ))}
@@ -494,7 +496,7 @@ commit
                         onClick={() => onDetail(onu)}
                         className="text-gray-300 bg-gray-900 bg-opacity-80 p-1 hover:bg-gray-700 transition-all rounded-md"
                       >
-                        {`${staticPon} onu ${onu}`}
+                        {`${pon} onu ${onu}`}
                       </button>
                     </>
                   ))}
@@ -527,7 +529,7 @@ commit
                   className="container p-4 h-[94%] scrollbar-corner-transparent resize-none scrollbar-thumb-rounded-md scrollbar-thin scrollbar-thumb-gray-800 outline-none scrollbar-track-transparent text-gray-300 bg-black bg-opacity-60 rounded-xl whitespace-pre-line"
                 />
               </>
-            ) : selected?.brand == "ZTE" ? (
+            ) : oltSelected?.brand == "ZTE" ? (
               <>
                 <ControlledCheckbox
                   register={registerDown}
