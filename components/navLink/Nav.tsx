@@ -159,7 +159,7 @@ const Nav = ({ classname }: { classname: string }) => {
               {links.map((link) => (
                 <li
                   key={link.name}
-                  className="text-gray-300 hover:text-gray-50 whitespace-nowrap inline"
+                  className="text-gray-300 hover:text-gray-50 whitespace-nowrap flex"
                 >
                   <label htmlFor={link.name} className="cursor-pointer">
                     <link.icon className="w-6 h-6 pr-1" />
