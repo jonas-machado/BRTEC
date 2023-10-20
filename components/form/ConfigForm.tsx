@@ -361,20 +361,20 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
       .trim()
       .split(" ");
 
-    // axios
-    //   .post("http://127.0.0.1:5000/configure-onu", {
-    //     onutype: ontType,
-    //     serial,
-    //     olt: selected?.ip,
-    //     pon,
-    //     idLivre,
-    //     idOnu,
-    //     customVlan,
-    //     cliente: name,
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    axios
+      .post("http://127.0.0.1:5000/configure-onu", {
+        onutype: ontType,
+        serial,
+        olt: oltName?.ip,
+        pon,
+        idLivre,
+        idOnu,
+        customVlan,
+        cliente: name,
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     const script = new scriptText(
       pon,
