@@ -2,9 +2,10 @@ import Navbar from "@/components/navbar/Navbar";
 //import getCurrentUser from "@/actions/getCurrentUser";
 import PageWrapper from "@/lib/pageWrapper";
 import NextTopLoader from "nextjs-toploader";
-import { getNeutralNetwork } from "@/lib/actions/neutralNetwork";
+import { getNeutralNetwork } from "@/lib/actions/getNeutralNetwork";
 import { motion, AnimatePresence } from "framer-motion";
 import { getCurrentUser } from "../api/auth/[...nextauth]/route";
+import { getFirmware } from "@/lib/actions/getFirmware";
 import MotionPage from "@/lib/motionPage";
 import Image from "next/image";
 import Nav from "@/components/navLink/Nav";
@@ -17,6 +18,7 @@ export default async function RootLayout({
 }) {
   const currentUser = await getCurrentUser();
   const neutralNetwork = await getNeutralNetwork();
+  const firmware = await getFirmware();
 
   return (
     <PageWrapper>
@@ -37,7 +39,11 @@ export default async function RootLayout({
               : `/images/backgroundConfig.gif`
           }
         />
-        <Navbar currentUser={currentUser} neutralNetwork={neutralNetwork} />
+        <Navbar
+          currentUser={currentUser}
+          neutralNetwork={neutralNetwork}
+          firmware={firmware}
+        />
         <NextTopLoader
           color="#000000"
           shadow="0 40px 50px #ffffff,0 40px 50px #ffffff"

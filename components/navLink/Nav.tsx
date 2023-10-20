@@ -10,6 +10,8 @@ import {
   DocumentTextIcon,
   WrenchScrewdriverIcon,
   LightBulbIcon,
+  ClipboardDocumentListIcon,
+  TableCellsIcon,
 } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { motion, useDragControls } from "framer-motion";
@@ -35,6 +37,16 @@ const links = [
     name: "Banco de soluções",
     link: "/solutionBank",
     icon: LightBulbIcon,
+  },
+  {
+    name: "Wiki",
+    link: "http://131.255.132.6:8887/doku.php",
+    icon: ClipboardDocumentListIcon,
+  },
+  {
+    name: "CNPJ/COND",
+    link: "https://docs.google.com/spreadsheets/d/1aiSO7e_fERVePE9VhMXfA4sHHpbLwxpdAr__ei7k0y4/edit#gid=0",
+    icon: TableCellsIcon,
   },
 ];
 
@@ -96,8 +108,8 @@ const Nav = ({ classname }: { classname: string }) => {
   return (
     <>
       <footer className="shadow-[0_0px_10px_5px] shadow-black border-gray-950 border-t fixed bottom-0 left-0 z-20 w-full bg-black bg-opacity-80 backdrop-blur-lg ">
-        <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-          <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+        <div className="w-full mx-auto text-center max-w-screen-xl p-4 flex flex-col justify-center md:flex md:flex-row md:items-center md:justify-between md:text-justify">
+          <span className="text-sm text-gray-500 ">
             © 2023{" "}
             <a href="https://flowbite.com/" className="hover:underline">
               JM™
@@ -118,7 +130,7 @@ const Nav = ({ classname }: { classname: string }) => {
           leaveTo="opacity-0 translate-y-6"
           afterLeave={() => setShowNav(true)}
           onMouseEnter={() => setIsShowing(true)}
-          className={`absolute bottom-2 left-1/2 -translate-x-1/2`}
+          className={`absolute bottom-2 left-1/2 -translate-x-1/2 hidden lg:flex`}
         >
           <ChevronDoubleUpIcon className="h-10 w-10 text-gray-400" />
         </Transition>
