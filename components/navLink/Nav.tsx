@@ -107,7 +107,7 @@ const Nav = ({ classname }: { classname: string }) => {
   }, []);
   return (
     <>
-      <footer className="shadow-[0_0px_10px_5px] shadow-black border-gray-950 border-t fixed bottom-0 left-0 z-20 w-full bg-black bg-opacity-80 backdrop-blur-lg ">
+      <footer className="shadow-[0_0px_10px_5px] shadow-black border-gray-950 border-t fixed bottom-0 left-0 z-30 w-full bg-black bg-opacity-80 backdrop-blur-lg ">
         <div className="w-full mx-auto text-center max-w-screen-xl p-4 flex flex-col justify-center md:flex md:flex-row md:items-center md:justify-between md:text-justify">
           <span className="text-sm text-gray-500 ">
             © 2023{" "}
@@ -135,7 +135,7 @@ const Nav = ({ classname }: { classname: string }) => {
           <ChevronDoubleUpIcon className="h-10 w-10 text-gray-400" />
         </Transition>
       </footer>
-      <div className=" fixed bottom-20 left-1/2 -translate-x-1/2">
+      <div className=" fixed bottom-20 left-1/2 -translate-x-1/2 z-30">
         <Transition
           show={showNav}
           enter="transition ease-out duration-200"
