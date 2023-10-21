@@ -32,7 +32,7 @@ input:-webkit-autofill:active {
 }
 
 /*CSS to Editor.js*/
-.ce-inline-tool {
+/* .ce-inline-tool {
   background-color: #000000;
   color: #fafafa;
 }
@@ -48,4 +48,4 @@ input:-webkit-autofill:active {
 
 .codex-editor__loader {
   color: #7e01f3;
-}
+} */

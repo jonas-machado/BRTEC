@@ -148,13 +148,7 @@ const Nav = ({ classname }: { classname: string }) => {
           onMouseLeave={() => setShowNav(false)}
           className={`flex h-16 items-end`}
         >
-          <div className="flex bg-black bg-opacity-70 backdrop-blur-sm items-center rounded-md h-10 p-4 pl-0 shadow-black border-gray-900 border-2 shadow-[0_0px_10px]">
-            <Link
-              href={home.link}
-              className="flex  rounded-md bg-gray-900 p-2 items-center mr-4 shadow-lg shadow-black"
-            >
-              <HomeIcon className="w-12 h-12 text-gray-300" />
-            </Link>
+          <div className="flex bg-black bg-opacity-70 backdrop-blur-sm items-center rounded-md h-10 p-4  shadow-black border-gray-900 border-2 shadow-[0_0px_10px]">
             <ul className="flex gap-4">
               {links.map((link) => (
                 <li

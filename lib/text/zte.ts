@@ -71,7 +71,22 @@ security-mng 1 state enable mode permit
       },
       {
         oltName: "VILA NOVA",
-        template: `\interface gpon-olt_${this.pon}onu ${this.id} type ZTE-F601 sn ${this.sn}!interface gpon-onu_${this.pon}:${this.id}description ${this.client}tcont 2 name Tcont100M profile OTgemport 1 name Gemport1 unicast tcont 2 dir both queue 1switchport mode trunk vport 1switchport vlan ${this.vlan} tag vport 1! pon-onu-mng gpon-onu_${this.pon}:${this.id}service inter gemport 1 vlan ${this.vlan}performance ethuni eth_0/1 startvlan port eth_0/1 mode tag vlan ${this.vlan}!`,
+        template: `\
+interface gpon-olt_${this.pon}
+onu ${this.id} type ZTE-F601 sn ${this.sn}
+!
+interface gpon-onu_${this.pon}:${this.id}
+description ${this.client}
+tcont 2 name Tcont100M profile OT
+gemport 1 name Gemport1 unicast tcont 2 dir both queue 1
+switchport mode trunk vport 1
+switchport vlan ${this.vlan} tag vport 1
+!
+pon-onu-mng gpon-onu_${this.pon}:${this.id}
+service inter gemport 1 vlan ${this.vlan}
+performance ethuni eth_0/1 start
+vlan port eth_0/1 mode tag vlan ${this.vlan}
+!`,
       },
     ];
 

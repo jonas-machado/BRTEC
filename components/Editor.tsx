@@ -15,8 +15,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type EditorJS from "@editorjs/editorjs";
+import { toast, ToastContainer } from "react-toastify";
 
-const Editor = () => {
+const Editor = ({ currentUserId }: { currentUserId: string | undefined }) => {
+  console.log(currentUserId);
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
@@ -25,6 +27,19 @@ const Editor = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const toastError = (msg: any) => {
+    return toast.error(msg, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
 
   const _titleRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
@@ -45,6 +60,7 @@ const Editor = () => {
       const editor = new EditorJS({
         holder: "editor",
         onReady() {
+          console.log("Editor.js is ready to work!");
           ref.current = editor;
         },
         placeholder: "Digite aqui para escrever sua postagem...",
@@ -68,6 +84,8 @@ const Editor = () => {
                     storage,
                     `images/${file.name + v4()}`
                   );
+                  console.log(imageRef);
+
                   const upload = await uploadBytes(imageRef, file).then(() => {
                     console.log("image uploaded");
                   });
@@ -90,9 +108,25 @@ const Editor = () => {
           embed: Embed,
         },
       });
+      editor.isReady
+        .then(() => {
+          console.log("Editor.js is ready to work!");
+          /** Do anything you need after editor initialization */
+        })
+        .catch((reason) => {
+          console.log(`Editor.js initialization failed because of ${reason}`);
+        });
       ref.current = editor;
     }
   }, []);
+
+  useEffect(() => {
+    if (Object.keys(errors).length) {
+      for (const [_key, value] of Object.entries(errors)) {
+        toastError(value);
+      }
+    }
+  }, [errors]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -106,19 +140,18 @@ const Editor = () => {
 
       setTimeout(() => {
         _titleRef?.current?.focus();
-      }, 0);
+      }, 1000);
     };
 
     if (isMounted) {
       init();
 
       return () => {
-        if (ref.current) {
-          ref.current?.destroy();
-        }
+        ref.current?.destroy();
+        ref.current = undefined;
       };
     }
-  }, [isMounted]);
+  }, [isMounted, initializeEditor]);
 
   const onSubmit = async (value: FieldValues) => {
     const blocks = await ref.current?.save();
@@ -134,6 +167,10 @@ const Editor = () => {
 
     console.log(data);
   };
+
+  if (!isMounted) {
+    return null;
+  }
 
   const { ref: titleRef, ...rest } = register<any>("title");
 
@@ -155,17 +192,16 @@ const Editor = () => {
             placeholder="Title"
             className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
           />
-          <div id="editorjs" className="min-h-[500px] w-11/12" />
+          <div id="editor" className="min-h-[500px] w-11/12" />
           <p className="text-sm text-gray-500">
             Use{" "}
-            <kbd className="rounded-md border bg-muted px-1 text-xs uppercase">
-              Tab
-            </kbd>{" "}
+            <kbd className="rounded-md border px-1 text-xs uppercase">Tab</kbd>{" "}
             to open the command menu.
           </p>
         </div>
         <button type="submit">Enviar</button>
       </form>
+      <ToastContainer />
     </div>
   );
 };
