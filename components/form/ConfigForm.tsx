@@ -242,7 +242,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
       setOltCompanyArray(olt.filter((olt: any) => olt.brand == "DATACOM"));
       setOltCompany("Datacom");
     }
-  }, [serial, selectedRadio, olt]);
+  }, [serial, selectedRadio, oltName]);
 
   const handleVlan = (pon: string, vlan?: number, customVlan?: number) => {
     if (vlan && !customVlan) {
@@ -427,7 +427,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               idLivre,
               idOnu,
               name,
-              handleVlan(pon, oltName?.vlan)
+              handleVlan(pon, oltName?.vlan, customVlan)
             )
           );
           break;
@@ -447,7 +447,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               serial,
               name,
               intelbrasModel,
-              handleVlan(pon, oltName?.vlan)
+              handleVlan(pon, oltName?.vlan, customVlan)
             )
           );
           break;
@@ -476,7 +476,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
       }
     }
   };
-
+  console.log(oltCompany);
   return (
     <div>
       <section className="lg:grid lg:grid-cols-[minmax(240px,400px),minmax(200px,900px),minmax(0,275px),minmax(0,275px)] grid-auto-rows gap-2 py-14 w-full flex flex-col justify-center">
