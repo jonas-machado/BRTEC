@@ -30,13 +30,8 @@ const style = {
 const EditorOutput: FC<EditorOutputProps> = ({ content, title }) => {
   return (
     <>
-      <h1>{title}</h1>
-      <Output
-        style={style}
-        className="text-sm"
-        renderers={renderers}
-        data={content}
-      />
+      <h1 className=" font-bold text-4xl text-center m-">{title}</h1>
+      <Output style={style} renderers={renderers} data={content} />
     </>
   );
 };

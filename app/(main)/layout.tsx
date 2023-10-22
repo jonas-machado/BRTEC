@@ -23,7 +23,7 @@ export default async function RootLayout({
   return (
     <PageWrapper>
       <MotionPage>
-        <div className=" absolute shadow-[inset_0_-20px_20px_20px] w-full h-screen -z-40"></div>
+        <div className=" absolute shadow-[inset_0_-20px_20px_20px] w-[110%] -left-6 h-screen -z-40"></div>
         <Image
           src={
             currentUser?.user.backgroundImage
