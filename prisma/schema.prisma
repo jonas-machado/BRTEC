@@ -115,6 +115,6 @@ model Post {
   content   Json?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  author    User     @relation(fields: [authorId], references: [id])
   authorId  String   @db.ObjectId
+  author    User     @relation(fields: [authorId], references: [id])
 }

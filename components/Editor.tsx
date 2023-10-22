@@ -159,6 +159,7 @@ const Editor = ({ currentUserId }: { currentUserId: string | undefined }) => {
     const payload: FieldValues = {
       title: value.title,
       content: blocks,
+      authorId: currentUserId,
     };
 
     const { data } = await axios.post("/api/post/create", payload);
