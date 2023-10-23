@@ -16,6 +16,7 @@ import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type EditorJS from "@editorjs/editorjs";
 import { toast, ToastContainer } from "react-toastify";
+import { useMutation } from "@tanstack/react-query";
 
 const Editor = ({ currentUserId }: { currentUserId: string | undefined }) => {
   console.log(currentUserId);
@@ -41,8 +42,41 @@ const Editor = ({ currentUserId }: { currentUserId: string | undefined }) => {
     });
   };
 
+  const toastSuc = (msg: any) => {
+    return toast.success(msg, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+
   const _titleRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
+
+  const { mutate: createPost } = useMutation({
+    mutationFn: async ({ title, content, authorId }: FieldValues) => {
+      const payload = { title, content, authorId };
+      const { data } = await axios.post("/api/post/create", payload);
+      return data;
+    },
+    onError: () => {
+      return toastError("Your post was not published. Please try again.");
+    },
+    onSuccess: () => {
+      // turn pathname /r/mycommunity/submit into /r/mycommunity
+      //const newPathname = pathname.split("/").slice(0, -1).join("/");
+      //router.push(newPathname);
+
+      router.refresh();
+
+      return toastSuc("Your post has been published.");
+    },
+  });
 
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import("@editorjs/editorjs")).default;
@@ -162,11 +196,7 @@ const Editor = ({ currentUserId }: { currentUserId: string | undefined }) => {
       authorId: currentUserId,
     };
 
-    const { data } = await axios.post("/api/post/create", payload);
-
-    router.refresh();
-
-    console.log(data);
+    createPost(payload);
   };
 
   if (!isMounted) {
