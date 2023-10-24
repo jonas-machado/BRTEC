@@ -65,13 +65,11 @@ const ScriptForm = ({ currentUser }: { currentUser?: User | null }) => {
       client: z
         .string()
         .trim()
-        .min(2, { message: "O cliente deve conter entre 2 e 50 caracteres" })
-        .max(50, { message: "O cliente deve conter entre 2 e 50 caracteres" }),
+        .min(1, { message: "O campo cliente não pode estar vazio" }),
       name: z
         .string()
         .trim()
-        .min(2, { message: "O cliente deve conter entre 2 e 50 caracteres" })
-        .max(50, { message: "O cliente deve conter entre 2 e 50 caracteres" }),
+        .min(1, { message: "O campo nome não pode estar vazio" }),
       protocol: z
         .string()
         .trim()
@@ -101,17 +99,12 @@ const ScriptForm = ({ currentUser }: { currentUser?: User | null }) => {
       clientLost: z
         .string()
         .trim()
-        .min(2, { message: "O cliente deve conter entre 2 e 50 caracteres" })
-        .max(50, { message: "O cliente deve conter entre 2 e 50 caracteres" }),
+        .min(1, { message: "O campo cliente não pode estar vazio" }),
       description: z
         .string()
         .trim()
-        .min(2, { message: "O Motivo deve conter entre 2 e 50 caracteres" })
-        .max(50, { message: "O Motivo deve conter entre 2 e 50 caracteres" }),
-      protocol: z
-        .string()
-        .trim()
-        .min(1, { message: "O protocolo não pode estar vazio" }),
+        .min(1, { message: "O campo cliente não pode estar vazio" }),
+      protocol: z.string().trim().optional(),
     }),
   };
 
