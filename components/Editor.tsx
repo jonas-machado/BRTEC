@@ -17,9 +17,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type EditorJS from "@editorjs/editorjs";
 import { toast, ToastContainer } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
+import "react-toastify/dist/ReactToastify.css";
 
-const Editor = ({ currentUserId }: { currentUserId: string | undefined }) => {
-  console.log(currentUserId);
+const Editor = () => {
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
@@ -59,13 +59,13 @@ const Editor = ({ currentUserId }: { currentUserId: string | undefined }) => {
   const router = useRouter();
 
   const { mutate: createPost } = useMutation({
-    mutationFn: async ({ title, content, authorId }: FieldValues) => {
-      const payload = { title, content, authorId };
+    mutationFn: async ({ title, content }: FieldValues) => {
+      const payload = { title, content };
       const { data } = await axios.post("/api/post/create", payload);
       return data;
     },
     onError: () => {
-      return toastError("Your post was not published. Please try again.");
+      return toastError("O post não foi publicado. Por favor tente novamente.");
     },
     onSuccess: () => {
       // turn pathname /r/mycommunity/submit into /r/mycommunity
@@ -171,12 +171,14 @@ const Editor = ({ currentUserId }: { currentUserId: string | undefined }) => {
   useEffect(() => {
     const init = async () => {
       await initializeEditor();
-
-      setTimeout(() => {
-        _titleRef?.current?.focus();
-      }, 1000);
+      try {
+        setTimeout(() => {
+          _titleRef?.current?.focus();
+        }, 0);
+      } catch (error) {
+        console.log(error);
+      }
     };
-
     if (isMounted) {
       init();
 
@@ -193,7 +195,6 @@ const Editor = ({ currentUserId }: { currentUserId: string | undefined }) => {
     const payload: FieldValues = {
       title: value.title,
       content: blocks,
-      authorId: currentUserId,
     };
 
     createPost(payload);
