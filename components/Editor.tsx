@@ -80,7 +80,7 @@ const Editor = () => {
 
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import("@editorjs/editorjs")).default;
-    // @ts-ignore
+    //@ts-ignore
     const Header = (await import("@editorjs/header")).default;
     const Embed = (await import("@editorjs/embed")).default;
     const Table = (await import("@editorjs/table")).default;
@@ -89,7 +89,14 @@ const Editor = () => {
     const LinkTool = (await import("@editorjs/link")).default;
     const InlineCode = (await import("@editorjs/inline-code")).default;
     const ImageTool = (await import("@editorjs/image")).default;
-
+    //@ts-ignore
+    const Marker = (await import("@editorjs/marker")).default;
+    //@ts-ignore
+    const AttachesTool = (await import("@editorjs/attaches")).default;
+    //@ts-ignore
+    const Underline = (await import("@editorjs/underline")).default;
+    //@ts-ignore
+    const Hyperlink = (await import("editorjs-hyperlink")).default;
     if (!ref.current) {
       const editor = new EditorJS({
         holder: "editor",
@@ -101,7 +108,14 @@ const Editor = () => {
         inlineToolbar: true,
         data: { blocks: [] },
         tools: {
-          header: Header,
+          header: {
+            class: Header,
+            config: {
+              placeholder: "Enter a header",
+              levels: [2, 3, 4],
+              defaultLevel: 3,
+            },
+          },
           linkTool: {
             class: LinkTool,
             config: {
@@ -135,11 +149,40 @@ const Editor = () => {
               },
             },
           },
+          attaches: {
+            class: AttachesTool,
+            config: {
+              uploader: {
+                async uploadByFile(file: File) {
+                  console.log(file);
+                  const fileRef = refStorage(
+                    storage,
+                    `files/${file.name + v4()}`
+                  );
+                  console.log(fileRef);
+
+                  const upload = await uploadBytes(fileRef, file).then(() => {
+                    console.log("image uploaded");
+                  });
+                  const url = await getDownloadURL(fileRef);
+                  console.log(url);
+                  return {
+                    success: 1,
+                    file: {
+                      url: url,
+                    },
+                  };
+                },
+              },
+            },
+          },
           list: List,
           code: Code,
           inlineCode: InlineCode,
           table: Table,
           embed: Embed,
+          merker: Marker,
+          underline: Underline,
         },
       });
       editor.isReady
@@ -171,13 +214,6 @@ const Editor = () => {
   useEffect(() => {
     const init = async () => {
       await initializeEditor();
-      try {
-        setTimeout(() => {
-          _titleRef?.current?.focus();
-        }, 0);
-      } catch (error) {
-        console.log(error);
-      }
     };
     if (isMounted) {
       init();
