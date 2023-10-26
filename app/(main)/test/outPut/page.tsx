@@ -7,9 +7,11 @@ import Providers from "@/components/Providers";
 async function textarea() {
   const post = await getPost();
   return (
-    <div className="flex flex-col mx-auto mt-10 gap-4 z-50 w-11/12">
+    <div className="flex flex-col mx-auto mt-4 gap-4 w-11/12 z-50">
       <Providers>
-        <Editor />
+        <div className="bg-gray-300 m">
+          <EditorOutput content={post[0].content} title={post[0].title} />
+        </div>
       </Providers>
     </div>
   );

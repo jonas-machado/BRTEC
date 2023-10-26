@@ -43,3 +43,22 @@ svg.icon--unlink {
   background-size: cover;
   background-position: bottom center, 50%, 50%;
 }
+
+.image-tool__caption {
+  display: none;
+}
+
+.ce-block__content {
+  width: 100%;
+  margin: 0;
+  max-width: 80%;
+}
+
+.ce-toolbar__content {
+  width: 100%;
+  right: 0;
+}
+
+.ce-toolbar__actions {
+  right: -10%;
+}

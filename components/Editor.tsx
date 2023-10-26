@@ -262,13 +262,13 @@ const Editor = () => {
   const { ref: titleRef, ...rest } = register<any>("title");
 
   return (
-    <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
+    <div className="w-auto p-4 bg-zinc-50 rounded-lg border border-zinc-200 flex justify-center">
       <form
         id="subreddit-post-form"
-        className="w-fit"
+        className="w-full"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="prose prose-stone dark:prose-invert">
+        <div className="prose w-full">
           <TextareaAutosize
             ref={(e) => {
               titleRef(e);
@@ -279,9 +279,7 @@ const Editor = () => {
             placeholder="Title"
             className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none text-black"
           />
-          <div className=" prose-gray container">
-            <div id="editor" className="min-h-[500px] w-11/12 text-black" />
-          </div>
+          <div id="editor" className=" text-black" />
 
           <p className="text-sm text-gray-500">
             Use{" "}
