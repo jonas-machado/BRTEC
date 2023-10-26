@@ -2,22 +2,16 @@
 
 import CustomCodeRenderer from "@/components/renderers/CustomCodeRenderer";
 import CustomImageRenderer from "@/components/renderers/CustomImageRenderer";
-import { FC } from "react";
 import dynamic from "next/dynamic";
-
-const Output = dynamic(
-  async () => (await import("editorjs-react-renderer")).default,
-  { ssr: false }
-);
-
-interface EditorOutputProps {
-  title: string;
-  content: any;
-}
+import { FC } from "react";
+import CustomFileRenderer from "./renderers/CustomFileRenderer";
+import EditorJs from "react-editor-js";
+import { EDITOR_JS_TOOLS } from "@/constants/editorTools";
 
 const renderers = {
   image: CustomImageRenderer,
   code: CustomCodeRenderer,
+  attaches: CustomFileRenderer,
 };
 
 const style = {
@@ -27,11 +21,17 @@ const style = {
   },
 };
 
-const EditorOutput: FC<EditorOutputProps> = ({ content, title }) => {
+const EditorOutput = ({ content, title }: any) => {
+  const Output = dynamic(() => import("editorjs-react-renderer"), {
+    ssr: false,
+  });
+
   return (
     <>
-      <h1 className=" font-bold text-4xl text-center m-">{title}</h1>
-      <Output style={style} renderers={renderers} data={content} />
+      <div className="prose prose-stone h-full">
+        <h1 className=" font-bold text-6xl text-center m-4">{title}</h1>
+        <Output style={style} renderers={renderers} data={content} />
+      </div>
     </>
   );
 };

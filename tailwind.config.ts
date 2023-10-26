@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+/** @type {import('tailwindcss').Config} */
 
 const config: Config = {
   content: [
@@ -14,10 +15,17 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
     },
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: "1rem",
+      },
+    },
   },
   plugins: [
     // ...
     require("tailwind-scrollbar"),
+    require("@tailwindcss/typography"),
   ],
 };
 export default config;

@@ -86,7 +86,6 @@ const Editor = () => {
     const Table = (await import("@editorjs/table")).default;
     const List = (await import("@editorjs/list")).default;
     const Code = (await import("@editorjs/code")).default;
-    const LinkTool = (await import("@editorjs/link")).default;
     const InlineCode = (await import("@editorjs/inline-code")).default;
     const ImageTool = (await import("@editorjs/image")).default;
     //@ts-ignore
@@ -105,21 +104,22 @@ const Editor = () => {
           ref.current = editor;
         },
         placeholder: "Digite aqui para escrever sua postagem...",
-        inlineToolbar: true,
+        inlineToolbar: [
+          "bold",
+          "italic",
+          "hyperlink",
+          "inlineCode",
+          "marker",
+          "underline",
+        ],
         data: { blocks: [] },
         tools: {
           header: {
             class: Header,
             config: {
               placeholder: "Enter a header",
-              levels: [2, 3, 4],
+              levels: [1, 2, 3, 4],
               defaultLevel: 3,
-            },
-          },
-          linkTool: {
-            class: LinkTool,
-            config: {
-              endpoint: "/api/link",
             },
           },
           image: {
@@ -176,12 +176,31 @@ const Editor = () => {
               },
             },
           },
+          table: {
+            class: Table,
+            inlineToolbar: true,
+            config: {
+              rows: 2,
+              cols: 2,
+              withHeadings: true,
+            },
+          },
+          hyperlink: {
+            class: Hyperlink,
+            config: {
+              shortcut: "CMD+L",
+              target: "_blank",
+              rel: "nofollow",
+              availableTargets: ["_blank", "_self"],
+              availableRels: ["author", "noreferrer"],
+              validate: false,
+            },
+          },
           list: List,
           code: Code,
           inlineCode: InlineCode,
-          table: Table,
           embed: Embed,
-          merker: Marker,
+          marker: Marker,
           underline: Underline,
         },
       });
@@ -258,12 +277,17 @@ const Editor = () => {
             }}
             {...rest}
             placeholder="Title"
-            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
+            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none text-black"
           />
-          <div id="editor" className="min-h-[500px] w-11/12" />
+          <div className=" prose-gray container">
+            <div id="editor" className="min-h-[500px] w-11/12 text-black" />
+          </div>
+
           <p className="text-sm text-gray-500">
             Use{" "}
-            <kbd className="rounded-md border px-1 text-xs uppercase">Tab</kbd>{" "}
+            <kbd className="rounded-md border px-1 text-xs uppercase text-gray-500">
+              Tab
+            </kbd>{" "}
             to open the command menu.
           </p>
         </div>
