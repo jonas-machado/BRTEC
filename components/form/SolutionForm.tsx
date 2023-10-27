@@ -57,7 +57,7 @@ const SolutionForm = ({ solutions }: any) => {
   const router = useRouter();
 
   return (
-    <div>
+    <div className="">
       <div className="relative mx-auto w-full max-w-5xl rounded-2xl bg-black bg-opacity-95 p-3 flex flex-col gap-2">
         <div className="flex p-2 w-full items-center justify-between">
           <h1 className="text-2xl whitespace-nowrap text-gray-300 ">
@@ -132,7 +132,7 @@ const SolutionForm = ({ solutions }: any) => {
           <span className="sr-only">Close modal</span>
         </button>
         {openTab == "Adicionar" && (
-          <div className="max-w-[80%]">
+          <div className="">
             <Editor />
           </div>
         )}
