@@ -84,6 +84,7 @@ const Editor = () => {
     const Header = (await import("@editorjs/header")).default;
     const Embed = (await import("@editorjs/embed")).default;
     const Table = (await import("@editorjs/table")).default;
+    const LinkTool = (await import("@editorjs/link")).default;
     const List = (await import("@editorjs/list")).default;
     const Code = (await import("@editorjs/code")).default;
     const InlineCode = (await import("@editorjs/inline-code")).default;
@@ -96,6 +97,8 @@ const Editor = () => {
     const Underline = (await import("@editorjs/underline")).default;
     //@ts-ignore
     const Hyperlink = (await import("editorjs-hyperlink")).default;
+    const CodeBox = (await import("@editorjs/editorjs")).default;
+
     if (!ref.current) {
       const editor = new EditorJS({
         holder: "editor",
@@ -170,6 +173,9 @@ const Editor = () => {
                     success: 1,
                     file: {
                       url: url,
+                      title: file.name,
+                      size: file.size,
+                      extension: file.name.split(".").pop(),
                     },
                   };
                 },
@@ -194,6 +200,12 @@ const Editor = () => {
               availableTargets: ["_blank", "_self"],
               availableRels: ["author", "noreferrer"],
               validate: false,
+            },
+          },
+          linkTool: {
+            class: LinkTool,
+            config: {
+              endpoint: "/api/link",
             },
           },
           list: List,

@@ -26,6 +26,7 @@ import { OutputData } from "@editorjs/editorjs";
 interface EditorOutput {
   content: any;
   title: string;
+  index: number;
 }
 
 const renderers = {
@@ -41,7 +42,7 @@ const style = {
   },
 };
 
-const EditorOutput = ({ content, title }: EditorOutput) => {
+const EditorOutput = ({ content, title, index }: EditorOutput) => {
   console.log(content);
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -91,7 +92,7 @@ const EditorOutput = ({ content, title }: EditorOutput) => {
     const Hyperlink = (await import("editorjs-hyperlink")).default;
     if (!ref.current) {
       const editor = new EditorJS({
-        holder: "editor",
+        holder: `editor${index}`,
         onReady() {
           console.log("Editor.js is ready to work!");
           ref.current = editor;
@@ -238,7 +239,10 @@ const EditorOutput = ({ content, title }: EditorOutput) => {
     <>
       <div className="prose prose-stone h-full m-4">
         <h1 className=" font-bold text-6xl">{title}</h1>
-        <div id="editor" className="min-h-[500px] w-11/12 text-black" />
+        <div
+          id={`editor${index}`}
+          className="min-h-[500px] w-11/12 text-black"
+        />
       </div>
     </>
   );

@@ -6,12 +6,15 @@ import Providers from "@/components/Providers";
 
 async function textarea() {
   const post = await getPost();
+  console.log(post);
   return (
     <div className="flex flex-col mx-auto mt-4 gap-4 w-11/12 z-50">
       <Providers>
-        <div className="bg-gray-300 m">
-          <EditorOutput content={post[0].content} title={post[0].title} />
-        </div>
+        {post.map((el, index) => (
+          <div key={index} className="bg-gray-300 m">
+            <EditorOutput content={el.content} title={el.title} index={index} />
+          </div>
+        ))}
       </Providers>
     </div>
   );
