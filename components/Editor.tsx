@@ -97,7 +97,6 @@ const Editor = () => {
     const Underline = (await import("@editorjs/underline")).default;
     //@ts-ignore
     const Hyperlink = (await import("editorjs-hyperlink")).default;
-    const CodeBox = (await import("@editorjs/editorjs")).default;
 
     if (!ref.current) {
       const editor = new EditorJS({
@@ -274,7 +273,7 @@ const Editor = () => {
   const { ref: titleRef, ...rest } = register<any>("title");
 
   return (
-    <div className="w-auto p-4 bg-zinc-50 rounded-lg border border-zinc-200 flex justify-center">
+    <div className="w-auto p-16 bg-zinc-50 rounded-lg border border-zinc-200 flex justify-center">
       <form
         id="subreddit-post-form"
         className="w-full"

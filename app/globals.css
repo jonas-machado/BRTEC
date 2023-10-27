@@ -51,14 +51,15 @@ svg.icon--unlink {
 .ce-block__content {
   width: 100%;
   margin: 0;
-  max-width: 80%;
+  max-width: 100%;
 }
 
 .ce-toolbar__content {
   width: 100%;
   right: 0;
+  max-width: 100%;
 }
 
 .ce-toolbar__actions {
-  right: -10%;
+  right: 100%;
 }

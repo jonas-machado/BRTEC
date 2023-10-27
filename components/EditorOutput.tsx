@@ -81,6 +81,7 @@ const EditorOutput = ({ content, title, index }: EditorOutput) => {
     const List = (await import("@editorjs/list")).default;
     const Code = (await import("@editorjs/code")).default;
     const InlineCode = (await import("@editorjs/inline-code")).default;
+    const LinkTool = (await import("@editorjs/link")).default;
     const ImageTool = (await import("@editorjs/image")).default;
     //@ts-ignore
     const Marker = (await import("@editorjs/marker")).default;
@@ -98,7 +99,6 @@ const EditorOutput = ({ content, title, index }: EditorOutput) => {
           ref.current = editor;
         },
         placeholder: "Digite aqui para escrever sua postagem...",
-        readOnly: true,
         inlineToolbar: [
           "bold",
           "italic",
@@ -107,7 +107,7 @@ const EditorOutput = ({ content, title, index }: EditorOutput) => {
           "marker",
           "underline",
         ],
-        data: { blocks: content.blocks },
+        data: { blocks: [] },
         tools: {
           header: {
             class: Header,
@@ -165,6 +165,9 @@ const EditorOutput = ({ content, title, index }: EditorOutput) => {
                     success: 1,
                     file: {
                       url: url,
+                      title: file.name,
+                      size: file.size,
+                      extension: file.name.split(".").pop(),
                     },
                   };
                 },
@@ -189,6 +192,12 @@ const EditorOutput = ({ content, title, index }: EditorOutput) => {
               availableTargets: ["_blank", "_self"],
               availableRels: ["author", "noreferrer"],
               validate: false,
+            },
+          },
+          linkTool: {
+            class: LinkTool,
+            config: {
+              endpoint: "/api/link",
             },
           },
           list: List,

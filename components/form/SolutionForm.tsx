@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 
 //constants
 import { tabSolution } from "@/constants/tabSolutions";
+import Editor from "../Editor";
 
 const SolutionForm = ({ solutions }: any) => {
   const [query, setQuery] = useState("");
@@ -55,79 +56,38 @@ const SolutionForm = ({ solutions }: any) => {
 
   const router = useRouter();
 
-  const solutionBank = () => {
-    axios
-      .post("/api/solution", {
-        text,
-        title,
-      })
-      .then((callback: any) => {
-        console.log(callback);
-        if (callback?.error) {
-          return notify(callback.error);
-        } else {
-          router.refresh();
-          setIsOpen(false);
-          setText("");
-          setTitle("");
-          return notifySuc(callback.data.msg);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const excluir = (id: string) => {
-    axios
-      .post("/api/solutionExclude", {
-        id,
-      })
-      .then((callback: any) => {
-        console.log(callback);
-        router.refresh();
-        if (callback?.error) {
-          return notify(callback.error);
-        } else {
-          return notifySuc(callback.data.msg);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   return (
-    <>
-      <div className="mx-auto w-full max-w-5xl rounded-2xl bg-black bg-opacity-95 p-3 flex flex-col gap-2">
+    <div>
+      <div className="relative mx-auto w-full max-w-5xl rounded-2xl bg-black bg-opacity-95 p-3 flex flex-col gap-2">
         <div className="flex p-2 w-full items-center justify-between">
           <h1 className="text-2xl whitespace-nowrap text-gray-300 ">
             Banco de soluções
           </h1>
-          <Search
-            value={query}
-            onChange={(e: any) => setQuery(e.target.value)}
-          />
+          <div className="flex gap-4">
+            <Search
+              value={query}
+              onChange={(e: any) => setQuery(e.target.value)}
+            />
+            <button
+              type="button"
+              className="bg-gray-900 text-sm p-2 text-gray-300 hover:text-white border-2 border-gray-950 focus:outline-none font-bold rounded-lg text-center"
+              onClick={() => {
+                setIsOpen(true);
+              }}
+            >
+              Adicionar
+            </button>
+          </div>
         </div>
         {filtered.map((sol: any) => (
           <DisclosureBank key={sol.id} title={sol.title}>
             {sol.text}
           </DisclosureBank>
         ))}
-        <div className="fixed bottom-10 right-12">
-          <button
-            type="button"
-            className="shadow-[inset_0_-2px_20px_rgba(0,0,0,0.6)] shadow-yellow-500 text-yellow-500 hover:text-white border-2 border-yellow-500 focus:outline-none font-bold rounded-md text-xl px-5 py-2.5 text-center mr-2 mb-2"
-            onClick={() => {
-              setIsOpen(true);
-            }}
-          >
-            Adicionar
-          </button>
-        </div>
+        <div className="fixed bottom-10 right-12"></div>
       </div>
       <Modal
         isOpen={isOpen}
-        make={solutionBank}
         cancel={() => {
           setIsOpen(false);
         }}
@@ -146,22 +106,34 @@ const SolutionForm = ({ solutions }: any) => {
             ))}
           </TabBody>
         </div>
+        <button
+          type="button"
+          onClick={() => {
+            setIsOpen(false);
+          }}
+          className="absolute top-3 right-2.5 cursor-pointer z-50 text-gray-400 bg-transparent  hover:text-gray-200 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+          data-modal-hide="authentication-modal"
+        >
+          <svg
+            className="w-3 h-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+          <span className="sr-only">Close modal</span>
+        </button>
         {openTab == "Adicionar" && (
-          <div className="w-full flex flex-col gap-2">
-            <input
-              type="text"
-              className="w-full bg-gray-800 bg-opacity-70 rounded-lg outline-none p-3 text-gray-300"
-              placeholder="Título"
-              value={title}
-              onChange={(e: any) => setTitle(e.target.value)}
-              required
-            />
-            <textarea
-              value={text}
-              onChange={(e: any) => setText(e.target.value)}
-              className="w-full min-h-[15rem] p-3 outline-none bg-gray-800 bg-opacity-70 rounded-lg text-gray-300"
-              required
-            />
+          <div className="max-w-[80%]">
+            <Editor />
           </div>
         )}
         {openTab == "Listagem" && (
@@ -202,10 +174,7 @@ const SolutionForm = ({ solutions }: any) => {
                       scope="row"
                       className="px-6 py-4 font-medium whitespace-pre-line text-red-600"
                     >
-                      <XMarkIcon
-                        className="cursor-pointer"
-                        onClick={() => excluir(sol.id)}
-                      />
+                      <XMarkIcon className="cursor-pointer" />
                     </td>
                   </tr>
                 ))}
@@ -215,7 +184,7 @@ const SolutionForm = ({ solutions }: any) => {
         )}
       </Modal>
       <ToastContainer />
-    </>
+    </div>
   );
 };
 
