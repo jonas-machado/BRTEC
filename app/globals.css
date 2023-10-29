@@ -31,17 +31,20 @@ input:-webkit-autofill:active {
   background-color: black;
 }
 
+/* EDITOS.JS STYLES */
+
 svg.icon--link {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.2em' height='0.2em' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M7.5 17.5q-2.3 0-3.9-1.6T2 12q0-2.3 1.6-3.9t3.9-1.6H18q1.65 0 2.825 1.175T22 10.5q0 1.65-1.175 2.825T18 14.5H8.5q-1.05 0-1.775-.725T6 12q0-1.05.725-1.775T8.5 9.5H18V11H8.5q-.425 0-.713.288T7.5 12q0 .425.288.713T8.5 13H18q1.05 0 1.775-.725T20.5 10.5q0-1.05-.725-1.775T18 8H7.5Q5.85 8 4.675 9.175T3.5 12q0 1.65 1.175 2.825T7.5 16H18v1.5H7.5Z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-5 -5 30 30' fill='white' class='w-5 h-5'%3E%3Cpath fill-rule='evenodd' d='M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z' clip-rule='evenodd' /%3E%3C/svg%3E%0A");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom center, 50%, 50%;
 }
 svg.icon--unlink {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='0.2em' height='0.2em' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M7.5 17.5q-2.3 0-3.9-1.6T2 12q0-2.3 1.6-3.9t3.9-1.6H18q1.65 0 2.825 1.175T22 10.5q0 1.65-1.175 2.825T18 14.5H8.5q-1.05 0-1.775-.725T6 12q0-1.05.725-1.775T8.5 9.5H18V11H8.5q-.425 0-.713.288T7.5 12q0 .425.288.713T8.5 13H18q1.05 0 1.775-.725T20.5 10.5q0-1.05-.725-1.775T18 8H7.5Q5.85 8 4.675 9.175T3.5 12q0 1.65 1.175 2.825T7.5 16H18v1.5H7.5Z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-5 -4 30 30' fill='%239333EA' class='w-5 h-5'%3E%3Cpath fill-rule='evenodd' d='M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z' clip-rule='evenodd' /%3E%3C/svg%3E%0A");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom center, 50%, 50%;
+  color: #9333ea;
 }
 
 .image-tool__caption {
@@ -62,4 +65,209 @@ svg.icon--unlink {
 
 .ce-toolbar__actions {
   right: 100%;
+}
+
+.ce-inline-tool {
+  color: aliceblue;
+  background-color: rgb(17 24 39);
+}
+.ce-inline-toolbar {
+  border: rgb(17 24 39);
+  color: aliceblue;
+  background-color: rgb(17 24 39);
+}
+
+.ce-inline-toolbar__dropdown:hover {
+  background-color: rgb(17 24 39);
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+.ce-inline-tool--active {
+  color: rgb(147 51 234);
+  background-color: rgb(17 24 39);
+}
+
+.ce-inline-tool:hover {
+  background-color: rgb(17 24 39);
+}
+
+.ce-conversion-toolbar {
+  background-color: rgb(17 24 39);
+  border: rgb(17 24 39);
+  padding-bottom: 0.3em;
+}
+
+.ce-conversion-tool__icon svg {
+  color: black;
+}
+
+::selection {
+  color: black;
+  background: gray;
+}
+
+.ce-block--selected .cdx-block {
+  color: black;
+}
+
+.ce-block--selected .ce-block__content * {
+  color: black;
+}
+
+.ce-popover {
+  background-color: rgb(17 24 39);
+  border: rgb(17 24 39);
+  --color-background-item-hover: rgb(27, 36, 56);
+  --color-background-item-confirm: rgb(147 51 234);
+  --color-background-item-confirm-hover: rgb(147 51 234);
+  --color-text-primary: white;
+}
+
+.ce-popover-item__icon {
+  color: black;
+}
+.cdx-search-field__input::placeholder {
+  color: black;
+}
+
+.cdx-search-field__input {
+  background-color: aliceblue;
+}
+
+.cdx-search-field {
+  color: black;
+  background-color: aliceblue;
+}
+
+.cdx-search-field__icon {
+  color: black;
+  fill: black;
+}
+
+.ce-popover__items::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.ce-popover__items::-webkit-scrollbar-thumb {
+  background: black;
+  border-radius: 10px;
+}
+.ce-popover__items::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 10px;
+}
+
+.ce-toolbar__settings-btn {
+  color: aliceblue;
+}
+
+.ce-toolbar__plus {
+  color: aliceblue;
+}
+
+.ce-toolbar__settings-btn:hover {
+  background-color: transparent;
+}
+
+.ce-toolbar__plus:hover {
+  background-color: transparent;
+}
+
+.cdx-button {
+  background-color: transparent;
+  border-color: rgb(31 41 55);
+}
+.cdx-attaches__button {
+  color: #707684 !important;
+}
+.cdx-attaches__button:hover {
+  color: aliceblue !important;
+}
+.cdx-button:hover {
+  background-color: transparent;
+  border-color: rgb(31 41 55);
+  color: aliceblue;
+}
+
+.image-tool--withBackground .image-tool__image {
+  background: transparent !important;
+}
+
+.tc-add-column {
+  display: none !important;
+}
+
+.tc-add-row {
+  display: none !important;
+}
+
+.tc-row:after {
+  display: none;
+}
+
+.tc-toolbox__toggler svg {
+  color: aliceblue;
+}
+
+.tc-toolbox__toggler svg rect {
+  color: transparent;
+  fill: rgb(36, 46, 59);
+}
+
+.link-tool__content--rendered {
+  background: transparent !important;
+}
+
+.link-tool__title {
+  color: aliceblue;
+}
+
+.ce-code__textarea {
+  background: transparent !important;
+  color: aliceblue !important;
+}
+
+.ce-inline-tool-hyperlink--input {
+  color: black;
+}
+.ce-inline-tool-hyperlink--select-target {
+  color: black;
+}
+
+.ce-inline-tool-hyperlink--select-rel {
+  color: black;
+}
+
+.cdx-marker {
+  color: aliceblue;
+  background: rgba(230, 255, 1, 0.39) !important;
+  border-radius: 0.1em;
+}
+
+.tc-popover {
+  background-color: rgb(16, 21, 29) !important;
+  --color-border: rgb(36, 46, 59) !important;
+}
+
+.tc-popover__item-icon {
+  color: black;
+}
+
+.tc-cell--selected {
+  background: rgb(36, 46, 59) !important;
+}
+
+.tc-row--selected {
+  background: rgb(36, 46, 59) !important;
+}
+.cdx-attaches--with-file {
+  background-color: transparent !important;
+  border-color: black !important;
+  color: aliceblue !important;
+}
+.cdx-attaches__download-button {
+  background: transparent !important;
+  color: black;
+  border-color: black !important;
 }

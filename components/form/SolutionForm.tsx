@@ -1,6 +1,6 @@
 "use client";
 
-import DisclosureBank from "@/components/disclosure";
+import DisclosureBank from "@/components/DisclosureBank";
 import { useState, useEffect } from "react";
 import Search from "../inputs/search";
 import Modal from "../modals/Modal";
@@ -14,24 +14,25 @@ import { useRouter } from "next/navigation";
 
 //constants
 import { tabSolution } from "@/constants/tabSolutions";
+import EditorOutput from "../EditorOutput";
 import Editor from "../Editor";
 
-const SolutionForm = ({ solutions }: any) => {
+const SolutionForm = ({ post }: any) => {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [openTab, setOpenTab] = useState("Adicionar");
-  const [solutionsArray, setSolutionsArray] = useState([]);
+  const [postArray, setPostArray] = useState([]);
 
   useEffect(() => {
-    setSolutionsArray(solutions);
-  }, [solutions]);
+    setPostArray(post);
+  }, [post]);
 
   const filtered =
     query === ""
-      ? solutionsArray
-      : solutionsArray.filter((sol: any) =>
+      ? postArray
+      : postArray.filter((sol: any) =>
           sol.title
             .toLowerCase()
             .replace(/\s+/g, "")
@@ -79,9 +80,9 @@ const SolutionForm = ({ solutions }: any) => {
             </button>
           </div>
         </div>
-        {filtered.map((sol: any) => (
-          <DisclosureBank key={sol.id} title={sol.title}>
-            {sol.text}
+        {filtered.map((post: any, index: number) => (
+          <DisclosureBank key={post.id} title={post.title}>
+            <EditorOutput content={post.content} index={index} />
           </DisclosureBank>
         ))}
         <div className="fixed bottom-10 right-12"></div>
@@ -123,9 +124,9 @@ const SolutionForm = ({ solutions }: any) => {
           >
             <path
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
             />
           </svg>
@@ -153,7 +154,7 @@ const SolutionForm = ({ solutions }: any) => {
                 </tr>
               </thead>
               <tbody>
-                {solutionsArray.map((sol: any) => (
+                {postArray.map((sol: any) => (
                   <tr
                     className="bg-gray-900 bg-opacity-60 border-b"
                     key={sol.id}

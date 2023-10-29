@@ -25,7 +25,6 @@ import { OutputData } from "@editorjs/editorjs";
 
 interface EditorOutput {
   content: any;
-  title: string;
   index: number;
 }
 
@@ -42,7 +41,7 @@ const style = {
   },
 };
 
-const EditorOutput = ({ content, title, index }: EditorOutput) => {
+const EditorOutput = ({ content, index }: EditorOutput) => {
   console.log(content);
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -78,10 +77,10 @@ const EditorOutput = ({ content, title, index }: EditorOutput) => {
     const Header = (await import("@editorjs/header")).default;
     const Embed = (await import("@editorjs/embed")).default;
     const Table = (await import("@editorjs/table")).default;
+    const LinkTool = (await import("@editorjs/link")).default;
     const List = (await import("@editorjs/list")).default;
     const Code = (await import("@editorjs/code")).default;
     const InlineCode = (await import("@editorjs/inline-code")).default;
-    const LinkTool = (await import("@editorjs/link")).default;
     const ImageTool = (await import("@editorjs/image")).default;
     //@ts-ignore
     const Marker = (await import("@editorjs/marker")).default;
@@ -91,11 +90,14 @@ const EditorOutput = ({ content, title, index }: EditorOutput) => {
     const Underline = (await import("@editorjs/underline")).default;
     //@ts-ignore
     const Hyperlink = (await import("editorjs-hyperlink")).default;
+
     if (!ref.current) {
       const editor = new EditorJS({
+        readOnly: true,
         holder: `editor${index}`,
         onReady() {
           console.log("Editor.js is ready to work!");
+          console.log(content.blocks);
           ref.current = editor;
         },
         placeholder: "Digite aqui para escrever sua postagem...",
@@ -107,7 +109,7 @@ const EditorOutput = ({ content, title, index }: EditorOutput) => {
           "marker",
           "underline",
         ],
-        data: { blocks: [] },
+        data: { blocks: content.blocks },
         tools: {
           header: {
             class: Header,
@@ -120,6 +122,7 @@ const EditorOutput = ({ content, title, index }: EditorOutput) => {
           image: {
             class: ImageTool,
             config: {
+              withBackground: true,
               uploader: {
                 async uploadByFile(file: File) {
                   console.log(file);
@@ -246,12 +249,13 @@ const EditorOutput = ({ content, title, index }: EditorOutput) => {
 
   return (
     <>
-      <div className="prose prose-stone h-full m-4">
-        <h1 className=" font-bold text-6xl">{title}</h1>
-        <div
-          id={`editor${index}`}
-          className="min-h-[500px] w-11/12 text-black"
-        />
+      <div className="p-16 pb-0 bg-gray-950 bg-opacity-0 rounded-lg flex justify-center">
+        <div className="prose prose-invert w-full">
+          <div
+            id={`editor${index}`}
+            className="text-gray-300 bg-black bg-opacity-0 caret-gray-300"
+          />
+        </div>
       </div>
     </>
   );

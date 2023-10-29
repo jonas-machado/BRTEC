@@ -273,7 +273,7 @@ const Editor = () => {
   const { ref: titleRef, ...rest } = register<any>("title");
 
   return (
-    <div className="p-16 bg-gray-950 bg-opacity-0 rounded-lg flex justify-center max-w-[50rem] w-[50rem]">
+    <div className="p-16 pb-0 bg-gray-950 bg-opacity-0 rounded-lg flex justify-center max-w-[50rem] w-[50rem]">
       <form
         id="subreddit-post-form"
         className="w-full "
@@ -297,13 +297,17 @@ const Editor = () => {
 
           <p className="text-sm text-gray-500">
             Use{" "}
-            <kbd className="rounded-md border px-1 text-xs uppercase text-gray-500">
+            <kbd className="rounded-md font-bold px-1 text-sm bg-gray-900 uppercase text-gray-500">
               Tab
             </kbd>{" "}
             to open the command menu.
           </p>
         </div>
-        <button type="submit">Enviar</button>
+        <div className="flex justify-end mt-6 mb-4">
+          <button className="text-white " type="submit">
+            Enviar
+          </button>
+        </div>
       </form>
       <ToastContainer />
     </div>

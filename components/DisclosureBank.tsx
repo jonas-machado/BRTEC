@@ -22,7 +22,7 @@ export default function DisclosureBank({ title, children }: disclosure) {
             />
           </Disclosure.Button>
           <Disclosure.Panel className="px-4 py-4 text-sm text-gray-300 bg-gray-700 bg-opacity-70 rounded-xl ">
-            <p className="whitespace-pre-line">{children}</p>
+            {children}
           </Disclosure.Panel>
         </>
       )}
