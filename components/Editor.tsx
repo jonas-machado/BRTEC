@@ -19,7 +19,13 @@ import { toast, ToastContainer } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import "react-toastify/dist/ReactToastify.css";
 
-const Editor = () => {
+interface postProps {
+  postId?: any;
+  postContent?: any;
+  postTitle?: string;
+}
+
+const Editor = ({ postId, postContent, postTitle }: postProps) => {
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
@@ -114,7 +120,7 @@ const Editor = () => {
           "marker",
           "underline",
         ],
-        data: { blocks: [] },
+        data: { blocks: postContent?.blocks },
         tools: {
           header: {
             class: Header,
@@ -288,6 +294,7 @@ const Editor = () => {
             }}
             {...rest}
             placeholder="Title"
+            value={postTitle}
             className="w-full caret-gray-300 text-gray-300 resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
           />
           <div
@@ -303,8 +310,17 @@ const Editor = () => {
             to open the command menu.
           </p>
         </div>
-        <div className="flex justify-end mt-6 mb-4">
-          <button className="text-white " type="submit">
+        <div className="flex justify-end mt-6 mb-4 gap-4">
+          <button
+            className="text-white bg-gray-800 rounded-md px-4 p-2"
+            type="button"
+          >
+            Excluir
+          </button>
+          <button
+            className="text-white bg-purple-600 px-4 p-2 rounded-md"
+            type="submit"
+          >
             Enviar
           </button>
         </div>

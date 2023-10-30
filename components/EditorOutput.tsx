@@ -28,19 +28,6 @@ interface EditorOutput {
   index: number;
 }
 
-const renderers = {
-  image: CustomImageRenderer,
-  code: CustomCodeRenderer,
-  attaches: CustomFileRenderer,
-};
-
-const style = {
-  paragraph: {
-    fontSize: "0.875rem",
-    lineHeight: "1.25rem",
-  },
-};
-
 const EditorOutput = ({ content, index }: EditorOutput) => {
   console.log(content);
   const ref = useRef<EditorJS>();
@@ -249,7 +236,7 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
 
   return (
     <>
-      <div className="p-16 pb-0 bg-gray-950 bg-opacity-0 rounded-lg flex justify-center">
+      <div className="p-8 pb-0 bg-gray-950 bg-opacity-0 rounded-lg flex justify-center">
         <div className="prose prose-invert w-full">
           <div
             id={`editor${index}`}

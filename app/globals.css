@@ -271,3 +271,20 @@ svg.icon--unlink {
   color: black;
   border-color: black !important;
 }
+
+.tc-table--heading .tc-row:first-child {
+  font-weight: 900;
+  background-color: rgba(0, 0, 0, 0.363);
+}
+
+.codex-editor__redactor {
+  padding-bottom: 5em !important;
+}
+
+.image-tool__image-picture {
+  border-radius: 0.5em;
+}
+
+.image-tool__image-preloader {
+  background-color: transparent !important;
+}

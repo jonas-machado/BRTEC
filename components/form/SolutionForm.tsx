@@ -24,7 +24,9 @@ const SolutionForm = ({ post }: any) => {
   const [text, setText] = useState("");
   const [openTab, setOpenTab] = useState("Adicionar");
   const [postArray, setPostArray] = useState([]);
-
+  const [edit, setEdit] = useState<any>();
+  const [openEdit, setOpenEdit] = useState(false);
+  console.log(edit);
   useEffect(() => {
     setPostArray(post);
   }, [post]);
@@ -83,6 +85,21 @@ const SolutionForm = ({ post }: any) => {
         {filtered.map((post: any, index: number) => (
           <DisclosureBank key={post.id} title={post.title}>
             <EditorOutput content={post.content} index={index} />
+            <div className="flex justify-end mx-8 mb-3 border-t-2 pt-6 gap-4">
+              <button
+                className="bg-gray-950 rounded-md p-2 px-4 text-lg"
+                onClick={() => {
+                  setOpenEdit(true);
+                  setEdit({
+                    postId: post.id,
+                    postContent: post.content,
+                    postTitle: post.title,
+                  });
+                }}
+              >
+                Editar
+              </button>
+            </div>
           </DisclosureBank>
         ))}
         <div className="fixed bottom-10 right-12"></div>
@@ -183,6 +200,45 @@ const SolutionForm = ({ post }: any) => {
             </table>
           </div>
         )}
+      </Modal>
+      <Modal
+        isOpen={openEdit}
+        cancel={() => {
+          setIsOpen(false);
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => {
+            setOpenEdit(false);
+          }}
+          className="absolute top-3 right-2.5 cursor-pointer z-50 text-gray-400 bg-transparent  hover:text-gray-200 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+          data-modal-hide="authentication-modal"
+        >
+          <svg
+            className="w-3 h-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+          <span className="sr-only">Close modal</span>
+        </button>
+        <div className="">
+          <Editor
+            postId={edit?.postId}
+            postContent={edit?.postContent}
+            postTitle={edit?.postTitle}
+          />
+        </div>
       </Modal>
       <ToastContainer />
     </div>
