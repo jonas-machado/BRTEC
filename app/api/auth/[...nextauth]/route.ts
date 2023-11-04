@@ -49,10 +49,19 @@ export const authOptions: AuthOptions = {
   pages: { signIn: "/" },
   debug: process.env.NODE_ENV === "development",
   callbacks: {
+    async session({ session, token }) {
+      session.user.id = token.id;
+      session.user.backgroundImage = token.backgroundImage;
+      session.user.image = token.picture;
+      session.user.role = token.role;
+      console.log(session);
+      return session;
+    },
     async jwt({ token, trigger, account, user, session }) {
       if (account) {
-        console.log(user);
+        console.log(user, token);
         token.accessToken = account.access_token;
+        token.id = user.id;
         token.backgroundImage = user.backgroundImage;
         token.role = user.role;
       }
@@ -63,14 +72,10 @@ export const authOptions: AuthOptions = {
       if (trigger === "update" && session.user.image) {
         token.picture = session.user.image;
       }
+      if (trigger === "update" && session.user.role) {
+        token.role = session.user.role;
+      }
       return token;
-    },
-    async session({ session, token, user }) {
-      session.user.id = token.sub;
-      session.user.backgroundImage = token.backgroundImage;
-      session.user.image = token.picture;
-      session.user.role = token.role;
-      return session;
     },
   },
   session: {

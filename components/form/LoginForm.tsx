@@ -53,20 +53,26 @@ export default function LoginForm() {
       password: password,
       redirect: false,
       callbackUrl: "/config/manual",
-    }).then((callback) => {
-      if (callback?.error) {
+    })
+      .then((callback) => {
+        if (callback?.error) {
+          setIsLoading(false);
+          console.log(callback);
+          return notify(callback.error);
+        }
+        console.log(callback);
+
         setIsLoading(false);
-        return notify(callback.error);
-      }
-      //router.push("/config/manual");
-    });
+        //router.push("/config/manual");
+      })
+      .catch((err) => console.log(err));
   };
 
   if (status == "authenticated") {
     router.push("/config/manual");
   }
 
-  if (status == "loading" || isLoading) {
+  if (status == "loading") {
     return (
       <AnimatePresence mode="wait">
         <motion.div

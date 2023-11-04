@@ -1,28 +1,28 @@
 import NextAuth from "next-auth";
-
-import type { DefaultSession, User, DefaultUser } from "next-auth";
+import { UserRole } from "@prisma/client";
+import type { DefaultSession, User, DefaultUser, TokenSet } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
+import type { User } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
     user: DefaultSession["user"] & {
-      id?: string;
-      backgroundImage?: string | null;
-      role?: string | null;
+      id?: UserId;
+      backgroundImage?: User.backgroundImage;
+      role?: UserRole;
     };
   }
   interface User {
-    backgroundImage?: string | null;
-    role?: string | null;
+    id?: UserId;
+    backgroundImage?: User.backgroundImage;
+    role: UserRole;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
-    id_token?: string;
-    provider?: string;
-    accessToken?: string;
-    backgroundImage?: string | null;
-    role?: string | null;
+    id: User.id;
+    role: UserRole;
+    backgroundImage?: User.backgroundImage;
   }
 }

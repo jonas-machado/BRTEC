@@ -15,38 +15,22 @@ import {
   ref as refStorage,
   uploadBytes,
   getDownloadURL,
+  ref,
+  deleteObject,
 } from "firebase/storage";
 import { v4 } from "uuid";
 import { useRouter } from "next/navigation";
 
 function Perfil({ currentUser }: { currentUser?: Session | null }) {
+  console.log(currentUser);
   const perfilModal = usePerfilModal();
   const router = useRouter();
+  const [avatarLoading, setAvatarLoading] = useState<boolean>(false);
+  const [bgLoading, setBgLoading] = useState<boolean>(false);
+
   const { data: session, update } = useSession();
 
   console.log(currentUser);
-  const [avatar, setAvatar] = useState<any>();
-  const [backgroundImage, setBackgroundImage] = useState<any>();
-  const [avatarUrl, setAvatarUrl] = useState<any>();
-  const [backgroundImageUrl, setBackgroundImageUrl] = useState<any>();
-  console.log(avatar);
-  console.log(backgroundImage);
-  console.log(avatarUrl);
-  console.log(backgroundImageUrl);
-
-  useEffect(() => {
-    if (avatar) {
-      setAvatarUrl(URL.createObjectURL(avatar));
-    }
-    return () => URL.revokeObjectURL(avatarUrl); // Clean up the URL when the component unmounts or avatar changes
-  }, [avatar]);
-
-  useEffect(() => {
-    if (backgroundImage) {
-      setBackgroundImageUrl(URL.createObjectURL(backgroundImage));
-    }
-    return () => URL.revokeObjectURL(backgroundImageUrl); // Clean up the URL when the component unmounts or backgroundImage changes
-  }, [backgroundImage]);
 
   const schema = z
     .object({
@@ -75,50 +59,38 @@ function Perfil({ currentUser }: { currentUser?: Session | null }) {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = async ({ email, password, name }: FieldValues) => {
-    const imageRefAvatar = refStorage(storage, `images/${avatar?.name + v4()}`);
-    if (avatar) {
-      const uploadAvatar = await uploadBytes(imageRefAvatar, avatar).then(
-        () => {
-          console.log("image uploaded");
-        }
-      );
+  const uploadAvatar = async (image: any) => {
+    setAvatarLoading(true);
+    if (currentUser?.user.image) {
+      const avatarRef = ref(storage, currentUser.user.image);
+      deleteObject(avatarRef)
+        .then(() => {
+          console.log("File deleted successfully");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    const imageRefAvatar = refStorage(
+      storage,
+      `${currentUser?.user.email}/image/${image?.name + v4()}`
+    );
+    if (image) {
+      const uploadAvatar = await uploadBytes(imageRefAvatar, image).then(() => {
+        console.log("image uploaded");
+      });
     }
     const urlAvatar: any = await getDownloadURL(imageRefAvatar).catch((err) =>
       console.log(err)
     );
 
-    const imageRefBackground = refStorage(
-      storage,
-      `images/${backgroundImage?.name + v4()}`
-    );
-    if (backgroundImage) {
-      const uploadBackground = await uploadBytes(
-        imageRefBackground,
-        backgroundImage
-      ).then(() => {
-        console.log("image uploaded");
-      });
-    }
-    const urlBackground = await getDownloadURL(imageRefBackground).catch(
-      (err) => console.log(err)
-    );
-
-    axios
+    await axios
       .post("/api/profile", {
         id: currentUser?.user.id,
-        email,
-        password,
-        name,
         image: urlAvatar
           ? urlAvatar
           : currentUser?.user.image
           ? currentUser?.user.image
-          : null,
-        backgroundImage: urlBackground
-          ? urlBackground
-          : currentUser?.user.backgroundImage
-          ? currentUser?.user.backgroundImage
           : null,
       })
       .catch((err) => {
@@ -132,6 +104,57 @@ function Perfil({ currentUser }: { currentUser?: Session | null }) {
           : currentUser?.user.image
           ? currentUser?.user.image
           : null,
+      },
+    };
+    await update(newSession);
+    router.refresh();
+    setAvatarLoading(false);
+  };
+
+  const uploadBackground = async (image: any) => {
+    setBgLoading(true);
+
+    if (currentUser?.user.backgroundImage) {
+      const bgRef = ref(storage, currentUser.user.backgroundImage);
+      deleteObject(bgRef)
+        .then(() => {
+          console.log("File deleted successfully");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    const imageRefBackground = refStorage(
+      storage,
+      `${currentUser?.user.email}/image/${image?.name + v4()}`
+    );
+    if (image) {
+      const uploadBackground = await uploadBytes(
+        imageRefBackground,
+        image
+      ).then(() => {
+        console.log("image uploaded");
+      });
+    }
+    const urlBackground = await getDownloadURL(imageRefBackground).catch(
+      (err) => console.log(err)
+    );
+
+    await axios
+      .post("/api/profile", {
+        id: currentUser?.user.id,
+        backgroundImage: urlBackground
+          ? urlBackground
+          : currentUser?.user.backgroundImage
+          ? currentUser?.user.backgroundImage
+          : null,
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    const newSession = {
+      user: {
         backgroundImage: urlBackground
           ? urlBackground
           : currentUser?.user.backgroundImage
@@ -141,6 +164,20 @@ function Perfil({ currentUser }: { currentUser?: Session | null }) {
     };
     await update(newSession);
     router.refresh();
+    setBgLoading(false);
+  };
+
+  const onSubmit = async ({ email, password, name }: FieldValues) => {
+    axios
+      .post("/api/profile", {
+        id: currentUser?.user.id,
+        email,
+        password,
+        name,
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div className="flex flex-col gap-4 p-2 ">
@@ -156,13 +193,13 @@ function Perfil({ currentUser }: { currentUser?: Session | null }) {
         <div>
           <label htmlFor="fileInputAvatar">
             <Image
-              className="rounded-xl bg- h-full border-4 border-gray-600 hover:border-purple-600 transition-colors cursor-pointer"
+              className={`rounded-xl bg- h-full border-4 border-gray-600 hover:border-purple-600 transition-colors cursor-pointer ${
+                avatarLoading ? "animate-pulse" : ""
+              }`}
               src={
-                currentUser?.user.image && !avatarUrl
+                currentUser?.user.image
                   ? currentUser?.user.image!
-                  : avatarUrl
-                  ? avatarUrl
-                  : `/images/Default-user-picture.webp`
+                  : `/images/defaultUser.png`
               }
               height={200}
               width={200}
@@ -170,16 +207,14 @@ function Perfil({ currentUser }: { currentUser?: Session | null }) {
               objectFit="cover"
               placeholder="blur"
               blurDataURL={
-                currentUser?.user.image && !avatarUrl
+                currentUser?.user.image
                   ? currentUser?.user.image!
-                  : avatarUrl
-                  ? avatarUrl
-                  : `/images/Default-user-picture.webp`
+                  : `/images/defaultUser.png`
               }
             />
           </label>
           <input
-            onChange={(e) => setAvatar(e.target.files![0])}
+            onChange={(e) => uploadAvatar(e.target.files![0])}
             id="fileInputAvatar"
             type="file"
             className="hidden"
@@ -189,12 +224,12 @@ function Perfil({ currentUser }: { currentUser?: Session | null }) {
         <div className="h-full">
           <label htmlFor="fileInputBg">
             <Image
-              className="h-full w-auto rounded-xl border-4 border-gray-600 hover:border-purple-600 transition-colors cursor-pointer"
+              className={`h-full w-auto rounded-xl border-4 border-gray-600 hover:border-purple-600 transition-colors cursor-pointer ${
+                bgLoading ? "animate-pulse" : ""
+              }`}
               src={
-                currentUser?.user.backgroundImage && !backgroundImageUrl
+                currentUser?.user.backgroundImage
                   ? currentUser?.user.backgroundImage!
-                  : backgroundImageUrl
-                  ? backgroundImageUrl
                   : `/images/backgroundConfig.gif`
               }
               height={200}
@@ -202,22 +237,21 @@ function Perfil({ currentUser }: { currentUser?: Session | null }) {
               alt="avatar"
               placeholder="blur"
               blurDataURL={
-                currentUser?.user.backgroundImage && !backgroundImageUrl
+                currentUser?.user.backgroundImage
                   ? currentUser?.user.backgroundImage!
-                  : backgroundImageUrl
-                  ? backgroundImageUrl
                   : `/images/backgroundConfig.gif`
               }
             />
           </label>
           <input
             id="fileInputBg"
-            onChange={(e) => setBackgroundImage(e.target.files![0])}
+            onChange={(e) => uploadBackground(e.target.files![0])}
             type="file"
             className="hidden"
           />
         </div>
       </div>
+      <div className="border-[0.1em] border-gray-400 rounded-sm" />
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div>
           <InputFormLabeled

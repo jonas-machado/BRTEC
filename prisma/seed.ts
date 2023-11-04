@@ -64,29 +64,6 @@ async function neutralNetwork() {
   });
 }
 
-async function solutions() {
-  await prismadb.solutions.createMany({
-    data: [
-      {
-        title: "Como ganhar um aumento?",
-        text: "Peça todos os dias para o nosso queridissimo Gambeta, tanto no discord como no whatsapp",
-      },
-      {
-        title: "Faz mal conversar durante o expediente?",
-        text: "Claro que não, precisamos conversar com nossos clientes assim como com os nossos colaboradores",
-      },
-      {
-        title: "Estou mal, posso sair?",
-        text: "Claro, apenas passar no RH para deixar sua assinatura",
-      },
-      {
-        title: "Como faz para participar do sorteio dos ingressos?",
-        text: "Isso é mais falso que 2 Anqi, totalmente manipulado e escolhido a dedo. Quer ganhar? Faça parte do comercial.",
-      },
-    ],
-  });
-}
-
 async function firmware() {
   await prismadb.firmware.createMany({
     data: [
@@ -145,21 +122,12 @@ async function olt() {
       { olt: "ARQ01", ip: "192.168.254.66", brand: "DATACOM" },
       { olt: "GARUVA", vlan: 2215, ip: "172.16.42.14", brand: "INTELBRAS G" },
       { olt: "SFS", vlan: 2218, ip: "172.16.65.2", brand: "INTELBRAS G" },
-      { olt: "ERVINO", vlan: 2298, ip: "172.16.42.126", brand: "INTELBRAS i" },
+      { olt: "ERVINO", vlan: 2298, ip: "172.16.42.126", brand: "INTELBRAS I" },
     ],
   });
 }
 
-const update = async () => {
-  await prismadb.olt.update({
-    where: {
-      ip: "172.16.42.126",
-    },
-    data: { brand: "INTELBRAS I" },
-  });
-};
-
-firmware()
+neutralNetwork()
   .then(async () => {
     await prismadb.$disconnect();
   })

@@ -279,7 +279,7 @@ function Navbar({ currentUser, neutralNetwork, firmware }: NavbarProps) {
                         src={
                           currentUser?.user.image
                             ? currentUser?.user.image!
-                            : `/images/Default-user-picture.webp`
+                            : `/images/defaultUser.png`
                         }
                         height={30}
                         width={30}
@@ -287,7 +287,7 @@ function Navbar({ currentUser, neutralNetwork, firmware }: NavbarProps) {
                         blurDataURL={
                           currentUser?.user.image
                             ? currentUser?.user.image!
-                            : `/images/Default-user-picture.webp`
+                            : `/images/defaultUser.png`
                         }
                       />
                     </Menu.Button>

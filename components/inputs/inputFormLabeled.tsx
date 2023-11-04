@@ -24,8 +24,8 @@ const InputFormLabeled = ({
 }: input) => {
   return (
     <div
-      className={` flex rounded-md shadow-sm ${
-        error[id] ? "shadow-[-2px_0px_15px] shadow-red-600" : ""
+      className={` flex rounded-md ${
+        error[id] ? "shadow-[0px_0px_5px] shadow-purple-600" : ""
       }`}
     >
       <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-900 bg-gray-700 bg-opacity-70 px-3 text-sm text-gray-200">
