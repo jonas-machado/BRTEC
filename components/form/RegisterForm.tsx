@@ -14,6 +14,8 @@ import { z, ZodType } from "zod";
 import { useForm, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputUseForm from "../inputs/inputUseForm";
+import ControlledInputArray from "../inputs/controlledInputArray";
+import { sectorArray } from "@/constants/sectorArray";
 
 export default function RegisterForm({ isVisible }: any) {
   const router = useRouter();
@@ -47,6 +49,7 @@ export default function RegisterForm({ isVisible }: any) {
         .string({})
         .nonempty({ message: "Preencha todos os campos" }),
       name: z.string({}).nonempty({ message: "Preencha todos os campos" }),
+      sector: z.string({}).nonempty({ message: "Preencha todos os campos" }),
     })
     .required()
     .refine((data) => data.password === data.confirmPassword, {
@@ -57,6 +60,7 @@ export default function RegisterForm({ isVisible }: any) {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<FieldValues>({
     resolver: zodResolver(schema),
@@ -75,6 +79,7 @@ export default function RegisterForm({ isVisible }: any) {
     password,
     confirmPassword,
     name,
+    sector,
   }: FieldValues) => {
     setIsLoading(true);
 
@@ -83,6 +88,7 @@ export default function RegisterForm({ isVisible }: any) {
         email,
         password,
         name,
+        sector,
       })
       .then(async (res: any) => {
         if (res.data.error) {
@@ -97,7 +103,7 @@ export default function RegisterForm({ isVisible }: any) {
         }).then((callback) => {
           setIsLoading(false);
           if (callback?.ok) {
-            router.push("/ss/config/manual");
+            return notifySuc("Usuário incluido com sucesso.");
           }
           if (callback?.error) {
             notify(callback.error);
@@ -143,6 +149,14 @@ export default function RegisterForm({ isVisible }: any) {
               register={register}
               error={errors}
               required
+            />
+          </div>
+          <div className="">
+            <ControlledInputArray
+              control={control}
+              name="sector"
+              array={sectorArray}
+              direction="row"
             />
           </div>
           <div className="col-span-3 sm:col-span-2">

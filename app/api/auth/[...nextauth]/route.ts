@@ -54,6 +54,8 @@ export const authOptions: AuthOptions = {
       session.user.backgroundImage = token.backgroundImage;
       session.user.image = token.picture;
       session.user.role = token.role;
+      session.user.sector = token.sector;
+
       console.log(session);
       return session;
     },
@@ -64,6 +66,7 @@ export const authOptions: AuthOptions = {
         token.id = user.id;
         token.backgroundImage = user.backgroundImage;
         token.role = user.role;
+        token.sector = user.sector;
       }
 
       if (trigger === "update" && session.user.backgroundImage) {

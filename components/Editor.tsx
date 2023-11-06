@@ -18,6 +18,8 @@ import type EditorJS from "@editorjs/editorjs";
 import { toast, ToastContainer } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import "react-toastify/dist/ReactToastify.css";
+import ControlledInputArray from "./inputs/controlledInputArray";
+import { sectorArray } from "@/constants/sectorArray";
 
 interface postProps {
   postId?: any;
@@ -32,6 +34,7 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -65,8 +68,9 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
   const router = useRouter();
 
   const { mutate: createPost } = useMutation({
-    mutationFn: async ({ title, content }: FieldValues) => {
-      const payload = { title, content };
+    mutationFn: async ({ title, content, sector }: FieldValues) => {
+      const payload = { title, content, sector };
+      console.log(payload);
       const { data } = await axios.post("/api/post/create", payload);
       return data;
     },
@@ -262,11 +266,13 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
   }, [isMounted, initializeEditor]);
 
   const onSubmit = async (value: FieldValues) => {
+    console.log(value);
     const blocks = await ref.current?.save();
 
     const payload: FieldValues = {
       title: value.title,
       content: blocks,
+      sector: value.sector,
     };
 
     createPost(payload);
@@ -279,12 +285,20 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
   const { ref: titleRef, ...rest } = register<any>("title");
 
   return (
-    <div className="p-16 pb-0 bg-gray-950 bg-opacity-0 rounded-lg flex justify-center max-w-[50rem] w-[50rem]">
+    <div className="p-16 pb-0 pt-0 bg-gray-950 bg-opacity-0 rounded-lg flex justify-center max-w-[50rem] w-[50rem]">
       <form
         id="subreddit-post-form"
         className="w-full "
         onSubmit={handleSubmit(onSubmit)}
       >
+        <div className="py-10">
+          <ControlledInputArray
+            control={control}
+            name="sector"
+            array={sectorArray}
+            direction="row"
+          />
+        </div>
         <div className="prose prose-invert w-full">
           <TextareaAutosize
             ref={(e) => {

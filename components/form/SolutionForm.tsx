@@ -16,13 +16,14 @@ import { useRouter } from "next/navigation";
 import { tabSolution } from "@/constants/tabSolutions";
 import EditorOutput from "../EditorOutput";
 import Editor from "../Editor";
+import { sectorArray } from "@/constants/sectorArray";
 
-const SolutionForm = ({ post }: any) => {
+const SolutionForm = ({ post, currentUser }: any) => {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
   const [openTab, setOpenTab] = useState("Adicionar");
+  const [openSolution, setOpenSolution] = useState(currentUser.user.sector);
+
   const [postArray, setPostArray] = useState([]);
   const [edit, setEdit] = useState<any>();
   const [openEdit, setOpenEdit] = useState(false);
@@ -82,6 +83,18 @@ const SolutionForm = ({ post }: any) => {
             </button>
           </div>
         </div>
+        <TabBody>
+          {sectorArray.map((el) => (
+            <TabHead
+              key={el}
+              state={openSolution}
+              id={el}
+              onClick={() => setOpenSolution(el)}
+            >
+              {el}
+            </TabHead>
+          ))}
+        </TabBody>
         {filtered.map((post: any, index: number) => (
           <DisclosureBank key={post.id} title={post.title}>
             <EditorOutput content={post.content} index={index} />
