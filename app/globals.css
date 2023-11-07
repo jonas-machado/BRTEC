@@ -55,6 +55,7 @@ svg.icon--unlink {
   width: 100%;
   margin: 0;
   max-width: 100%;
+  height: auto;
 }
 
 .ce-toolbar__content {
@@ -127,16 +128,20 @@ svg.icon--unlink {
   color: black;
 }
 .cdx-search-field__input::placeholder {
-  color: black;
+  color: aliceblue;
 }
 
 .cdx-search-field__input {
-  background-color: aliceblue;
+  background-color: rgb(27, 36, 56);
+}
+
+.cdx-search-field__input:focus {
+  outline: none;
 }
 
 .cdx-search-field {
-  color: black;
-  background-color: aliceblue;
+  color: aliceblue;
+  background-color: rgb(27, 36, 56);
 }
 
 .cdx-search-field__icon {
@@ -272,9 +277,13 @@ svg.icon--unlink {
   border-color: black !important;
 }
 
-.tc-table--heading .tc-row:first-child {
+.tc-table--heading .tc-row:first-child .tc-cell {
   font-weight: 900;
   background-color: rgba(0, 0, 0, 0.363);
+}
+
+.tc-cell:first-child {
+  border-left: 1px solid var(--color-border);
 }
 
 .codex-editor__redactor {

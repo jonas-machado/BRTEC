@@ -1,12 +1,6 @@
 "use client";
 
-import CustomCodeRenderer from "@/components/renderers/CustomCodeRenderer";
-import CustomImageRenderer from "@/components/renderers/CustomImageRenderer";
-import CustomFileRenderer from "./renderers/CustomFileRenderer";
 import { useCallback, useEffect, useRef, useState } from "react";
-import TextareaAutosize from "react-textarea-autosize";
-import { FieldValues, useForm } from "react-hook-form";
-import axios from "axios";
 import { storage } from "@/lib/firebase";
 import {
   ref as refStorage,
@@ -14,14 +8,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { v4 } from "uuid";
-import { usePathname, useRouter } from "next/navigation";
-import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
-import { zodResolver } from "@hookform/resolvers/zod";
 import type EditorJS from "@editorjs/editorjs";
-import { toast, ToastContainer } from "react-toastify";
-import { useMutation } from "@tanstack/react-query";
-import "react-toastify/dist/ReactToastify.css";
-import { OutputData } from "@editorjs/editorjs";
 
 interface EditorOutput {
   content: any;
@@ -33,31 +20,6 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
-  const toastError = (msg: any) => {
-    return toast.error(msg, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-  };
-
-  const toastSuc = (msg: any) => {
-    return toast.success(msg, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-  };
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import("@editorjs/editorjs")).default;
     //@ts-ignore

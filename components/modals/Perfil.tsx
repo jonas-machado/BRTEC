@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Session } from "next-auth";
 import Image from "next/image";
-import usePerfilModal from "@/lib/usePerfilModal";
+import usePerfilModal from "@/lib/zustand/usePerfilModal";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import InputFormLabeled from "../inputs/inputFormLabeled";

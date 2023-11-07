@@ -20,6 +20,9 @@ import { useMutation } from "@tanstack/react-query";
 import "react-toastify/dist/ReactToastify.css";
 import ControlledInputArray from "./inputs/controlledInputArray";
 import { sectorArray } from "@/constants/sectorArray";
+import ControlledCheckbox from "./inputs/controlledCheckbox";
+import ControlledInput from "./inputs/controlledInput";
+import useEditorModal from "@/lib/zustand/useEditorModal";
 
 interface postProps {
   postId?: any;
@@ -28,9 +31,11 @@ interface postProps {
 }
 
 const Editor = ({ postId, postContent, postTitle }: postProps) => {
+  const isOpen = useEditorModal((state) => state.isOpen);
+  const onOpen: () => void = useEditorModal((state) => state.onOpen);
+  const onClose: () => void = useEditorModal((state) => state.onClose);
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
-
   const {
     register,
     handleSubmit,
@@ -83,8 +88,52 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
       //router.push(newPathname);
 
       router.refresh();
+      onClose();
+      return toastSuc("Seu post foi publicado.");
+    },
+  });
 
-      return toastSuc("Your post has been published.");
+  const { mutate: updatePost } = useMutation({
+    mutationFn: async ({ title, content, sector }: FieldValues) => {
+      const payload = { title, content, sector, postId };
+      console.log(payload);
+      const { data } = await axios.post("/api/post/update", payload);
+      return data;
+    },
+    onError: () => {
+      return toastError("O post não foi Editado. Por favor tente novamente.");
+    },
+    onSuccess: () => {
+      // turn pathname /r/mycommunity/submit into /r/mycommunity
+      //const newPathname = pathname.split("/").slice(0, -1).join("/");
+      //router.push(newPathname);
+
+      router.refresh();
+      onClose();
+
+      return toastSuc("Seu post foi editado.");
+    },
+  });
+
+  const { mutate: deletePost } = useMutation({
+    mutationFn: async (postId: number) => {
+      const payload = { postId };
+      console.log(payload);
+      const { data } = await axios.post("/api/post/delete", payload);
+      return data;
+    },
+    onError: () => {
+      return toastError("O post não foi deletado. Por favor tente novamente.");
+    },
+    onSuccess: () => {
+      // turn pathname /r/mycommunity/submit into /r/mycommunity
+      //const newPathname = pathname.split("/").slice(0, -1).join("/");
+      //router.push(newPathname);
+
+      router.refresh();
+      onClose();
+
+      return toastSuc("Post deletado com sucesso.");
     },
   });
 
@@ -274,7 +323,9 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
       content: blocks,
       sector: value.sector,
     };
-
+    if (postId) {
+      return updatePost(payload);
+    }
     createPost(payload);
   };
 
@@ -292,8 +343,8 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="py-10">
-          <ControlledInputArray
-            control={control}
+          <ControlledCheckbox
+            register={register}
             name="sector"
             array={sectorArray}
             direction="row"
@@ -308,7 +359,7 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
             }}
             {...rest}
             placeholder="Title"
-            value={postTitle}
+            defaultValue={postTitle}
             className="w-full caret-gray-300 text-gray-300 resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
           />
           <div
@@ -325,12 +376,15 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
           </p>
         </div>
         <div className="flex justify-end mt-6 mb-4 gap-4">
-          <button
-            className="text-white bg-gray-800 rounded-md px-4 p-2"
-            type="button"
-          >
-            Excluir
-          </button>
+          {postId && (
+            <button
+              className="text-white bg-gray-800 rounded-md px-4 p-2"
+              type="button"
+              onClick={() => deletePost(postId)}
+            >
+              Excluir
+            </button>
+          )}
           <button
             className="text-white bg-purple-600 px-4 p-2 rounded-md"
             type="submit"

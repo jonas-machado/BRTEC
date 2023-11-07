@@ -107,66 +107,34 @@ const Nav = ({ classname }: { classname: string }) => {
   }, []);
   return (
     <>
-      <footer className="shadow-[0_0px_10px_5px] shadow-black border-gray-950 border-t fixed bottom-0 left-0 z-30 w-full bg-black bg-opacity-80 backdrop-blur-lg ">
-        <div className="w-full mx-auto text-center max-w-screen-xl p-4 flex flex-col justify-center md:flex md:flex-row md:items-center md:justify-between md:text-justify">
-          <span className="text-sm text-gray-500 ">
-            © 2023{" "}
-            <a href="https://flowbite.com/" className="hover:underline">
-              JM™
-            </a>
-            . All Rights Reserved.
-          </span>
-          <div>
-            <p className="text-gray-300">{time}</p>
+      <footer className="  h-28">
+        <div className="fixed bottom-6 left-0 z-30 w-full">
+          <div className=" w-full flex justify-end">
+            <div className="bg-black bg-opacity-70 shadow-[0_0px_10px_5px] bottom-0 shadow-black border-gray-950 border-2 p-3 mr-10">
+              <p className="text-gray-300">{time}</p>
+            </div>
+          </div>
+          <div className=" absolute bottom-0 left-1/2 -translate-x-1/2 z-30">
+            <div className="flex bg-opacity-70 backdrop-blur-sm items-center rounded-md h-10 bg-black shadow-[0_0px_10px_5px] shadow-black border-gray-950 border-2 p-6">
+              <ul className="flex gap-4">
+                {links.map((link) => (
+                  <li
+                    key={link.name}
+                    className="text-gray-300 hover:text-gray-50 whitespace-nowrap flex"
+                  >
+                    <label htmlFor={link.name} className="cursor-pointer">
+                      <link.icon className="w-6 h-6 pr-1" />
+                    </label>
+                    <Link id={link.name} href={link.link}>
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
-        <Transition
-          show={!isShowing}
-          enter="transition ease-out duration-200"
-          enterFrom="opacity-0 translate-y-6"
-          enterTo="opacity-100 translate-y-0"
-          leave="transition ease-in"
-          leaveFrom="opacity-100 translate-y-0"
-          leaveTo="opacity-0 translate-y-6"
-          afterLeave={() => setShowNav(true)}
-          onMouseEnter={() => setIsShowing(true)}
-          className={`absolute bottom-2 left-1/2 -translate-x-1/2 hidden lg:flex`}
-        >
-          <ChevronDoubleUpIcon className="h-10 w-10 text-gray-400" />
-        </Transition>
       </footer>
-      <div className=" fixed bottom-20 left-1/2 -translate-x-1/2 z-30">
-        <Transition
-          show={showNav}
-          enter="transition ease-out duration-200"
-          enterFrom="opacity-0 translate-y-6"
-          enterTo="opacity-100 translate-y-0"
-          leave="transition ease-in duration-100"
-          leaveFrom="opacity-100 translate-y-0"
-          leaveTo="opacity-0 translate-y-6"
-          afterLeave={() => setIsShowing(false)}
-          onMouseLeave={() => setShowNav(false)}
-          className={`flex h-16 items-end`}
-        >
-          <div className="flex bg-black bg-opacity-70 backdrop-blur-sm items-center rounded-md h-10 p-4  shadow-black border-gray-900 border-2 shadow-[0_0px_10px]">
-            <ul className="flex gap-4">
-              {links.map((link) => (
-                <li
-                  key={link.name}
-                  className="text-gray-300 hover:text-gray-50 whitespace-nowrap flex"
-                >
-                  <label htmlFor={link.name} className="cursor-pointer">
-                    <link.icon className="w-6 h-6 pr-1" />
-                  </label>
-                  <Link id={link.name} href={link.link}>
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Transition>
-      </div>
     </>
   );
 };

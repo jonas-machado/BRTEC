@@ -22,7 +22,7 @@ import { Session } from "next-auth";
 import Modal from "../modals/Modal";
 import Perfil from "../modals/Perfil";
 
-import usePerfilModal from "@/lib/usePerfilModal";
+import usePerfilModal from "@/lib/zustand/usePerfilModal";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -600,7 +600,7 @@ function Navbar({ currentUser, neutralNetwork, firmware }: NavbarProps) {
           </Popover>
         </nav>
       </header>
-      <Modal isOpen={isOpen}>
+      <Modal isOpen={isOpen} cancel={() => onClose()}>
         <Perfil currentUser={currentUser} />
       </Modal>
     </>

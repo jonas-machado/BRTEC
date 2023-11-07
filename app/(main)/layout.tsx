@@ -23,7 +23,7 @@ export default async function RootLayout({
   return (
     <PageWrapper>
       <MotionPage>
-        <div className=" absolute shadow-[inset_0_-20px_20px_20px] w-[110%] -left-6 h-screen -z-40"></div>
+        <div className=" absolute shadow-[inset_0_-20px_20px_0px] w-[110%] -left-6 h-screen -z-40"></div>
         <Image
           src={
             currentUser?.user.backgroundImage
@@ -32,7 +32,7 @@ export default async function RootLayout({
           }
           alt="bg"
           fill
-          className=" shadow-black shadow-[inset_0_0px_20px_20px] -z-50 bg-no-repeat"
+          className="-z-50 bg-no-repeat"
           blurDataURL={
             currentUser?.user.backgroundImage
               ? currentUser?.user.backgroundImage!
@@ -50,9 +50,7 @@ export default async function RootLayout({
           showSpinner={false}
         />
         {children}
-        <div className="h-16">
-          <Nav classname="" />
-        </div>
+        <Nav classname="" />
       </MotionPage>
     </PageWrapper>
   );

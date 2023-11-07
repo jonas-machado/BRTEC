@@ -607,7 +607,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
           <textarea
             id="about"
             name="about"
-            className="lg:h-full scrollbar-corner-transparent resize-none scrollbar-thumb-rounded-md scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent whitespace-nowrap min-h-[400px] lg:min-h-0 border-2 w-full rounded-md bg-gray-900 bg-opacity-90 backdrop-blur-sm border-black shadow-sm outline-none text-sm text-white p-3"
+            className="lg:h-full scrollbar-corner-transparent resize-none scrollbar-thumb-rounded-md scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent min-h-[400px] lg:min-h-0 border-2 w-full rounded-md bg-gray-900 bg-opacity-90 backdrop-blur-sm border-black shadow-sm outline-none text-sm text-white p-3"
             value={configText}
             autoComplete="false"
             spellCheck="false"
@@ -618,7 +618,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
           <textarea
             id="about"
             name="about"
-            className="lg:h-full scrollbar-corner-transparent resize-none scrollbar-thumb-rounded-md scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent whitespace-nowrap min-h-[400px] lg:min-h-0 border-2 w-full rounded-md bg-gray-900 bg-opacity-90 backdrop-blur-sm border-black shadow-sm outline-none text-sm text-white p-3"
+            className="lg:h-full scrollbar-corner-transparent resize-none scrollbar-thumb-rounded-md scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent min-h-[400px] lg:min-h-0 border-2 w-full rounded-md bg-gray-900 bg-opacity-90 backdrop-blur-sm border-black shadow-sm outline-none text-sm text-white p-3"
             value={cadastroTextArea}
             spellCheck="false"
             onChange={(e) => setCadastroText(e.target.value)}

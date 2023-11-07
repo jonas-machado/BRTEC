@@ -17,29 +17,33 @@ import { tabSolution } from "@/constants/tabSolutions";
 import EditorOutput from "../EditorOutput";
 import Editor from "../Editor";
 import { sectorArray } from "@/constants/sectorArray";
+import useEditorModal from "@/lib/zustand/useEditorModal";
 
 const SolutionForm = ({ post, currentUser }: any) => {
+  const isOpen = useEditorModal((state) => state.isOpen);
+  const onOpen: () => void = useEditorModal((state) => state.onOpen);
+  const onClose: () => void = useEditorModal((state) => state.onClose);
   const [query, setQuery] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
   const [openTab, setOpenTab] = useState("Adicionar");
   const [openSolution, setOpenSolution] = useState(currentUser.user.sector);
 
   const [postArray, setPostArray] = useState([]);
   const [edit, setEdit] = useState<any>();
-  const [openEdit, setOpenEdit] = useState(false);
-  console.log(edit);
+
   useEffect(() => {
     setPostArray(post);
   }, [post]);
 
   const filtered =
     query === ""
-      ? postArray
-      : postArray.filter((sol: any) =>
-          sol.title
-            .toLowerCase()
-            .replace(/\s+/g, "")
-            .includes(query.toLowerCase().replace(/\s+/g, ""))
+      ? postArray.filter((obj: any) => obj.sector.includes(openSolution))
+      : postArray.filter(
+          (sol: any) =>
+            sol.title
+              .toLowerCase()
+              .replace(/\s+/g, "")
+              .includes(query.toLowerCase().replace(/\s+/g, "")) &&
+            sol.sector.includes(openSolution)
         );
 
   const notify = (text: any) =>
@@ -76,7 +80,8 @@ const SolutionForm = ({ post, currentUser }: any) => {
               type="button"
               className="bg-gray-900 text-sm p-2 text-gray-300 hover:text-white border-2 border-gray-950 focus:outline-none font-bold rounded-lg text-center"
               onClick={() => {
-                setIsOpen(true);
+                setEdit({});
+                onOpen();
               }}
             >
               Adicionar
@@ -102,7 +107,7 @@ const SolutionForm = ({ post, currentUser }: any) => {
               <button
                 className="bg-gray-950 rounded-md p-2 px-4 text-lg"
                 onClick={() => {
-                  setOpenEdit(true);
+                  onOpen();
                   setEdit({
                     postId: post.id,
                     postContent: post.content,
@@ -120,131 +125,9 @@ const SolutionForm = ({ post, currentUser }: any) => {
       <Modal
         isOpen={isOpen}
         cancel={() => {
-          setIsOpen(false);
+          onClose();
         }}
       >
-        <div className="mb-4">
-          <TabBody>
-            {tabSolution.map((tab) => (
-              <TabHead
-                key={tab}
-                state={openTab}
-                id={tab}
-                onClick={() => setOpenTab(tab)}
-              >
-                {tab}
-              </TabHead>
-            ))}
-          </TabBody>
-        </div>
-        <button
-          type="button"
-          onClick={() => {
-            setIsOpen(false);
-          }}
-          className="absolute top-3 right-2.5 cursor-pointer z-50 text-gray-400 bg-transparent  hover:text-gray-200 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-          data-modal-hide="authentication-modal"
-        >
-          <svg
-            className="w-3 h-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 14"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-            />
-          </svg>
-          <span className="sr-only">Close modal</span>
-        </button>
-        {openTab == "Adicionar" && (
-          <div className="">
-            <Editor />
-          </div>
-        )}
-        {openTab == "Listagem" && (
-          <div className="relative overflow-x-auto">
-            <table className="w-full bg-gray-800 bg-opacity-80 text-sm text-left text-gray-300 dark:text-gray-400">
-              <thead className="text-xs text-gray-300 uppercase">
-                <tr>
-                  <th scope="col" className="px-6 py-3">
-                    Título
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Texto
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Excluir
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {postArray.map((sol: any) => (
-                  <tr
-                    className="bg-gray-900 bg-opacity-60 border-b"
-                    key={sol.id}
-                  >
-                    <td
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-300 dark:text-white"
-                    >
-                      {sol.title}
-                    </td>
-                    <td
-                      scope="row"
-                      className="px-6 py-4 font-medium whitespace-pre-line text-gray-300 dark:text-white"
-                    >
-                      {sol.text}
-                    </td>
-                    <td
-                      scope="row"
-                      className="px-6 py-4 font-medium whitespace-pre-line text-red-600"
-                    >
-                      <XMarkIcon className="cursor-pointer" />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </Modal>
-      <Modal
-        isOpen={openEdit}
-        cancel={() => {
-          setIsOpen(false);
-        }}
-      >
-        <button
-          type="button"
-          onClick={() => {
-            setOpenEdit(false);
-          }}
-          className="absolute top-3 right-2.5 cursor-pointer z-50 text-gray-400 bg-transparent  hover:text-gray-200 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-          data-modal-hide="authentication-modal"
-        >
-          <svg
-            className="w-3 h-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 14"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-            />
-          </svg>
-          <span className="sr-only">Close modal</span>
-        </button>
         <div className="">
           <Editor
             postId={edit?.postId}
