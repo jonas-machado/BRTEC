@@ -108,9 +108,7 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
                   );
                   console.log(fileRef);
 
-                  const upload = await uploadBytes(fileRef, file).then(() => {
-                    console.log("image uploaded");
-                  });
+                  const upload = await uploadBytes(fileRef, file);
                   const url = await getDownloadURL(fileRef);
                   console.log(url);
                   return {

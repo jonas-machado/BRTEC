@@ -9,6 +9,9 @@ import {
   ref as refStorage,
   uploadBytes,
   getDownloadURL,
+  getBlob,
+  getBytes,
+  getStream,
 } from "firebase/storage";
 import { v4 } from "uuid";
 import { usePathname, useRouter } from "next/navigation";
@@ -191,7 +194,7 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
                   console.log(file);
                   const imageRef = refStorage(
                     storage,
-                    `images/${file.name + v4()}`
+                    `images/${v4() + file.name}`
                   );
                   console.log(imageRef);
 
@@ -214,19 +217,22 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
             class: AttachesTool,
             config: {
               uploader: {
+                /**
+                 * Upload file to the server and return an uploaded image data
+                 * @param {File} file - file selected from the device or pasted by drag-n-drop
+                 * @return {Promise.<{success, file: {url}}>}
+                 */
                 async uploadByFile(file: File) {
-                  console.log(file);
                   const fileRef = refStorage(
                     storage,
-                    `files/${file.name + v4()}`
+                    `files/${v4() + file.name}`
                   );
-                  console.log(fileRef);
 
-                  const upload = await uploadBytes(fileRef, file).then(() => {
+                  await uploadBytes(fileRef, file).then(() => {
                     console.log("image uploaded");
                   });
                   const url = await getDownloadURL(fileRef);
-                  console.log(url);
+
                   return {
                     success: 1,
                     file: {
