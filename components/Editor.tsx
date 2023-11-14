@@ -26,6 +26,7 @@ import { sectorArray } from "@/constants/sectorArray";
 import ControlledCheckbox from "./inputs/controlledCheckbox";
 import ControlledInput from "./inputs/controlledInput";
 import useEditorModal from "@/lib/zustand/useEditorModal";
+import { MyImageTool } from "@/lib/ImagesToolEditor";
 
 interface postProps {
   postId?: any;
@@ -187,14 +188,14 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
             },
           },
           image: {
-            class: ImageTool,
+            class: MyImageTool as any,
             config: {
               uploader: {
                 async uploadByFile(file: File) {
                   console.log(file);
                   const imageRef = refStorage(
                     storage,
-                    `images/${v4() + file.name}`
+                    `posts/images/${v4() + file.name}`
                   );
                   console.log(imageRef);
 
@@ -225,11 +226,11 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
                 async uploadByFile(file: File) {
                   const fileRef = refStorage(
                     storage,
-                    `files/${v4() + file.name}`
+                    `posts/files/${v4() + file.name}`
                   );
 
                   await uploadBytes(fileRef, file).then(() => {
-                    console.log("image uploaded");
+                    console.log("file uploaded");
                   });
                   const url = await getDownloadURL(fileRef);
 
