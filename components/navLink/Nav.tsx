@@ -51,69 +51,10 @@ const links = [
 ];
 
 const Nav = ({ classname }: { classname: string }) => {
-  const [isShowing, setIsShowing] = useState(false);
-  const [showNav, setShowNav] = useState(false);
-
-  const [time, setTime] = useState("");
-
-  function updateTime(k: any) {
-    if (k < 10) {
-      return "0" + k;
-    } else {
-      return k;
-    }
-  }
-
-  function currentTime() {
-    const date = new Date(); /* creating object of Date class */
-    let hour = date.getHours();
-    let min = date.getMinutes();
-    let sec = date.getSeconds();
-    hour = updateTime(hour);
-    min = updateTime(min);
-    sec = updateTime(sec);
-    const y = date.getFullYear();
-    const d = "0" + date.getDate();
-    const m = date.getMonth() + 1;
-    const weekday = new Array(7);
-    weekday[0] = "Domingo";
-    weekday[1] = "Segunda-feira";
-    weekday[2] = "Terça-feira";
-    weekday[3] = "Quarta-feira";
-    weekday[4] = "Quinta-feira";
-    weekday[5] = "Sexta-feira";
-    weekday[6] = "Sábado";
-    const n = weekday[date.getDay()];
-    setTime(
-      hour +
-        " : " +
-        min +
-        " " +
-        n +
-        " " +
-        d.slice(-2) +
-        "/" +
-        m.toString().slice(-2) +
-        "/" +
-        y
-    ); /* adding time to the div */
-    const t = setTimeout(function () {
-      currentTime();
-    }, 1000); /* setting timer */
-  }
-
-  useEffect(() => {
-    currentTime();
-  }, []);
   return (
     <>
-      <footer className="  h-28">
+      <footer className="  h-20">
         <div className="fixed bottom-6 left-0 z-30 w-full">
-          <div className=" w-full flex justify-end">
-            <div className="bg-black bg-opacity-70 shadow-[0_0px_10px_5px] bottom-0 shadow-black border-gray-950 border-2 p-3 mr-10">
-              <p className="text-gray-300">{time}</p>
-            </div>
-          </div>
           <div className=" absolute bottom-0 left-1/2 -translate-x-1/2 z-30">
             <div className="flex bg-opacity-70 backdrop-blur-sm items-center rounded-md h-10 bg-black shadow-[0_0px_10px_5px] shadow-black border-gray-950 border-2 p-6">
               <ul className="flex gap-4">

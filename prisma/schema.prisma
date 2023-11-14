@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
@@ -16,7 +16,7 @@ enum UserRole {
 }
 
 model User {
-  id              Int          @id @default(autoincrement())
+  id              String       @id @default(auto()) @map("_id") @db.ObjectId
   name            String
   image           String?
   backgroundImage String?
@@ -34,8 +34,8 @@ model User {
 }
 
 model Account {
-  id                 Int       @id @default(autoincrement())
-  userId             Int
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String    @db.ObjectId
   providerType       String
   providerId         String
   providerAccountId  String
@@ -50,8 +50,8 @@ model Account {
 }
 
 model Session {
-  id           Int      @id @default(autoincrement())
-  userId       Int
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String   @db.ObjectId
   expires      DateTime
   sessionToken String   @unique
   accessToken  String   @unique
@@ -61,7 +61,7 @@ model Session {
 }
 
 model VerificationToken {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   identifier String
   token      String   @unique
   expires    DateTime
@@ -70,7 +70,7 @@ model VerificationToken {
 }
 
 model Olt {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   olt       String
   vlan      Int?
   ip        String   @unique
@@ -80,8 +80,8 @@ model Olt {
 }
 
 model Configured {
-  id         Int      @id @default(autoincrement())
-  userId     Int
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
   serial     String   @unique
   onuType    String?
   olt        String
@@ -96,13 +96,13 @@ model Configured {
 }
 
 model NeutralNetwork {
-  id      Int    @id @default(autoincrement())
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
   company String
   link    String
 }
 
 model Firmware {
-  id      Int    @id @default(autoincrement())
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
   company String
   model   String
   link    String
@@ -110,18 +110,18 @@ model Firmware {
 }
 
 model Solutions {
-  id    Int    @id @default(autoincrement())
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
   title String
   text  String
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
   content   Json?
   sector    String[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  authorId  Int?
+  authorId  String?  @db.ObjectId
   author    User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
 }
