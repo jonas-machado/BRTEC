@@ -27,6 +27,7 @@ import ControlledCheckbox from "./inputs/controlledCheckbox";
 import ControlledInput from "./inputs/controlledInput";
 import useEditorModal from "@/lib/zustand/useEditorModal";
 import { MyImageTool } from "@/lib/ImagesToolEditor";
+import { MyAttacheTool } from "@/lib/AttacheToolEditor";
 
 interface postProps {
   postId?: any;
@@ -154,7 +155,6 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
     const ImageTool = (await import("@editorjs/image")).default;
     //@ts-ignore
     const Marker = (await import("@editorjs/marker")).default;
-    //@ts-ignore
     const AttachesTool = (await import("@editorjs/attaches")).default;
     //@ts-ignore
     const Underline = (await import("@editorjs/underline")).default;
@@ -215,7 +215,7 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
             },
           },
           attaches: {
-            class: AttachesTool,
+            class: MyAttacheTool as any,
             config: {
               uploader: {
                 /**

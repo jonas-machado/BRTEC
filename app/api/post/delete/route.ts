@@ -1,16 +1,49 @@
 import { getCurrentUser } from "../../auth/[...nextauth]/route";
 import prisma from "@/lib/prismadb";
+import { storage } from "@/lib/firebase";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const { title, content, sector, postId } = body;
+    const { postId } = body;
 
     const session = await getCurrentUser();
 
     if (!session?.user) {
       return new Response("Unauthorized", { status: 401 });
+    }
+
+    const { content }: any = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+    });
+    console.log(content);
+    console.log(content.blocks.length);
+
+    for (let i = 0; i < content.blocks.length; i++) {
+      if (
+        content.blocks[i].type == "image" ||
+        content.blocks[i].type == "attaches"
+      ) {
+        const url = content.blocks[i].data.file.url;
+        const storageRef = ref(storage, url);
+
+        deleteObject(storageRef)
+          .then(() => {
+            console.log("Arquivo deletada com sucesso");
+          })
+          .catch((error) => {
+            console.log("Erro ao deletar arquivo: ", error);
+          });
+      }
     }
 
     await prisma.post.delete({
