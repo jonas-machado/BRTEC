@@ -13,6 +13,7 @@ import type EditorJS from "@editorjs/editorjs";
 interface EditorOutput {
   content: any;
   index: number;
+  title?: string;
 }
 
 const EditorOutput = ({ content, index }: EditorOutput) => {
