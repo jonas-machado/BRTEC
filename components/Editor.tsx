@@ -146,10 +146,8 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
     const List = (await import("@editorjs/list")).default;
     const Code = (await import("@editorjs/code")).default;
     const InlineCode = (await import("@editorjs/inline-code")).default;
-    const ImageTool = (await import("@editorjs/image")).default;
     //@ts-ignore
     const Marker = (await import("@editorjs/marker")).default;
-    const AttachesTool = (await import("@editorjs/attaches")).default;
     //@ts-ignore
     const Underline = (await import("@editorjs/underline")).default;
     //@ts-ignore

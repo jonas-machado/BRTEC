@@ -30,6 +30,9 @@ const links = [
     link: "/solutionBank",
     icon: LightBulbIcon,
   },
+];
+
+const linksBlank = [
   {
     name: "Wiki",
     link: "http://131.255.132.6:8887/doku.php",
@@ -65,6 +68,30 @@ const Nav = ({ classname }: { classname: string }) => {
                     <Link
                       id={link.name}
                       href={link.link}
+                      className={
+                        link.name == "Aferir pon" ? "text-red-600" : ""
+                      }
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+                {linksBlank.map((link) => (
+                  <li
+                    key={link.name}
+                    className="text-gray-300 hover:text-gray-50 whitespace-nowrap flex"
+                  >
+                    <label htmlFor={link.name} className="cursor-pointer">
+                      <link.icon
+                        className={`w-6 h-6 pr-1 ${
+                          link.name == "Aferir pon" ? "text-red-600" : ""
+                        }`}
+                      />
+                    </label>
+                    <Link
+                      id={link.name}
+                      href={link.link}
+                      target="_blank"
                       className={
                         link.name == "Aferir pon" ? "text-red-600" : ""
                       }

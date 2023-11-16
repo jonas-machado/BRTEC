@@ -2,10 +2,7 @@
 
 import React, { useState, useRef, Fragment, Children } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { PaperClipIcon } from "@heroicons/react/20/solid";
 import { User } from "@prisma/client";
-import Image from "next/image";
 
 interface ModalProp {
   isOpen?: boolean;
