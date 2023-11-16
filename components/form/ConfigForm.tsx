@@ -198,7 +198,6 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
   });
 
   const { serial, pon, idLivre, client, customVlan, oltName } = watch();
-  console.log(watch());
 
   useEffect(() => {
     if (errors) {
@@ -393,15 +392,12 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
         cadastro(comando(pon, idLivre, "ZTE"), currentUser, oltName, serial)
       );
       if (serial.substring(0, 5) == "ZTEG3") {
-        console.log("pass");
         return setConfigText(script.valenet());
       }
       if (serial.substring(0, 4) == "ZTEG") {
-        console.log("pass");
         return setConfigText(script.zte());
       }
       if (serial.substring(0, 4) == "CMSZ") {
-        console.log("pass");
         return setConfigText(script.chima());
       }
       return setConfigText(script.chima());
@@ -476,7 +472,6 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
       }
     }
   };
-  console.log(oltCompany);
   return (
     <div>
       <section className="lg:grid lg:grid-cols-[minmax(240px,400px),minmax(200px,900px),minmax(0,275px),minmax(0,275px)] grid-auto-rows gap-2 py-14 w-full flex flex-col justify-center">

@@ -20,8 +20,6 @@ export async function POST(req: Request) {
         id: postId,
       },
     });
-    console.log(content);
-    console.log(content.blocks.length);
 
     for (let i = 0; i < content.blocks.length; i++) {
       if (

@@ -134,9 +134,6 @@ const ScriptForm = ({ currentUser }: { currentUser?: User | null }) => {
     }
   }, [errors]);
 
-  console.log(watch());
-  console.log(errors);
-
   useEffect(() => {
     reset();
     setText("");
@@ -148,7 +145,6 @@ const ScriptForm = ({ currentUser }: { currentUser?: User | null }) => {
   });
 
   const onSubmit = (value: any) => {
-    console.log(value);
     if (openTab == "padraoEmail") {
       setText(`\
 Chamado aberto: ${value.base} ${value.client} - SLA ${value.sla}

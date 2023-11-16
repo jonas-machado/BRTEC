@@ -6,7 +6,6 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     const { title, content, sector, postId } = body;
-    console.log(title, content, sector, postId);
     const session = await getCurrentUser();
 
     if (!session?.user) {
