@@ -46,8 +46,8 @@ const Nav = ({ classname }: { classname: string }) => {
   return (
     <>
       <footer className="  h-20">
-        <div className="fixed bottom-6 left-0 z-30 w-full">
-          <div className=" absolute bottom-0 left-1/2 -translate-x-1/2 z-30">
+        <div className="fixed bottom-6 left-0 z-20 w-full">
+          <div className=" absolute bottom-0 left-1/2 -translate-x-1/2">
             <div className="flex bg-opacity-70 backdrop-blur-sm items-center rounded-md h-10 bg-black shadow-[0_0px_10px_5px] shadow-black border-gray-950 border-2 p-6">
               <ul className="flex gap-4">
                 {links.map((link) => (

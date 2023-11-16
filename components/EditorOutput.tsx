@@ -17,7 +17,6 @@ interface EditorOutput {
 }
 
 const EditorOutput = ({ content, index }: EditorOutput) => {
-  console.log(content);
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
 

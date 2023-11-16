@@ -2,7 +2,7 @@ import React from "react";
 
 const Search = ({ onChange, value }: { onChange?: any; value?: string }) => {
   return (
-    <div className="w-[14em]">
+    <div className="w-full">
       <div className="relative">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <svg
