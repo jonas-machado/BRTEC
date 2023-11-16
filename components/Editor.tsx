@@ -9,22 +9,16 @@ import {
   ref as refStorage,
   uploadBytes,
   getDownloadURL,
-  getBlob,
-  getBytes,
-  getStream,
 } from "firebase/storage";
 import { v4 } from "uuid";
-import { usePathname, useRouter } from "next/navigation";
-import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+
 import type EditorJS from "@editorjs/editorjs";
 import { toast, ToastContainer } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import "react-toastify/dist/ReactToastify.css";
-import ControlledInputArray from "./inputs/controlledInputArray";
 import { sectorArray } from "@/constants/sectorArray";
 import ControlledCheckbox from "./inputs/controlledCheckbox";
-import ControlledInput from "./inputs/controlledInput";
 import useEditorModal from "@/lib/zustand/useEditorModal";
 import { MyImageTool } from "@/lib/ImagesToolEditor";
 import { MyAttacheTool } from "@/lib/AttacheToolEditor";

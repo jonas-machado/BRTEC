@@ -1,5 +1,4 @@
 import React from "react";
-import { Controller } from "react-hook-form";
 
 function ControlledCheckbox({
   array,

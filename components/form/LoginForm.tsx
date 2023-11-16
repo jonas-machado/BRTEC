@@ -1,17 +1,16 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AnimatePresence, motion } from "framer-motion";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { BeatLoader, PulseLoader, PacmanLoader } from "react-spinners";
+import { PulseLoader } from "react-spinners";
 import InputUseForm from "../inputs/inputUseForm";
 import { z, ZodType } from "zod";
 import { useForm, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
 
 export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);

@@ -1,12 +1,6 @@
 "use client";
 
-import React, { useState, useRef, Fragment, Children, useEffect } from "react";
-import { Dialog, Transition } from "@headlessui/react";
 import {
-  PaperClipIcon,
-  Bars3Icon,
-  HomeIcon,
-  ChevronDoubleUpIcon,
   DocumentTextIcon,
   WrenchScrewdriverIcon,
   LightBulbIcon,
@@ -14,8 +8,6 @@ import {
   TableCellsIcon,
 } from "@heroicons/react/20/solid";
 import Link from "next/link";
-import { motion, useDragControls } from "framer-motion";
-import Image from "next/image";
 
 const home = {
   name: "Config",
@@ -66,7 +58,13 @@ const Nav = ({ classname }: { classname: string }) => {
                     <label htmlFor={link.name} className="cursor-pointer">
                       <link.icon className="w-6 h-6 pr-1" />
                     </label>
-                    <Link id={link.name} href={link.link}>
+                    <Link
+                      id={link.name}
+                      href={link.link}
+                      className={
+                        link.name == "Banco de soluções" ? "text-red-600" : ""
+                      }
+                    >
                       {link.name}
                     </Link>
                   </li>

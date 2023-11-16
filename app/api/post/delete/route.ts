@@ -1,12 +1,7 @@
 import { getCurrentUser } from "../../auth/[...nextauth]/route";
 import prisma from "@/lib/prismadb";
 import { storage } from "@/lib/firebase";
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-} from "firebase/storage";
+import { ref, deleteObject } from "firebase/storage";
 
 export async function POST(req: Request) {
   try {

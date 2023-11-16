@@ -4,16 +4,13 @@ import DisclosureBank from "@/components/DisclosureBank";
 import { useState, useEffect } from "react";
 import Search from "../inputs/search";
 import Modal from "../modals/Modal";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TabBody from "../tab/TabBody";
 import TabHead from "../tab/TabHead";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 
 //constants
-import { tabSolution } from "@/constants/tabSolutions";
 import EditorOutput from "../EditorOutput";
 import Editor from "../Editor";
 import { sectorArray } from "@/constants/sectorArray";
