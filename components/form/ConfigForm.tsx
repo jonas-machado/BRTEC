@@ -96,8 +96,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
       client: z
         .string()
         .trim()
-        .min(2, { message: "O cliente deve conter entre 2 e 50 caracteres" })
-        .max(50, { message: "O cliente deve conter entre 2 e 50 caracteres" }),
+        .min(2, { message: "O cliente não pode estar vazio" }),
       customVlan: z.string().trim().nullish(),
     }),
     IntelbrasI: z.object({
@@ -120,8 +119,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
       client: z
         .string()
         .trim()
-        .min(2, { message: "O cliente deve conter entre 2 e 50 caracteres" })
-        .max(50, { message: "O cliente deve conter entre 2 e 50 caracteres" }),
+        .min(2, { message: "O cliente não pode estar vazio" }),
       idOnu: z.string().trim().min(1, {
         message: "O ID da ONU deve ser preenchido",
       }), // Add more fields and validation rules as needed      customVlan: z.string().trim().nullish(),
@@ -147,8 +145,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
       client: z
         .string()
         .trim()
-        .min(2, { message: "O cliente deve conter entre 2 e 50 caracteres" })
-        .max(50, { message: "O cliente deve conter entre 2 e 50 caracteres" }),
+        .min(2, { message: "O cliente não pode estar vazio" }),
       intelbrasModel: z.string().min(1, {
         message: "O modelo de onu deve ser preenchido entre ITBS e ZNTS",
       }),
@@ -177,8 +174,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
       client: z
         .string()
         .trim()
-        .min(2, { message: "O cliente deve conter entre 2 e 50 caracteres" })
-        .max(50, { message: "O cliente deve conter entre 2 e 50 caracteres" }),
+        .min(2, { message: "O cliente não pode estar vazio" }),
       customVlan: z.string().trim().nullish(),
       customProfile: z.string().trim().nullish(),
     }),
