@@ -89,38 +89,6 @@ function Settings() {
 
   return (
     <>
-      <Sidebar aria-label="Default sidebar example">
-        <Sidebar.Items>
-          <Sidebar.ItemGroup>
-            <Sidebar.Item href="#" icon={PresentationChartBarIcon}>
-              Dashboard
-            </Sidebar.Item>
-            <Sidebar.Item
-              href="#"
-              icon={PresentationChartBarIcon}
-              label="Pro"
-              labelColor="dark"
-            >
-              Kanban
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={PresentationChartBarIcon} label="3">
-              Inbox
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={PresentationChartBarIcon}>
-              Users
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={PresentationChartBarIcon}>
-              Products
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={PresentationChartBarIcon}>
-              Sign In
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={PresentationChartBarIcon}>
-              Sign Up
-            </Sidebar.Item>
-          </Sidebar.ItemGroup>
-        </Sidebar.Items>
-      </Sidebar>
       <ToastContainer />
     </>
   );
