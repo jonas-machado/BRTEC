@@ -10,6 +10,7 @@ import MotionPage from "@/lib/motionPage";
 import Image from "next/image";
 import Nav from "@/components/navLink/Nav";
 import { useRef } from "react";
+import Sidebar from "@/components/settings/Sidebar";
 
 export default async function RootLayout({
   children,
@@ -49,7 +50,10 @@ export default async function RootLayout({
           shadow="0 40px 50px #ffffff,0 40px 50px #ffffff"
           showSpinner={false}
         />
-        {children}
+        <div className="flex w-full">
+          <Sidebar />
+          {children}
+        </div>
       </MotionPage>
     </PageWrapper>
   );
