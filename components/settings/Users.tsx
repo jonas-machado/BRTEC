@@ -51,7 +51,7 @@ export default function Users({ users }: any) {
 
   return (
     <>
-      <div className="flex flex-col w-1/2 mx-auto pt-4 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
+      <div className="flex flex-col m-2 w-full pt-4 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
         <RegisterForm />
         <ul role="list" className="divide-y divide-gray-100 px-6">
           {users.map((person: any) => (

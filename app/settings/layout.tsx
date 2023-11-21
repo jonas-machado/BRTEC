@@ -40,18 +40,13 @@ export default async function RootLayout({
               : `/images/backgroundConfig.gif`
           }
         />
-        <Navbar
-          currentUser={currentUser}
-          neutralNetwork={neutralNetwork}
-          firmware={firmware}
-        />
         <NextTopLoader
           color="#000000"
           shadow="0 40px 50px #ffffff,0 40px 50px #ffffff"
           showSpinner={false}
         />
         <div className="flex w-full">
-          <Sidebar />
+          <Sidebar currentUser={currentUser} />
           {children}
         </div>
       </MotionPage>

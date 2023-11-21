@@ -24,6 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import Image from "next/image";
 
 //Constants
 const sidebar = [
@@ -53,7 +54,7 @@ const sidebar = [
   },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ currentUser }: any) {
   const session = useSession();
   const router = useRouter();
   const [open, setOpen] = useState(true);
@@ -95,17 +96,63 @@ export default function Sidebar() {
       <section className="flex gap-6">
         <div
           className={`bg-black opacity-80 backdrop-blur-md min-h-screen ${
-            open ? "w-60" : "w-16"
+            open ? "w-60" : "w-[4.3rem]"
           } duration-500 text-gray-100 px-4`}
         >
-          <div className="py-3 flex justify-end">
-            <HiMenuAlt3
-              size={26}
-              className="cursor-pointer"
-              onClick={() => setOpen(!open)}
-            />
+          <div className={`flex justify-between mt-4`}>
+            <div
+              className={`flex gap-2 py-3 duration-500 ${
+                !open && "translate-y-8"
+              } h-full`}
+            >
+              <Image
+                className="h-8 w-8 rounded-lg bg-cover bg-gray-800"
+                src={
+                  currentUser?.user.image
+                    ? currentUser?.user.image!
+                    : `/images/defaultUser.png`
+                }
+                height={30}
+                width={30}
+                alt="user picture"
+                blurDataURL={
+                  currentUser?.user.image
+                    ? currentUser?.user.image!
+                    : `/images/defaultUser.png`
+                }
+              />
+              <p
+                style={{
+                  transitionDelay: `200ms`,
+                }}
+                className={`whitespace-pre duration-500 ${
+                  !open && "opacity-0 translate-x-28 overflow-hidden "
+                } flex items-center`}
+              >
+                {currentUser?.user.name.split(" ")[0]}
+              </p>
+            </div>
+            <div
+              style={{
+                transitionDelay: `200ms`,
+              }}
+              className={`whitespace-pre duration-500 ${
+                !open && " -translate-x-11 -translate-y-3 flex items-center"
+              } py-3 flex justify-end`}
+            >
+              <HiMenuAlt3
+                size={26}
+                className="cursor-pointer"
+                onClick={() => setOpen(!open)}
+              />
+            </div>
           </div>
-          <div className="mt-4 flex flex-col gap-4 relative">
+
+          <div
+            className={`mt-4 flex flex-col gap-4 relative duration-500 ${
+              !open && "translate-y-6"
+            }`}
+          >
             {sidebar?.map((menu, i) => (
               <Link
                 href={menu?.link}
