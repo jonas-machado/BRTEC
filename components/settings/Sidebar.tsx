@@ -30,7 +30,7 @@ const sidebar = [
   {
     name: "Dashboard",
     icon: PresentationChartLineIcon,
-    link: "",
+    link: "/settings/dashboard",
     margin: false,
   },
   {
@@ -94,7 +94,7 @@ export default function Sidebar() {
     <>
       <section className="flex gap-6">
         <div
-          className={`bg-black opacity-80 min-h-screen ${
+          className={`bg-black opacity-80 backdrop-blur-md min-h-screen ${
             open ? "w-60" : "w-16"
           } duration-500 text-gray-100 px-4`}
         >

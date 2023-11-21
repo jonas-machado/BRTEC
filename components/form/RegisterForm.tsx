@@ -117,7 +117,7 @@ export default function RegisterForm({ isVisible }: any) {
       <motion.div
         key="reg"
         id="container"
-        className={`bg-black py-1 px-6 rounded-md bg-opacity-50 shadow-[0px_0px_40px] shadow-black w-[40rem]`}
+        className={` py-1 px-6`}
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{
@@ -127,8 +127,6 @@ export default function RegisterForm({ isVisible }: any) {
         }}
         exit={{ opacity: 0 }}
       >
-        <h1 className="text-center text-4xl my-2 text-gray-200">Cadastro</h1>
-
         <form
           className={`col space-y-2`}
           onSubmit={handleSubmit(handleClickRegister)}
@@ -195,14 +193,6 @@ export default function RegisterForm({ isVisible }: any) {
             </button>
           </div>
         </form>
-        <div className=" w-full flex whitespace-nowrap mt-3 mb-2">
-          <Link
-            href="/"
-            className="font-sans w-full text-sm ml-2 font-bold hover:text-gray-200 cursor-pointer text-gray-400 "
-          >
-            Já tem uma conta? <b>Clique aqui!</b>
-          </Link>
-        </div>
         <ToastContainer />
       </motion.div>
     </>

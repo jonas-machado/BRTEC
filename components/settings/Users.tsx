@@ -25,37 +25,10 @@ import RegisterForm from "../form/RegisterForm";
 import Image from "next/image";
 
 //Constants
-const sidebar = [
-  {
-    name: "Dashboard",
-    icon: PresentationChartLineIcon,
-    link: "",
-    margin: false,
-  },
-  {
-    name: "Users",
-    icon: UserIcon,
-    link: "",
-    margin: false,
-  },
-  {
-    name: "Navbar utilities",
-    icon: QueueListIcon,
-    link: "",
-    margin: false,
-  },
-  {
-    name: "ONU/ONT configuration",
-    icon: CommandLineIcon,
-    link: "",
-    margin: false,
-  },
-];
 
 export default function Users({ users }: any) {
   const session = useSession();
   const router = useRouter();
-  const [open, setOpen] = useState(true);
 
   const toastError = (msg: any) => {
     return toast.error(msg, {
@@ -78,9 +51,9 @@ export default function Users({ users }: any) {
 
   return (
     <>
-      <div className="flex flex-col justify-center w-full">
+      <div className="flex flex-col w-1/2 mx-auto pt-4 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
         <RegisterForm />
-        <ul role="list" className="divide-y divide-gray-100 w-11/12">
+        <ul role="list" className="divide-y divide-gray-100 px-6">
           {users.map((person: any) => (
             <li
               key={person.email}
@@ -90,21 +63,35 @@ export default function Users({ users }: any) {
                 <Image
                   width={50}
                   height={40}
-                  className="rounded-full bg-gray-800"
+                  className="rounded-full w-auto h-[6rem] bg-gray-800"
                   src={person?.image ? person.image : "/images/defaultUser.png"}
                   alt=""
                 />
                 <div className="min-w-0 flex-auto">
-                  <p className="text-sm font-semibold leading-6 text-gray-300">
+                  <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
                     {person.name}
                   </p>
                   <p className="mt-1 truncate text-xs leading-5 text-gray-300">
                     {person.email}
                   </p>
+                  <p className="text-sm leading-6 text-gray-300">
+                    {person.role}
+                  </p>
+                  <p className="text-sm leading-6 text-gray-300 ">
+                    {person.sector}
+                  </p>
                 </div>
               </div>
-              <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                <p className="text-sm leading-6 text-gray-300">{person.role}</p>
+              <div className="flex gap-2">
+                <div className="hidden shrink-0 sm:flex flex-col items-center  "></div>
+                <div className="hidden shrink-0 sm:flex flex-col items-center gap-2 w-20">
+                  <button className="bg-gray-800 text-gray-300 p-2 rounded-md w-full">
+                    Editar
+                  </button>
+                  <button className="bg-gray-800 text-gray-300 p-2 rounded-md w-full">
+                    Excluir
+                  </button>
+                </div>
               </div>
             </li>
           ))}

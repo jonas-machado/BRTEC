@@ -14,11 +14,7 @@ import Sidebar from "@/components/settings/Sidebar";
 import Users from "@/components/settings/Users";
 import getUsers from "@/lib/actions/getUsers";
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function UsersPage() {
   const currentUser = await getCurrentUser();
   const neutralNetwork = await getNeutralNetwork();
   const firmware = await getFirmware();
