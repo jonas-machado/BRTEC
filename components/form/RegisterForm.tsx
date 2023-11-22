@@ -128,7 +128,7 @@ export default function RegisterForm({ isVisible }: any) {
         exit={{ opacity: 0 }}
       >
         <form
-          className={`col space-y-2`}
+          className={`col space-y-2 mt-8`}
           onSubmit={handleSubmit(handleClickRegister)}
         >
           <div className="col-span-3 sm:col-span-2 ">
@@ -176,9 +176,9 @@ export default function RegisterForm({ isVisible }: any) {
             />
           </div>
 
-          <div className="mt-1 w-full shadow-sm">
+          <div className="w-full shadow-sm flex justify-end">
             <button
-              className="transition h-10 rounded-md text-gray-400 bg-black bg-opacity-60 hover:opacity-90 w-full text-center cursor-pointer bg-[rgba(0, 0, 0, 0.455)]"
+              className="transition mt-8 h-10 rounded-md text-gray-400 bg-gray-800 bg-opacity-60 hover:opacity-90 px-4 text-center cursor-pointer bg-[rgba(0, 0, 0, 0.455)]"
               type="submit"
             >
               {!isLoading ? (

@@ -186,7 +186,6 @@ export default function Sidebar({ currentUser }: any) {
           </div>
         </div>
       </section>
-      <ToastContainer />
     </>
   );
 }

@@ -9,14 +9,21 @@ interface input {
   control: any;
   array: any;
   direction: string;
+  defaultValue?: any;
 }
-const ControlledInputArray = ({ name, control, array, direction }: input) => {
+const ControlledInputArray = ({
+  name,
+  control,
+  array,
+  direction,
+  defaultValue,
+}: input) => {
   return (
     <>
       <Controller
         name={name}
         control={control}
-        defaultValue=""
+        defaultValue={defaultValue}
         render={({ field }) => (
           <>
             <RadioGroup
