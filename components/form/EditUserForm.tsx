@@ -18,10 +18,15 @@ import ControlledInputArray from "../inputs/controlledInputArray";
 import { sectorArray } from "@/constants/sectorArray";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
+import useEditUserModal from "@/lib/zustand/useEditUser";
 
 const role = ["ADMIN", "USER"];
 
 export default function EditUserForm({ selectedUser }: any) {
+  const editIsOpen = useEditUserModal((state) => state.isOpen);
+  const editOnOpen: () => void = useEditUserModal((state) => state.onOpen);
+  const editOnClose: () => void = useEditUserModal((state) => state.onClose);
+
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -79,13 +84,12 @@ export default function EditUserForm({ selectedUser }: any) {
           setIsLoading(false);
           return notify(res.data.error);
         }
-        router.refresh();
         notifySuc("Atualizado com sucesso");
+        router.refresh();
+        editOnClose();
       });
   };
-  function classNames(...classes: any) {
-    return classes.filter(Boolean).join(" ");
-  }
+
   return (
     <>
       <motion.div
