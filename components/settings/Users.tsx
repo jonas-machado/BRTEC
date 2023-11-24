@@ -34,21 +34,24 @@ import { sectorArray } from "@/constants/sectorArray";
 import { Listbox, Transition } from "@headlessui/react";
 import useEditUserModal from "@/lib/zustand/useEditUser";
 import EditUserForm from "../form/EditUserForm";
+import axios from "axios";
 
 export default function Users({ users }: any) {
   const session = useSession();
   const router = useRouter();
 
-  const toastError = (msg: any) => {
-    return toast.error(msg, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
+  const notify = (text: any) => {
+    toast.error(text, {
       theme: "dark",
+      pauseOnFocusLoss: false,
+      pauseOnHover: false,
+    });
+  };
+  const notifySuc = (text: string) => {
+    toast.success(text, {
+      theme: "dark",
+      pauseOnFocusLoss: false,
+      hideProgressBar: false,
     });
   };
 
@@ -81,9 +84,23 @@ export default function Users({ users }: any) {
 
   const editUser = (user: any) => {
     setSelectedUser(user);
+    console.log(selectedUser);
     editOnOpen();
   };
-  const deleteUser = (user: any) => {};
+  const deleteUser = async (user: any) => {
+    await axios
+      .post("/api/deleteUser", {
+        email: user.email,
+      })
+      .then(async (res: any) => {
+        if (res.data.error) {
+          return notify(res.data.error);
+        }
+        notifySuc("Excluido com sucesso");
+        router.refresh();
+        console.log(res);
+      });
+  };
 
   return (
     <>
@@ -140,7 +157,10 @@ export default function Users({ users }: any) {
                   >
                     Editar
                   </button>
-                  <button className="bg-gray-800 text-gray-300 p-2 rounded-md w-full">
+                  <button
+                    className="bg-gray-800 text-gray-300 p-2 rounded-md w-full"
+                    onClick={() => deleteUser(person)}
+                  >
                     Excluir
                   </button>
                 </div>

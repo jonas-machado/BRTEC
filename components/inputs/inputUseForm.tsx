@@ -33,7 +33,7 @@ const InputUseForm = ({
         defaultValue={defaultValue}
         id={id}
         className={`peer disabled:opacity-70 focus:shadow-[0px_0px_10px] focus:shadow-black duration-300
-                disabled:cursor-not-allowed transition caret-gray-200 outline-none w-full pt-[1.2rem] rounded-md pl-4 pb-[0.3rem] text-gray-200 border-gray-900 sm:text-sm border-b-[1px] border-t-[1px] bg-black bg-opacity-50`}
+                disabled:cursor-not-allowed transition caret-gray-200 outline-none w-full pt-[1.2rem] rounded-md pl-4 pb-[0.3rem] text-gray-200 border-gray-900 sm:text-sm border-b-[1px] border-t-[1px] bg-gray-900 bg-opacity-50`}
         spellCheck="false"
         {...register(id, { required })}
         placeholder=" "

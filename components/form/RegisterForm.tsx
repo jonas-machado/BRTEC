@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import InputUseForm from "../inputs/inputUseForm";
 import ControlledInputArray from "../inputs/controlledInputArray";
 import { sectorArray } from "@/constants/sectorArray";
+import useRegisterModal from "@/lib/zustand/useRegisterModal";
 
 export default function RegisterForm({ isVisible }: any) {
   const router = useRouter();
@@ -82,7 +83,9 @@ export default function RegisterForm({ isVisible }: any) {
     sector,
   }: FieldValues) => {
     setIsLoading(true);
-
+    const isOpen = useRegisterModal((state) => state.isOpen);
+    const onOpen: () => void = useRegisterModal((state) => state.onOpen);
+    const onClose: () => void = useRegisterModal((state) => state.onClose);
     await axios
       .post("/api/register", {
         email,
@@ -95,20 +98,9 @@ export default function RegisterForm({ isVisible }: any) {
           setIsLoading(false);
           return notify(res.data.error);
         }
-        await signIn("credentials", {
-          email: email,
-          password: password,
-          redirect: false,
-          callbackUrl: "/config/manual",
-        }).then((callback) => {
-          setIsLoading(false);
-          if (callback?.ok) {
-            return notifySuc("Usuário incluido com sucesso.");
-          }
-          if (callback?.error) {
-            notify(callback.error);
-          }
-        });
+        onClose();
+        router.refresh();
+        return notifySuc("Usuário incluido com sucesso.");
       });
   };
 
@@ -117,7 +109,7 @@ export default function RegisterForm({ isVisible }: any) {
       <motion.div
         key="reg"
         id="container"
-        className={` py-1 px-6`}
+        className={` py-1 px-6 mt-8`}
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{
@@ -127,8 +119,9 @@ export default function RegisterForm({ isVisible }: any) {
         }}
         exit={{ opacity: 0 }}
       >
+        <h1 className="text-gray-300 text-2xl mb-4">Register</h1>
         <form
-          className={`col space-y-2 mt-8`}
+          className={`col space-y-2`}
           onSubmit={handleSubmit(handleClickRegister)}
         >
           <div className="col-span-3 sm:col-span-2 ">
@@ -193,7 +186,6 @@ export default function RegisterForm({ isVisible }: any) {
             </button>
           </div>
         </form>
-        <ToastContainer />
       </motion.div>
     </>
   );
