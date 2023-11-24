@@ -318,7 +318,8 @@ function Navbar({ currentUser, neutralNetwork, firmware }: NavbarProps) {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            href="#"
+                            target="_blank"
+                            href="/settings/dashboard"
                             className={classNames(
                               active ? "bg-gray-900 " : "",
                               "block px-4 py-2 text-sm text-gray-200"
@@ -579,7 +580,8 @@ function Navbar({ currentUser, neutralNetwork, firmware }: NavbarProps) {
                         Meu perfil
                       </button>
                       <Link
-                        href="#"
+                        target="_blank"
+                        href="/settings/dashboard"
                         className="mt-4 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-900 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-gray-600"
                       >
                         Configurações
