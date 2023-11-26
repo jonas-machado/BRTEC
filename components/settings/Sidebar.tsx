@@ -1,13 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-//import io from "socket.io-client";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { useSession } from "next-auth/react";
 import { HiMenuAlt3 } from "react-icons/hi";
-
-import { useForm, FieldValues } from "react-hook-form";
 
 import {
   UserIcon,
@@ -16,17 +12,14 @@ import {
   CommandLineIcon,
 } from "@heroicons/react/24/outline";
 
-//ZOD
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
 //toast
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import Image from "next/image";
 
 //Constants
+import { navbarUtilitiesTabs } from "@/constants/navbarUtilitiesTab";
 const sidebar = [
   {
     name: "Dashboard",
@@ -43,7 +36,7 @@ const sidebar = [
   {
     name: "Navbar utilities",
     icon: QueueListIcon,
-    link: "",
+    link: navbarUtilitiesTabs[0].link,
     margin: false,
   },
   {
@@ -55,6 +48,7 @@ const sidebar = [
 ];
 
 export default function Sidebar({ currentUser }: any) {
+  console.log(sidebar[2].link);
   const session = useSession();
   const router = useRouter();
   const [open, setOpen] = useState(true);
@@ -77,19 +71,6 @@ export default function Sidebar({ currentUser }: any) {
       router.push("/");
     }
   }, [session?.status, router]);
-
-  const schema: any = {};
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    reset,
-    watch,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(schema),
-  });
 
   return (
     <>

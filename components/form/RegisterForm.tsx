@@ -21,6 +21,7 @@ import useRegisterModal from "@/lib/zustand/useRegisterModal";
 export default function RegisterForm({ isVisible }: any) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const onClose: () => void = useRegisterModal((state) => state.onClose);
 
   //função para notificações
   const notify = (text: any) => {
@@ -83,9 +84,7 @@ export default function RegisterForm({ isVisible }: any) {
     sector,
   }: FieldValues) => {
     setIsLoading(true);
-    const isOpen = useRegisterModal((state) => state.isOpen);
-    const onOpen: () => void = useRegisterModal((state) => state.onOpen);
-    const onClose: () => void = useRegisterModal((state) => state.onClose);
+
     await axios
       .post("/api/register", {
         email,
