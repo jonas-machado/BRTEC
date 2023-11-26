@@ -10,6 +10,7 @@ import MotionPage from "@/lib/motionPage";
 import Image from "next/image";
 import Nav from "@/components/navLink/Nav";
 import { useRef } from "react";
+import { getMaps } from "@/lib/actions/getMaps";
 
 export default async function RootLayout({
   children,
@@ -19,7 +20,8 @@ export default async function RootLayout({
   const currentUser = await getCurrentUser();
   const neutralNetwork = await getNeutralNetwork();
   const firmware = await getFirmware();
-
+  const maps = await getMaps();
+  console.log(maps);
   return (
     <PageWrapper>
       <MotionPage>
@@ -43,6 +45,7 @@ export default async function RootLayout({
           currentUser={currentUser}
           neutralNetwork={neutralNetwork}
           firmware={firmware}
+          maps={maps}
         />
         <NextTopLoader
           color="#000000"

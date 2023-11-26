@@ -127,7 +127,34 @@ async function olt() {
   });
 }
 
-neutralNetwork()
+async function maps() {
+  await prismadb.maps.createMany({
+    data: [
+      {
+        name: "Mapa OT",
+        link: "https://www.google.com/maps/d/u/0/edit?mid=1IVAPyNuKuxWNHAcNfgj5sxWWHNh-bOBj&ll=-26.430388824095346%2C-48.817334430078134&z=10",
+      },
+      {
+        name: "Mapa VOU",
+        link: "https://www.google.com/maps/d/u/0/edit?mid=1JWL-Gg4crvyhEqToyYdY4Fb3EAJqCekc&ll=-26.429054997432665%2C-48.741997897741506&z=8",
+      },
+      {
+        name: "Mapa ATELE",
+        link: "https://www.google.com/maps/d/u/0/edit?mid=1liBsTRud98BTzO0HQR4WHs7q6OryH_Yw&ll=-24.869473096400633%2C-43.631779099999996&z=7",
+      },
+      {
+        name: "Mapa TORRES",
+        link: "https://www.google.com/maps/d/u/0/viewer?ll=-26.298121885472842%2C-48.82330632565968&z=13&mid=1u-Mv_yq--xRnrWvfQNQKar5gZfE",
+      },
+      {
+        name: "GEOGRID",
+        link: "https://eros.geogridmaps.com.br/ot_tecnologia/",
+      },
+    ],
+  });
+}
+
+maps()
   .then(async () => {
     await prismadb.$disconnect();
   })

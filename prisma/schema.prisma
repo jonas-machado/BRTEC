@@ -109,6 +109,12 @@ model Firmware {
   version String
 }
 
+model Maps {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  link String
+}
+
 model Solutions {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   title String

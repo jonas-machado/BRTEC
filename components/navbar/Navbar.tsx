@@ -9,6 +9,7 @@ import {
   XMarkIcon,
   TableCellsIcon,
   ArrowDownTrayIcon,
+  MapIcon,
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
@@ -17,7 +18,6 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
 //constants
-import { mapas } from "@/constants/mapas";
 import { Session } from "next-auth";
 import Modal from "../modals/Modal";
 import Perfil from "../modals/Perfil";
@@ -32,30 +32,17 @@ interface NavbarProps {
   currentUser?: Session | null;
   neutralNetwork: any;
   firmware: any;
+  maps: any;
 }
 
-function Navbar({ currentUser, neutralNetwork, firmware }: NavbarProps) {
+function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
   const isOpen = usePerfilModal((state) => state.isOpen);
   const onOpen: () => void = usePerfilModal((state) => state.onOpen);
   const onClose: () => void = usePerfilModal((state) => state.onClose);
-
+  console.log(maps);
   const router = useRouter();
   const pathname = usePathname();
-  const date = new Date();
-  const month = [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro",
-  ];
+
   return (
     <>
       <header>
@@ -114,15 +101,15 @@ function Navbar({ currentUser, neutralNetwork, firmware }: NavbarProps) {
                         <Popover.Panel className="absolute z-50 -ml-4 mt-3 w-screen max-w-[15rem] transform px-2 sm:px-0 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2">
                           <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                             <div className="relative grid gap-6 bg-black opacity-90 border-gray-900 border-2 rounded-lg px-5 py-6 sm:gap-8 sm:p-8">
-                              {mapas.map((item) => (
+                              {maps.map((item: any) => (
                                 <a
                                   key={item.name}
-                                  href={item.href}
+                                  href={item.link}
                                   className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-900"
                                   target="_blank"
                                   rel="noreferrer"
                                 >
-                                  <item.icon
+                                  <MapIcon
                                     className="h-6 w-6 flex-shrink-0 text-indigo-200"
                                     aria-hidden="true"
                                   />
@@ -449,10 +436,10 @@ function Navbar({ currentUser, neutralNetwork, firmware }: NavbarProps) {
                                 leaveTo="transform scale-95 opacity-0"
                               >
                                 <Disclosure.Panel className="text-gray-200 bg-gray-900 px-2 rounded-md mr-2 ">
-                                  {mapas.map((item) => (
+                                  {maps.map((item: any) => (
                                     <a
                                       key={item.name}
-                                      href={item.href}
+                                      href={item.link}
                                       className="-m-3 flex items-center rounded-md p-3 hover:bg-gray-700"
                                       target="_blank"
                                       rel="noreferrer"

@@ -24,7 +24,7 @@ const TabHeadLink = ({
         <Link
           className={`transition-all cursor-pointer text-xs flex items-center justify-center font-bold rounded-md uppercase px-5 py-3 shadow-lg text-gray-200 hover:bg-gray-900 ${
             state == id
-              ? "text-gray-300 rounded-md shadow-lg shadow-black bg-gray-800 bg-opacity-90"
+              ? "text-gray-300 rounded-md shadow-lg shadow-black bg-gray-900 bg-opacity-90"
               : "text-gray-200"
           } ${className}`}
           onClick={onClick}

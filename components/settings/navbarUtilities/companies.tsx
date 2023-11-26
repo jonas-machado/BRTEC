@@ -15,10 +15,9 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Search from "@/components/inputs/search";
-import Image from "next/image";
-import { MapIcon } from "@heroicons/react/24/outline";
+import { MapIcon, TableCellsIcon } from "@heroicons/react/24/outline";
 
-export default function Maps({ maps }: any) {
+export default function Companies({ companies }: any) {
   const session = useSession();
   const router = useRouter();
 
@@ -47,8 +46,8 @@ export default function Maps({ maps }: any) {
 
   const filtered =
     query === ""
-      ? maps
-      : maps.filter((user: any) =>
+      ? companies
+      : companies.filter((user: any) =>
           user.name
             .toLowerCase()
             .replace(/\s+/g, "")
@@ -69,18 +68,18 @@ export default function Maps({ maps }: any) {
         </button>
       </div>
       <ul role="list" className="flex flex-col px-6 gap-2">
-        {filtered.map((map: any) => (
+        {filtered.map((item: any, i: number) => (
           <li
-            key={map.email}
+            key={i}
             className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md"
           >
             <div className="flex min-w-0 gap-x-4">
-              <MapIcon className=" w-auto h-[6rem] text-gray-300" />
+              <TableCellsIcon className=" w-auto h-[6rem] text-gray-300" />
               <div className="min-w-0 flex-auto">
                 <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
-                  {map.name}
+                  {item.company}
                 </p>
-                <p className="text-sm leading-6 text-gray-300 ">{map.link}</p>
+                <p className="text-sm leading-6 text-gray-300 ">{item.link}</p>
               </div>
             </div>
             <div className="flex gap-2">
