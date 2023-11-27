@@ -25,7 +25,7 @@ const InputUseForm = ({
   return (
     <div
       className={` mt-1 relative rounded-md ${
-        error[id] ? "shadow-[0px_0px_10px] shadow-red-600" : ""
+        error[id] ? "shadow-[0px_0px_10px] shadow-purple-600" : ""
       }`}
     >
       <input

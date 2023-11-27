@@ -1,5 +1,5 @@
 import ImageTool from "@editorjs/image";
-import { storage } from "./firebase";
+import { storage } from "../firebase";
 import {
   ref,
   uploadBytes,

@@ -1,8 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
-import PageWrapper from "../lib/pageWrapper";
-import MotionPage from "../lib/motionPage";
+import PageWrapper from "../lib/framerMotion/pageWrapper";
+import MotionPage from "../lib/framerMotion/motionPage";
 import AuthContext from "../lib/AuthContext";
 
 const inter = Nunito({ subsets: ["latin"] });

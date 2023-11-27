@@ -1,12 +1,12 @@
 import Navbar from "@/components/navbar/Navbar";
 //import getCurrentUser from "@/actions/getCurrentUser";
-import PageWrapper from "@/lib/pageWrapper";
+import PageWrapper from "@/lib/framerMotion/pageWrapper";
 import NextTopLoader from "nextjs-toploader";
 import { getNeutralNetwork } from "@/lib/actions/getNeutralNetwork";
 import { motion, AnimatePresence } from "framer-motion";
 import { getCurrentUser } from "@/app/api/auth/[...nextauth]/route";
 import { getFirmware } from "@/lib/actions/getFirmware";
-import MotionPage from "@/lib/motionPage";
+import MotionPage from "@/lib/framerMotion/motionPage";
 import Image from "next/image";
 import Nav from "@/components/navLink/Nav";
 import { useRef } from "react";

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, Fragment } from "react";
 //import io from "socket.io-client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 //toast
@@ -14,8 +14,10 @@ import TabHeadLink from "../../tab/TabHeadLink";
 import { navbarUtilitiesTabs } from "@/constants/navbarUtilitiesTab";
 
 export default function NavbarUtilities() {
+  const path = usePathname();
   const session = useSession();
   const router = useRouter();
+  console.log(path);
 
   const notify = (text: any) => {
     toast.error(text, {
@@ -56,9 +58,9 @@ export default function NavbarUtilities() {
         <TabBody>
           {navbarUtilitiesTabs.map((tab) => (
             <TabHeadLink
-              id={tab.name}
+              id={tab.link}
               href={tab.link}
-              state={currentPage}
+              state={path}
               onClick={() => setCurrentPage(tab.name)}
             >
               {tab.name}

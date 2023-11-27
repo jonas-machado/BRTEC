@@ -1,6 +1,6 @@
 import { getSolutions } from "@/lib/actions/getSolutions";
 import SolutionForm from "@/components/form/SolutionForm";
-import MotionComponent from "@/lib/motionComponent";
+import MotionComponent from "@/lib/framerMotion/motionComponent";
 import Providers from "@/components/Providers";
 import { getPost } from "@/lib/actions/getPost";
 import { getCurrentUser } from "@/app/api/auth/[...nextauth]/route";

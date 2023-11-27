@@ -1,6 +1,6 @@
 //@ts-ignore
 import AttachesTool from "@editorjs/attaches";
-import { storage } from "./firebase";
+import { storage } from "../firebase";
 import {
   ref,
   uploadBytes,

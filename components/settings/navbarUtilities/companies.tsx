@@ -1,7 +1,7 @@
 "use client";
 import Navbar from "@/components/navbar/Navbar";
 //import getCurrentUser from "@/actions/getCurrentUser";
-import PageWrapper from "@/lib/pageWrapper";
+import PageWrapper from "@/lib/framerMotion/pageWrapper";
 import NextTopLoader from "nextjs-toploader";
 import { getNeutralNetwork } from "@/lib/actions/getNeutralNetwork";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,13 +11,17 @@ import { getFirmware } from "@/lib/actions/getFirmware";
 import getUsers from "@/lib/actions/getUsers";
 import NavbarUtilities from "@/components/settings/navbarUtilities/NavbarUtilities";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Search from "@/components/inputs/search";
 import { MapIcon, TableCellsIcon } from "@heroicons/react/24/outline";
+import MotionPage from "@/lib/framerMotion/motionPage";
+import MotionComponent from "@/lib/framerMotion/motionComponent";
 
 export default function Companies({ companies }: any) {
+  const path = usePathname();
+
   const session = useSession();
   const router = useRouter();
 
@@ -55,47 +59,50 @@ export default function Companies({ companies }: any) {
         );
 
   return (
-    <div className="flex flex-col m-2 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
-      <div className="flex m-6 justify-end gap-2">
-        <div className=" max-w-xs">
-          <Search
-            value={query}
-            onChange={(e: any) => setQuery(e.target.value)}
-          />
+    <MotionComponent id="companies">
+      <div className="flex flex-col m-2 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
+        <div className="flex m-6 justify-end gap-2">
+          <div className=" max-w-xs">
+            <Search
+              value={query}
+              onChange={(e: any) => setQuery(e.target.value)}
+            />
+          </div>
+          <button className="bg-gray-800 rounded-md p-2 text-gray-300">
+            Adicionar empresa
+          </button>
         </div>
-        <button className="bg-gray-800 rounded-md p-2 text-gray-300">
-          Adicionar usuário
-        </button>
+        <ul role="list" className="flex flex-col px-6 gap-2">
+          {filtered.map((item: any, i: number) => (
+            <li
+              key={i}
+              className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md w-full"
+            >
+              <div className="flex min-w-0 gap-x-4">
+                <TableCellsIcon className=" w-auto h-[3rem] text-gray-300" />
+                <div className="min-w-0 flex-auto">
+                  <p className="text-sm font-extrabold leading-6 text-gray-300 whitespace-nowrap">
+                    {item.company}
+                  </p>
+                  <p className="text-xs max-w-sm truncate leading-6 text-gray-300 ">
+                    {item.link}
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-2 ">
+                <div className="hidden shrink-0 sm:flex items-center gap-2 w-full">
+                  <button className="bg-gray-800 text-gray-300 p-2 rounded-md w-full">
+                    Editar
+                  </button>
+                  <button className="bg-gray-800 text-gray-300 p-2 rounded-md w-full">
+                    Excluir
+                  </button>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul role="list" className="flex flex-col px-6 gap-2">
-        {filtered.map((item: any, i: number) => (
-          <li
-            key={i}
-            className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md"
-          >
-            <div className="flex min-w-0 gap-x-4">
-              <TableCellsIcon className=" w-auto h-[6rem] text-gray-300" />
-              <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
-                  {item.company}
-                </p>
-                <p className="text-sm leading-6 text-gray-300 ">{item.link}</p>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <div className="hidden shrink-0 sm:flex flex-col items-center  "></div>
-              <div className="hidden shrink-0 sm:flex flex-col items-center gap-2 w-20">
-                <button className="bg-gray-800 text-gray-300 p-2 rounded-md w-full">
-                  Editar
-                </button>
-                <button className="bg-gray-800 text-gray-300 p-2 rounded-md w-full">
-                  Excluir
-                </button>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+    </MotionComponent>
   );
 }

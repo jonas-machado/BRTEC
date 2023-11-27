@@ -1,12 +1,12 @@
 import Navbar from "@/components/navbar/Navbar";
 //import getCurrentUser from "@/actions/getCurrentUser";
-import PageWrapper from "@/lib/pageWrapper";
+import PageWrapper from "@/lib/framerMotion/pageWrapper";
 import NextTopLoader from "nextjs-toploader";
 import { getNeutralNetwork } from "@/lib/actions/getNeutralNetwork";
 import { motion, AnimatePresence } from "framer-motion";
 import { getCurrentUser } from "@/app/api/auth/[...nextauth]/route";
 import { getFirmware } from "@/lib/actions/getFirmware";
-import MotionPage from "@/lib/motionPage";
+import MotionPage from "@/lib/framerMotion/motionPage";
 import Image from "next/image";
 import Nav from "@/components/navLink/Nav";
 import { useRef } from "react";
@@ -14,6 +14,7 @@ import Sidebar from "@/components/settings/Sidebar";
 import Users from "@/components/settings/Users";
 import getUsers from "@/lib/actions/getUsers";
 import NavbarUtilities from "@/components/settings/navbarUtilities/NavbarUtilities";
+import MotionPath from "@/lib/framerMotion/motionPath";
 
 export default async function RootLayout({
   children,
@@ -26,9 +27,9 @@ export default async function RootLayout({
   const users = await getUsers();
 
   return (
-    <div className="flex flex-col w-full mx-auto">
+    <PageWrapper classname="w-full h-full">
       <NavbarUtilities />
       {children}
-    </div>
+    </PageWrapper>
   );
 }
