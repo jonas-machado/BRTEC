@@ -3,11 +3,11 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { title, link } = body;
+  const { company, link } = body;
 
-  const user = await prisma.maps.create({
+  const user = await prisma.neutralNetwork.create({
     data: {
-      name: title,
+      company,
       link,
     },
   });

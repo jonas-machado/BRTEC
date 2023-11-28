@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   const body = await request.json();
   const { id } = body;
 
-  const deletedItem = await prisma.maps.delete({
+  const deletedItem = await prisma.neutralNetwork.delete({
     where: {
       id,
     },

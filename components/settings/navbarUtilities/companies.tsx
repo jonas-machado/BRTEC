@@ -20,7 +20,7 @@ import MotionPage from "@/lib/framerMotion/motionPage";
 import MotionComponent from "@/lib/framerMotion/motionComponent";
 import useNavbarUtilitiesModal from "@/lib/zustand/useNavbarUtilities";
 import Modal from "@/components/modals/Modal";
-import CompaniesForm from "@/components/form/navbarUtilities/companies";
+import CompaniesForm from "@/components/form/navbarUtilities/companiesForm";
 import axios from "axios";
 
 export default function Companies({ companies }: any) {

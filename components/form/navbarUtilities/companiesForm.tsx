@@ -62,13 +62,13 @@ export default function CompaniesForm({ id }: { id?: string }) {
   }, [errors]);
 
   //função on submit que envia os dados para o nextauth e posteriomente para o mongoDB
-  const handleClickUpdate = async ({ title, link }: FieldValues) => {
+  const handleClickUpdate = async ({ company, link }: FieldValues) => {
     setIsLoading(true);
     if (id) {
       return await axios
         .post("/api/maps/update", {
           id,
-          title,
+          company,
           link,
         })
         .then(async (res: any) => {
@@ -83,7 +83,7 @@ export default function CompaniesForm({ id }: { id?: string }) {
     }
     return await axios
       .post("/api/maps/create", {
-        title,
+        company,
         link,
       })
       .then(async (res: any) => {
@@ -117,9 +117,9 @@ export default function CompaniesForm({ id }: { id?: string }) {
           className="grid gap-4 w-[30rem]"
         >
           <InputUseForm
-            id="title"
-            label="Título"
-            name="title"
+            id="company"
+            label="Empresa"
+            name="company"
             register={register}
             error={errors}
             required

@@ -20,7 +20,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { sectorArray } from "@/constants/sectorArray";
 import ControlledCheckbox from "./inputs/controlledCheckbox";
 import useEditorModal from "@/lib/zustand/useEditorModal";
-import { MyImageTool } from "@/lib/ImagesToolEditor";
+import { MyImageTool } from "@/lib/editorjs/ImagesToolEditor";
 import { MyAttacheTool } from "@/lib/editorjs/AttacheToolEditor";
 
 interface postProps {

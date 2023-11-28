@@ -56,8 +56,9 @@ export default function NavbarUtilities() {
     <>
       <div className="flex flex-col m-2 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
         <TabBody>
-          {navbarUtilitiesTabs.map((tab) => (
+          {navbarUtilitiesTabs.map((tab, i) => (
             <TabHeadLink
+              key={i}
               id={tab.link}
               href={tab.link}
               state={path}
