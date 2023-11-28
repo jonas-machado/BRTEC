@@ -5,7 +5,6 @@ interface navbarUtilitiesModalStore {
   onOpen: () => void;
   onClose: () => void;
 }
-
 const useNavbarUtilitiesModal = create<navbarUtilitiesModalStore>((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),

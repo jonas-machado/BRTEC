@@ -22,6 +22,7 @@ import MotionComponent from "@/lib/framerMotion/motionComponent";
 import useNavbarUtilitiesModal from "@/lib/zustand/useNavbarUtilities";
 import Modal from "@/components/modals/Modal";
 import MapsForm from "@/components/form/navbarUtilities/mapsForm";
+import axios from "axios";
 
 export default function Maps({ maps }: any) {
   const session = useSession();
@@ -53,6 +54,7 @@ export default function Maps({ maps }: any) {
   const isOpen = useNavbarUtilitiesModal((state) => state.isOpen);
   const onOpen: () => void = useNavbarUtilitiesModal((state) => state.onOpen);
   const onClose: () => void = useNavbarUtilitiesModal((state) => state.onClose);
+  const [selected, setSelected] = useState();
 
   const filtered =
     query === ""
@@ -63,6 +65,20 @@ export default function Maps({ maps }: any) {
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
+
+  const deleteItem = async (item: any) => {
+    await axios
+      .post("/api/maps/delete", {
+        id: item.id,
+      })
+      .then(async (res: any) => {
+        if (res.data.error) {
+          return notify(res.data.error);
+        }
+        notifySuc("Excluido com sucesso");
+        router.refresh();
+      });
+  };
 
   return (
     <>
@@ -77,34 +93,49 @@ export default function Maps({ maps }: any) {
             </div>
             <button
               className="bg-gray-800 rounded-md p-2 text-gray-300"
-              onClick={onOpen}
+              onClick={() => {
+                setSelected(undefined);
+                onOpen();
+              }}
             >
               Adicionar mapa
             </button>
           </div>
           <ul role="list" className="flex flex-col px-6 gap-2">
-            {filtered.map((map: any) => (
+            {filtered.map((item: any, i: number) => (
               <li
-                key={map.email}
+                key={i}
                 className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md"
               >
                 <div className="flex min-w-0 gap-x-4">
                   <MapIcon className=" w-auto h-[3rem] text-gray-300" />
                   <div className="min-w-0 flex-auto">
                     <p className="text-sm font-extrabold leading-6 text-gray-300 whitespace-nowrap">
-                      {map.name}
+                      {item.name}
                     </p>
                     <p className=" text-xs  max-w-sm truncate leading-6 text-gray-300 ">
-                      {map.link}
+                      {item.link}
                     </p>
                   </div>
                 </div>
                 <div className="flex gap-2">
                   <div className="hidden shrink-0 sm:flex items-center gap-2 w-full">
-                    <button className="bg-gray-800 text-gray-300 p-2 rounded-md w-full">
+                    <button
+                      className="bg-gray-800 text-gray-300 p-2 rounded-md w-full"
+                      type="button"
+                      onClick={() => {
+                        setSelected(item.id);
+                        onOpen();
+                      }}
+                    >
                       Editar
                     </button>
-                    <button className="bg-gray-800 text-gray-300 p-2 rounded-md w-full">
+                    <button
+                      className="bg-gray-800 text-gray-300 p-2 rounded-md w-full"
+                      onClick={() => {
+                        deleteItem(item);
+                      }}
+                    >
                       Excluir
                     </button>
                   </div>
@@ -120,7 +151,7 @@ export default function Maps({ maps }: any) {
           onClose();
         }}
       >
-        <MapsForm />
+        <MapsForm id={selected} />
       </Modal>
     </>
   );

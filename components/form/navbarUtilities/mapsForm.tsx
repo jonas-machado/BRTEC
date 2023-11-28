@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import InputUseForm from "@/components/inputs/inputUseForm";
 import useNavbarUtilitiesModal from "@/lib/zustand/useNavbarUtilities";
 
-export default function MapsForm() {
+export default function MapsForm({ id }: { id?: string }) {
   const IsOpen = useNavbarUtilitiesModal((state) => state.isOpen);
   const OnOpen: () => void = useNavbarUtilitiesModal((state) => state.onOpen);
   const OnClose: () => void = useNavbarUtilitiesModal((state) => state.onClose);
@@ -64,8 +64,24 @@ export default function MapsForm() {
   //função on submit que envia os dados para o nextauth e posteriomente para o mongoDB
   const handleClickUpdate = async ({ title, link }: FieldValues) => {
     setIsLoading(true);
-    console.log(title, link);
-    await axios
+    if (id) {
+      return await axios
+        .post("/api/maps/update", {
+          id,
+          title,
+          link,
+        })
+        .then(async (res: any) => {
+          if (res.data.error) {
+            setIsLoading(false);
+            return notify(res.data.error);
+          }
+          notifySuc("Atualizado com sucesso");
+          router.refresh();
+          OnClose();
+        });
+    }
+    return await axios
       .post("/api/maps/create", {
         title,
         link,
