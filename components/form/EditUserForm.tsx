@@ -75,7 +75,7 @@ export default function EditUserForm({ selectedUser }: any) {
     setIsLoading(true);
     console.log(email, sector);
     await axios
-      .post("/api/editUser", {
+      .post("/api/user/update", {
         sector,
         role,
         email: selectedUser.email,

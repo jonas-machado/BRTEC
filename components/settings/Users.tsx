@@ -72,6 +72,8 @@ export default function Users({ users }: any) {
   const [query, setQuery] = useState("");
   const [selectedUser, setSelectedUser] = useState(["Selecione o setor"]);
 
+  const [deleteLoading, setDeleteLoading] = useState<any>();
+
   const filtered =
     query === ""
       ? users
@@ -87,15 +89,18 @@ export default function Users({ users }: any) {
     console.log(selectedUser);
     editOnOpen();
   };
-  const deleteUser = async (user: any) => {
+  const deleteUser = async (user: any, index: number) => {
+    setDeleteLoading({ state: true, index: index });
     await axios
-      .post("/api/deleteUser", {
+      .post("/api/user/delete", {
         email: user.email,
       })
       .then(async (res: any) => {
         if (res.data.error) {
+          setDeleteLoading(false);
           return notify(res.data.error);
         }
+        setDeleteLoading(false);
         notifySuc("Excluido com sucesso");
         router.refresh();
         console.log(res);
@@ -120,7 +125,7 @@ export default function Users({ users }: any) {
           </button>
         </div>
         <ul role="list" className="flex flex-col px-6 gap-2">
-          {filtered.map((person: any) => (
+          {filtered.map((person: any, i: number) => (
             <li
               key={person.email}
               className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md"
@@ -152,16 +157,27 @@ export default function Users({ users }: any) {
                 <div className="hidden shrink-0 sm:flex flex-col items-center  "></div>
                 <div className="hidden shrink-0 sm:flex flex-col items-center gap-2 w-20">
                   <button
-                    className="bg-gray-800 text-gray-300 p-2 rounded-md w-full"
+                    className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
                     onClick={() => editUser(person)}
                   >
                     Editar
                   </button>
                   <button
-                    className="bg-gray-800 text-gray-300 p-2 rounded-md w-full"
-                    onClick={() => deleteUser(person)}
+                    className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
+                    onClick={() => deleteUser(person, i)}
                   >
-                    Excluir
+                    {deleteLoading?.state && deleteLoading?.index == i ? (
+                      <div
+                        className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                        role="status"
+                      >
+                        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                          Loading...
+                        </span>
+                      </div>
+                    ) : (
+                      "Excluir"
+                    )}
                   </button>
                 </div>
               </div>

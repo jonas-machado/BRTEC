@@ -56,6 +56,7 @@ export default function Companies({ companies }: any) {
   const onOpen: () => void = useNavbarUtilitiesModal((state) => state.onOpen);
   const onClose: () => void = useNavbarUtilitiesModal((state) => state.onClose);
   const [selected, setSelected] = useState();
+  const [deleteLoading, setDeleteLoading] = useState<any>();
 
   const filtered =
     query === ""
@@ -67,15 +68,21 @@ export default function Companies({ companies }: any) {
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
 
-  const deleteItem = async (item: any) => {
+  const deleteItem = async (item: any, i: number) => {
+    setDeleteLoading({ state: true, index: i });
+
     await axios
       .post("/api/maps/delete", {
         id: item.id,
       })
       .then(async (res: any) => {
         if (res.data.error) {
+          setDeleteLoading(false);
+
           return notify(res.data.error);
         }
+        setDeleteLoading(false);
+
         notifySuc("Excluido com sucesso");
         router.refresh();
       });
@@ -116,7 +123,7 @@ export default function Companies({ companies }: any) {
                 <div className="flex gap-2 ">
                   <div className="hidden shrink-0 sm:flex items-center gap-2 w-full">
                     <button
-                      className="bg-gray-800 text-gray-300 p-2 rounded-md w-full"
+                      className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
                       onClick={() => {
                         setSelected(item.id);
                         onOpen();
@@ -125,12 +132,23 @@ export default function Companies({ companies }: any) {
                       Editar
                     </button>
                     <button
-                      className="bg-gray-800 text-gray-300 p-2 rounded-md w-full"
+                      className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
                       onClick={() => {
-                        deleteItem(item);
+                        deleteItem(item, i);
                       }}
                     >
-                      Excluir
+                      {deleteLoading?.state && deleteLoading?.index == i ? (
+                        <div
+                          className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                          role="status"
+                        >
+                          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                            Loading...
+                          </span>
+                        </div>
+                      ) : (
+                        "Excluir"
+                      )}
                     </button>
                   </div>
                 </div>
