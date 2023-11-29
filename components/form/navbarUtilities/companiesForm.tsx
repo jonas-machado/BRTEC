@@ -40,7 +40,7 @@ export default function CompaniesForm({ id }: { id?: string }) {
   //schema do zod
   const schema = z
     .object({
-      title: z.string({}).nonempty({ message: "Preencha todos os campos" }),
+      company: z.string({}).nonempty({ message: "Preencha todos os campos" }),
       link: z.string({}).nonempty({ message: "Preencha todos os campos" }),
     })
     .required();
@@ -66,7 +66,7 @@ export default function CompaniesForm({ id }: { id?: string }) {
     setIsLoading(true);
     if (id) {
       return await axios
-        .post("/api/maps/update", {
+        .post("/api/companies/update", {
           id,
           company,
           link,
@@ -82,7 +82,7 @@ export default function CompaniesForm({ id }: { id?: string }) {
         });
     }
     return await axios
-      .post("/api/maps/create", {
+      .post("/api/companies/create", {
         company,
         link,
       })

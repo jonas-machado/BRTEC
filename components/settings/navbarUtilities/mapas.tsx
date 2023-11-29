@@ -99,7 +99,7 @@ export default function Maps({ maps }: any) {
               />
             </div>
             <button
-              className="bg-gray-800 rounded-md p-2 text-gray-300"
+              className="bg-gray-800 rounded-md p-2 text-gray-300 hover:bg-gray-700"
               onClick={() => {
                 setSelected(undefined);
                 onOpen();
