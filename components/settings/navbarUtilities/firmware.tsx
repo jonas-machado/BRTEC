@@ -82,7 +82,13 @@ export default function Firmware({ firmware }: any) {
                 onChange={(e: any) => setQuery(e.target.value)}
               />
             </div>
-            <button className="bg-gray-800 rounded-md p-2 text-gray-300">
+            <button
+              className="bg-gray-800 rounded-md p-2 text-gray-300 hover:bg-gray-700"
+              onClick={() => {
+                setSelected(undefined);
+                onOpen();
+              }}
+            >
               Adicionar firmware
             </button>
           </div>
