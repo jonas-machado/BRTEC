@@ -112,9 +112,9 @@ export default function FirmwareForm({ id }: { id?: string }) {
           className="grid gap-4 w-[30rem]"
         >
           <InputUseForm
-            id="company"
-            label="Empresa"
-            name="company"
+            id="firmware"
+            label="Firmware"
+            name="firmware"
             register={register}
             error={errors}
             required
