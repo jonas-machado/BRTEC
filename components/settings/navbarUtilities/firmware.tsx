@@ -24,6 +24,7 @@ import MotionPage from "@/lib/framerMotion/motionPage";
 import MotionComponent from "@/lib/framerMotion/motionComponent";
 import useNavbarUtilitiesModal from "@/lib/zustand/useNavbarUtilities";
 import Modal from "@/components/modals/Modal";
+import FirmwareForm from "@/components/form/navbarUtilities/firmwareForm";
 
 export default function Firmware({ firmware }: any) {
   const path = usePathname();
@@ -72,7 +73,7 @@ export default function Firmware({ firmware }: any) {
 
   return (
     <>
-      <MotionComponent id="companies">
+      <MotionComponent id="firmware">
         <div className="flex pb-4 flex-col m-2 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
           <div className="flex m-6 justify-end gap-2">
             <div className=" max-w-xs">
@@ -134,7 +135,7 @@ export default function Firmware({ firmware }: any) {
           onClose();
         }}
       >
-        <p>teste</p>
+        <FirmwareForm />
       </Modal>
     </>
   );

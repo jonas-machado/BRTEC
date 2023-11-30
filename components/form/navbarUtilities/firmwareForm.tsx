@@ -12,8 +12,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import InputUseForm from "@/components/inputs/inputUseForm";
 import useNavbarUtilitiesModal from "@/lib/zustand/useNavbarUtilities";
+import { storage } from "@/lib/firebase";
+import { getDownloadURL, uploadBytes, ref } from "firebase/storage";
+import { v4 } from "uuid";
+import DropzoneInput from "@/components/inputs/DropzoneInput";
 
-export default function CompaniesForm({ id }: { id?: string }) {
+export default function FirmwareForm({ id }: { id?: string }) {
   const IsOpen = useNavbarUtilitiesModal((state) => state.isOpen);
   const OnOpen: () => void = useNavbarUtilitiesModal((state) => state.onOpen);
   const OnClose: () => void = useNavbarUtilitiesModal((state) => state.onClose);
@@ -62,29 +66,20 @@ export default function CompaniesForm({ id }: { id?: string }) {
   }, [errors]);
 
   //função on submit que envia os dados para o nextauth e posteriomente para o mongoDB
-  const handleClickUpdate = async ({ company, link }: FieldValues) => {
+  const handleClickUpdate = async ({ company, file }: FieldValues) => {
     setIsLoading(true);
-    if (id) {
-      return await axios
-        .post("/api/maps/update", {
-          id,
-          company,
-          link,
-        })
-        .then(async (res: any) => {
-          if (res.data.error) {
-            setIsLoading(false);
-            return notify(res.data.error);
-          }
-          notifySuc("Atualizado com sucesso");
-          router.refresh();
-          OnClose();
-        });
-    }
+
+    const fileRef = ref(storage, `posts/files/${v4() + file.name}`);
+
+    await uploadBytes(fileRef, file).then(() => {
+      console.log("file uploaded");
+    });
+    const url = await getDownloadURL(fileRef);
+
     return await axios
       .post("/api/maps/create", {
         company,
-        link,
+        link: url,
       })
       .then(async (res: any) => {
         if (res.data.error) {
@@ -124,10 +119,9 @@ export default function CompaniesForm({ id }: { id?: string }) {
             error={errors}
             required
           />
-          <InputUseForm
-            id="link"
-            label="Link"
-            name="link"
+          <DropzoneInput
+            id="dropZone"
+            name="dropZone"
             register={register}
             error={errors}
             required
