@@ -1,34 +1,39 @@
 "use client";
 
-import { FieldValues, UseFormRegister } from "react-hook-form";
+import {
+  Controller,
+  FieldValues,
+  UseFormRegister,
+  useFormContext,
+} from "react-hook-form";
 import { useDropzone } from "react-dropzone";
-import { useCallback, useState } from "react";
+import { ChangeEventHandler, useCallback, useState } from "react";
 
 interface input {
   id: string;
   name?: string;
-  onChange?: any;
   defaultValue?: string;
-  register: UseFormRegister<FieldValues>;
   error?: any;
   required?: boolean;
+  multiple?: boolean;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 }
 const DropzoneInput = ({
   id,
   name,
   onChange,
-  register,
   error,
   required,
+  multiple,
+  ...rest
 }: input) => {
   const [fileSelected, setFileSelected] = useState<any>();
-  const onDrop = useCallback((acceptedFiles: any) => {
-    console.log(acceptedFiles);
-    if (acceptedFiles) {
-      setFileSelected(acceptedFiles[0]);
-    }
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    multiple,
+    ...rest,
+  });
+
   function prettySize(bytes: any, separator = "", postFix = "") {
     if (bytes) {
       const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
@@ -42,13 +47,10 @@ const DropzoneInput = ({
     }
     return "n/a";
   }
+
   return (
-    <div
-      className={` mt-1 relative rounded-md ${
-        error[id] ? "shadow-[0px_0px_10px] shadow-purple-600" : ""
-      }`}
-    >
-      <div className="flex items-center justify-center w-full">
+    <div className={` mt-1 relative rounded-md `}>
+      <div className="flex items-center w-full">
         {!fileSelected ? (
           <label
             {...getRootProps()}
@@ -86,17 +88,34 @@ const DropzoneInput = ({
               type="file"
               className="hidden"
               {...getInputProps()}
-              {...register(id, { required })}
             />
           </label>
         ) : (
-          <div className="flex gap-2">
-            <div className="bg-gray-800 p-2 rounded-md text-gray-300">
-              {fileSelected.name.substr(fileSelected.name.lastIndexOf(".") + 1)}
+          <div className="flex gap-2 justify-between w-full">
+            <div className="flex gap-2">
+              <div
+                className={`bg-gray-800 p-2 rounded-md text-gray-300 flex items-center ${
+                  error[id] ? "shadow-[0px_0px_10px] shadow-purple-600" : ""
+                }`}
+              >
+                {fileSelected.name.substr(
+                  fileSelected.name.lastIndexOf(".") + 1
+                )}
+              </div>
+              <div>
+                <p className="text-gray-300 font-bold">{fileSelected.name}</p>
+                <p className="text-gray-300 text-[0.7em]">
+                  {prettySize(fileSelected.size)}
+                </p>
+              </div>
             </div>
-            <div>
-              <p className="text-gray-300">{fileSelected.name}</p>
-              <p className="text-gray-300">{prettySize(fileSelected.size)}</p>
+            <div className="flex items-center">
+              <button
+                className="bg-red-900 px-1 rounded-md text-gray-300 flex items-center hover:bg-red-800"
+                onClick={() => setFileSelected(undefined)}
+              >
+                X
+              </button>
             </div>
           </div>
         )}

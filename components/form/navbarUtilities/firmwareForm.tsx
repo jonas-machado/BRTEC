@@ -15,7 +15,7 @@ import useNavbarUtilitiesModal from "@/lib/zustand/useNavbarUtilities";
 import { storage } from "@/lib/firebase";
 import { getDownloadURL, uploadBytes, ref } from "firebase/storage";
 import { v4 } from "uuid";
-import DropzoneInput from "@/components/inputs/DropzoneInput";
+import DropzoneInput from "@/components/inputs/dropzone/Dropzone";
 
 export default function FirmwareForm({ id }: { id?: string }) {
   const IsOpen = useNavbarUtilitiesModal((state) => state.isOpen);
@@ -44,8 +44,10 @@ export default function FirmwareForm({ id }: { id?: string }) {
   //schema do zod
   const schema = z
     .object({
-      title: z.string({}).nonempty({ message: "Preencha todos os campos" }),
-      link: z.string({}).nonempty({ message: "Preencha todos os campos" }),
+      company: z.string({}).nonempty({ message: "Preencha todos os campos" }),
+      model: z.string({}).nonempty({ message: "Preencha todos os campos" }),
+      version: z.string({}).nonempty({ message: "Preencha todos os campos" }),
+      dropZone: z.any(),
     })
     .required();
 
@@ -66,30 +68,30 @@ export default function FirmwareForm({ id }: { id?: string }) {
   }, [errors]);
 
   //função on submit que envia os dados para o nextauth e posteriomente para o mongoDB
-  const handleClickUpdate = async ({ company, file }: FieldValues) => {
+  const handleClickUpdate = async (value: FieldValues) => {
     setIsLoading(true);
+    console.log(value);
+    // const fileRef = ref(storage, `posts/files/${v4() + file.name}`);
 
-    const fileRef = ref(storage, `posts/files/${v4() + file.name}`);
+    // await uploadBytes(fileRef, file).then(() => {
+    //   console.log("file uploaded");
+    // });
+    // const url = await getDownloadURL(fileRef);
 
-    await uploadBytes(fileRef, file).then(() => {
-      console.log("file uploaded");
-    });
-    const url = await getDownloadURL(fileRef);
-
-    return await axios
-      .post("/api/maps/create", {
-        company,
-        link: url,
-      })
-      .then(async (res: any) => {
-        if (res.data.error) {
-          setIsLoading(false);
-          return notify(res.data.error);
-        }
-        notifySuc("Atualizado com sucesso");
-        router.refresh();
-        OnClose();
-      });
+    // return await axios
+    //   .post("/api/maps/create", {
+    //     company,
+    //     link: url,
+    //   })
+    //   .then(async (res: any) => {
+    //     if (res.data.error) {
+    //       setIsLoading(false);
+    //       return notify(res.data.error);
+    //     }
+    //     notifySuc("Atualizado com sucesso");
+    //     router.refresh();
+    //     OnClose();
+    //   });
   };
 
   return (
@@ -109,12 +111,28 @@ export default function FirmwareForm({ id }: { id?: string }) {
       >
         <form
           onSubmit={handleSubmit(handleClickUpdate)}
-          className="grid gap-4 w-[30rem]"
+          className="grid gap-2 w-[30rem]"
         >
           <InputUseForm
-            id="firmware"
-            label="Firmware"
-            name="firmware"
+            id="company"
+            label="Empresa"
+            name="company"
+            register={register}
+            error={errors}
+            required
+          />
+          <InputUseForm
+            id="model"
+            label="Modelo"
+            name="model"
+            register={register}
+            error={errors}
+            required
+          />
+          <InputUseForm
+            id="version"
+            label="Versão"
+            name="version"
             register={register}
             error={errors}
             required
@@ -122,8 +140,8 @@ export default function FirmwareForm({ id }: { id?: string }) {
           <DropzoneInput
             id="dropZone"
             name="dropZone"
-            register={register}
             error={errors}
+            control={control}
             required
           />
           <button
