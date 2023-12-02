@@ -25,13 +25,17 @@ const DropzoneInput = ({
   error,
   required,
   multiple,
-  ...rest
 }: input) => {
   const [fileSelected, setFileSelected] = useState<any>();
 
+  const onDrop = useCallback((acceptedFiles: any) => {
+    // Do something with the files
+    console.log(acceptedFiles);
+    setFileSelected(acceptedFiles[0]);
+  }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    multiple,
-    ...rest,
+    onDrop,
   });
 
   function prettySize(bytes: any, separator = "", postFix = "") {
@@ -87,7 +91,7 @@ const DropzoneInput = ({
               id={id}
               type="file"
               className="hidden"
-              {...getInputProps()}
+              {...getInputProps({ onChange })}
             />
           </label>
         ) : (

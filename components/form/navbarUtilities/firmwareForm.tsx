@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { z, ZodType } from "zod";
-import { useForm, FieldValues } from "react-hook-form";
+import { useForm, FieldValues, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import InputUseForm from "@/components/inputs/inputUseForm";
@@ -55,43 +55,51 @@ export default function FirmwareForm({ id }: { id?: string }) {
     register,
     handleSubmit,
     control,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<FieldValues>({
     resolver: zodResolver(schema),
   });
-
+  const watchAll = watch();
   //use effect para verificar erros nos campos
   useEffect(() => {
     for (let error in errors) {
       notify(errors[error]?.message);
     }
   }, [errors]);
-
+  console.log(watchAll);
   //função on submit que envia os dados para o nextauth e posteriomente para o mongoDB
-  const handleClickUpdate = async (value: FieldValues) => {
-    setIsLoading(true);
-    console.log(value);
-    // const fileRef = ref(storage, `posts/files/${v4() + file.name}`);
+  const handleClickUpdate = async ({
+    company,
+    model,
+    version,
+    dropZone,
+  }: FieldValues) => {
+    console.log(dropZone[0]);
+    const fileRef = ref(storage, `firmware/${v4() + dropZone[0].name}`);
 
-    // await uploadBytes(fileRef, file).then(() => {
-    //   console.log("file uploaded");
-    // });
-    // const url = await getDownloadURL(fileRef);
-
-    // return await axios
-    //   .post("/api/maps/create", {
-    //     company,
-    //     link: url,
-    //   })
-    //   .then(async (res: any) => {
-    //     if (res.data.error) {
-    //       setIsLoading(false);
-    //       return notify(res.data.error);
-    //     }
-    //     notifySuc("Atualizado com sucesso");
-    //     router.refresh();
-    //     OnClose();
-    //   });
+    await uploadBytes(fileRef, dropZone[0]).then(() => {
+      console.log("file uploaded");
+    });
+    const url = await getDownloadURL(fileRef);
+    console.log(url);
+    return await axios
+      .post("/api/firmware/create", {
+        company,
+        model,
+        version,
+        link: url,
+      })
+      .then(async (res: any) => {
+        if (res.data.error) {
+          setIsLoading(false);
+          return notify(res.data.error);
+        }
+        notifySuc("Atualizado com sucesso");
+        router.refresh();
+        OnClose();
+      });
   };
 
   return (
@@ -142,6 +150,7 @@ export default function FirmwareForm({ id }: { id?: string }) {
             name="dropZone"
             error={errors}
             control={control}
+            setValue={setValue}
             required
           />
           <button
