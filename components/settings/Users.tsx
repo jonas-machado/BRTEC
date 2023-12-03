@@ -35,6 +35,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import useEditUserModal from "@/lib/zustand/useEditUser";
 import EditUserForm from "../form/EditUserForm";
 import axios from "axios";
+import MotionComponent from "@/lib/framerMotion/motionComponent";
 
 export default function Users({ users }: any) {
   const session = useSession();
@@ -109,82 +110,86 @@ export default function Users({ users }: any) {
 
   return (
     <>
-      <div className="flex flex-col m-2 w-full pt-4 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
-        <div className="flex m-6 justify-end gap-2">
-          <div className=" max-w-xs">
-            <Search
-              value={query}
-              onChange={(e: any) => setQuery(e.target.value)}
-            />
-          </div>
-          <button
-            className="bg-gray-800 rounded-md p-2 text-gray-300"
-            onClick={() => onOpen()}
-          >
-            Adicionar usuário
-          </button>
-        </div>
-        <ul role="list" className="flex flex-col px-6 gap-2">
-          {filtered.map((person: any, i: number) => (
-            <li
-              key={person.email}
-              className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md"
+      <MotionComponent id="users" className="w-full">
+        <div className="flex flex-col m-2 w-full pt-4 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
+          <div className="flex m-6 justify-end gap-2">
+            <div className=" max-w-xs">
+              <Search
+                value={query}
+                onChange={(e: any) => setQuery(e.target.value)}
+              />
+            </div>
+            <button
+              className="bg-gray-800 rounded-md p-2 text-gray-300"
+              onClick={() => onOpen()}
             >
-              <div className="flex min-w-0 gap-x-4">
-                <Image
-                  width={50}
-                  height={40}
-                  className="rounded-full w-auto h-[6rem] bg-gray-800"
-                  src={person?.image ? person.image : "/images/defaultUser.png"}
-                  alt=""
-                />
-                <div className="min-w-0 flex-auto">
-                  <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
-                    {person.name}
-                  </p>
-                  <p className="mt-1 truncate text-xs leading-5 text-gray-300">
-                    {person.email}
-                  </p>
-                  <p className="text-sm leading-6 text-gray-300">
-                    {person.role}
-                  </p>
-                  <p className="text-sm leading-6 text-gray-300 ">
-                    {person.sector}
-                  </p>
+              Adicionar usuário
+            </button>
+          </div>
+          <ul role="list" className="flex flex-col px-6 gap-2">
+            {filtered.map((person: any, i: number) => (
+              <li
+                key={person.email}
+                className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md"
+              >
+                <div className="flex min-w-0 gap-x-4">
+                  <Image
+                    width={50}
+                    height={40}
+                    className="rounded-full w-auto h-[6rem] bg-gray-800"
+                    src={
+                      person?.image ? person.image : "/images/defaultUser.png"
+                    }
+                    alt=""
+                  />
+                  <div className="min-w-0 flex-auto">
+                    <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
+                      {person.name}
+                    </p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-300">
+                      {person.email}
+                    </p>
+                    <p className="text-sm leading-6 text-gray-300">
+                      {person.role}
+                    </p>
+                    <p className="text-sm leading-6 text-gray-300 ">
+                      {person.sector}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex gap-2">
-                <div className="hidden shrink-0 sm:flex flex-col items-center  "></div>
-                <div className="hidden shrink-0 sm:flex flex-col items-center gap-2 w-20">
-                  <button
-                    className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
-                    onClick={() => editUser(person)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
-                    onClick={() => deleteUser(person, i)}
-                  >
-                    {deleteLoading?.state && deleteLoading?.index == i ? (
-                      <div
-                        className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                        role="status"
-                      >
-                        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                          Loading...
-                        </span>
-                      </div>
-                    ) : (
-                      "Excluir"
-                    )}
-                  </button>
+                <div className="flex gap-2">
+                  <div className="hidden shrink-0 sm:flex flex-col items-center  "></div>
+                  <div className="hidden shrink-0 sm:flex flex-col items-center gap-2 w-20">
+                    <button
+                      className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
+                      onClick={() => editUser(person)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
+                      onClick={() => deleteUser(person, i)}
+                    >
+                      {deleteLoading?.state && deleteLoading?.index == i ? (
+                        <div
+                          className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                          role="status"
+                        >
+                          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                            Loading...
+                          </span>
+                        </div>
+                      ) : (
+                        "Excluir"
+                      )}
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </MotionComponent>
       <Modal
         isOpen={isOpen}
         cancel={() => {

@@ -13,7 +13,7 @@ import NavbarUtilities from "@/components/settings/navbarUtilities/NavbarUtiliti
 import { toast } from "react-toastify";
 import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Search from "@/components/inputs/search";
 import {
   ArrowDownTrayIcon,
@@ -25,13 +25,15 @@ import MotionComponent from "@/lib/framerMotion/motionComponent";
 import useNavbarUtilitiesModal from "@/lib/zustand/useNavbarUtilities";
 import Modal from "@/components/modals/Modal";
 import FirmwareForm from "@/components/form/navbarUtilities/firmwareForm";
+import { Firmware } from "@prisma/client";
+import axios from "axios";
+import { toastUpdate } from "@/lib/toastify/toast";
 
 export default function Firmware({ firmware }: any) {
   const path = usePathname();
 
   const session = useSession();
   const router = useRouter();
-  console.log(firmware);
   const [query, setQuery] = useState("");
 
   const notify = (text: any) => {
@@ -48,6 +50,7 @@ export default function Firmware({ firmware }: any) {
       hideProgressBar: false,
     });
   };
+  const toastId: any = useRef(null);
 
   useEffect(() => {
     if (session?.status == "unauthenticated") {
@@ -58,8 +61,6 @@ export default function Firmware({ firmware }: any) {
   const isOpen = useNavbarUtilitiesModal((state) => state.isOpen);
   const onOpen: () => void = useNavbarUtilitiesModal((state) => state.onOpen);
   const onClose: () => void = useNavbarUtilitiesModal((state) => state.onClose);
-  const [selected, setSelected] = useState();
-  const [deleteLoading, setDeleteLoading] = useState<any>();
 
   const filtered =
     query === ""
@@ -70,7 +71,37 @@ export default function Firmware({ firmware }: any) {
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
-
+  const onDelete = async (item: Firmware) => {
+    toastId.current = toast.loading("Deletando...", { theme: "dark" });
+    await axios
+      .post("/api/firmware/delete", {
+        id: item.id,
+        link: item.link,
+      })
+      .then(async (res: any) => {
+        if (res.data.error) {
+          toast.update(toastId.current, {
+            render: "Falha ao deletar",
+            type: "error",
+            ...toastUpdate,
+          });
+          return notify(res.data.error);
+        }
+        toast.update(toastId.current, {
+          render: "Deletado com sucesso",
+          type: "success",
+          ...toastUpdate,
+        });
+        router.refresh();
+      })
+      .catch((err) => {
+        toast.update(toastId.current, {
+          render: "Falha ao deletar",
+          type: "error",
+          ...toastUpdate,
+        });
+      });
+  };
   return (
     <>
       <MotionComponent id="firmware">
@@ -85,7 +116,6 @@ export default function Firmware({ firmware }: any) {
             <button
               className="bg-gray-800 rounded-md p-2 text-gray-300 hover:bg-gray-700"
               onClick={() => {
-                setSelected(undefined);
                 onOpen();
               }}
             >
@@ -111,7 +141,10 @@ export default function Firmware({ firmware }: any) {
                 </div>
                 <div className="flex gap-2">
                   <div className="hidden shrink-0 sm:flex items-center gap-2 w-full">
-                    <button className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition">
+                    <button
+                      className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
+                      onClick={() => onDelete(item)}
+                    >
                       Excluir
                     </button>
                   </div>

@@ -1,6 +1,12 @@
 "use client";
 
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import React, {
+  Fragment,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
@@ -16,6 +22,9 @@ import { storage } from "@/lib/firebase";
 import { getDownloadURL, uploadBytes, ref } from "firebase/storage";
 import { v4 } from "uuid";
 import DropzoneInput from "@/components/inputs/dropzone/Dropzone";
+import { Firmware } from "@prisma/client";
+import { toastUpdate } from "@/lib/toastify/toast";
+import { toastInfo } from "@/lib/toastify/toast";
 
 export default function FirmwareForm({ id }: { id?: string }) {
   const IsOpen = useNavbarUtilitiesModal((state) => state.isOpen);
@@ -40,6 +49,7 @@ export default function FirmwareForm({ id }: { id?: string }) {
       hideProgressBar: false,
     });
   };
+  const toastId: any = useRef(null);
 
   //schema do zod
   const schema = z
@@ -76,11 +86,17 @@ export default function FirmwareForm({ id }: { id?: string }) {
     version,
     dropZone,
   }: FieldValues) => {
+    toastId.current = toast.loading("Enviando...", { theme: "dark" });
+
     console.log(dropZone[0]);
     const fileRef = ref(storage, `firmware/${v4() + dropZone[0].name}`);
 
     await uploadBytes(fileRef, dropZone[0]).then(() => {
-      console.log("file uploaded");
+      toast.update(toastId.current, {
+        render: "Arquivo carregado",
+        type: "info",
+        ...toastInfo,
+      });
     });
     const url = await getDownloadURL(fileRef);
     console.log(url);
@@ -96,7 +112,11 @@ export default function FirmwareForm({ id }: { id?: string }) {
           setIsLoading(false);
           return notify(res.data.error);
         }
-        notifySuc("Atualizado com sucesso");
+        toast.update(toastId.current, {
+          render: "Adicionado com sucesso",
+          type: "success",
+          ...toastUpdate,
+        });
         router.refresh();
         OnClose();
       });
