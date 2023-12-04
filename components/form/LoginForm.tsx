@@ -16,7 +16,7 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const notify = (text: any) =>
     toast.error(text, {
       theme: "dark",
