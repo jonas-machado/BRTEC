@@ -21,7 +21,6 @@ export default async function RootLayout({
   const neutralNetwork = await getNeutralNetwork();
   const firmware = await getFirmware();
   const maps = await getMaps();
-  console.log(maps);
   return (
     <PageWrapper>
       <MotionPage>

@@ -42,13 +42,12 @@ const sidebar = [
   {
     name: "ONU/ONT configuration",
     icon: CommandLineIcon,
-    link: "",
+    link: "/settings/provision",
     margin: false,
   },
 ];
 
 export default function Sidebar({ currentUser }: any) {
-  console.log(sidebar[2].link);
   const session = useSession();
   const router = useRouter();
   const [open, setOpen] = useState(true);
