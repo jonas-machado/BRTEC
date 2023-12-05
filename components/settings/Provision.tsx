@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useRef } from "react";
 //import io from "socket.io-client";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -19,6 +19,8 @@ import Modal from "../modals/Modal";
 import axios from "axios";
 import MotionComponent from "@/lib/framerMotion/motionComponent";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useIntersection } from "@mantine/hooks";
+import Spinner from "../Spinner";
 
 export default function Provision({ provisioned }: any) {
   const session = useSession();
@@ -94,6 +96,17 @@ export default function Provision({ provisioned }: any) {
   console.log(provisioned);
   console.log(data);
 
+  const lastPostRef = useRef<HTMLElement>(null);
+  const { ref, entry } = useIntersection({
+    root: lastPostRef.current,
+    threshold: 1,
+  });
+
+  useEffect(() => {
+    if (entry?.isIntersecting) {
+      fetchNextPage();
+    }
+  }, [entry, fetchNextPage]);
   return (
     <>
       <MotionComponent id="users" className="w-full">
@@ -159,17 +172,15 @@ export default function Provision({ provisioned }: any) {
               </React.Fragment>
             ))}
           </ul>
-          <button
-            onClick={() => fetchNextPage()}
-            disabled={isFetchingNextPage}
-            className="text-gray-300 m-8 text-4xl"
-          >
-            {isFetchingNextPage
-              ? "Carregando..."
-              : hasNextPage
-              ? "Carregar Mais"
-              : "Nada mais para carregar"}
-          </button>
+          <div className="flex justify-center m-8 " ref={ref}>
+            {isFetchingNextPage ? (
+              <Spinner />
+            ) : hasNextPage ? (
+              <Spinner />
+            ) : (
+              "Nada mais para carregar"
+            )}
+          </div>
         </div>
       </MotionComponent>
       <Modal

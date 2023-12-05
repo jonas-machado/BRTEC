@@ -1,4 +1,3 @@
-import { getSolutions } from "@/lib/actions/getSolutions";
 import SolutionForm from "@/components/form/SolutionForm";
 import MotionComponent from "@/lib/framerMotion/motionComponent";
 import Providers from "@/components/Providers";
