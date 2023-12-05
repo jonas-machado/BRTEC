@@ -41,7 +41,9 @@ export default function Provision({ provisioned }: any) {
   };
 
   useEffect(() => {
+    console.log(session?.status);
     if (session?.status == "unauthenticated") {
+      console.log("não autenticado");
       router.push("/");
     }
   }, [session?.status, router]);
@@ -55,15 +57,15 @@ export default function Provision({ provisioned }: any) {
   const filtered =
     query === ""
       ? provisioned
-      : provisioned.filter((user: any) =>
-          user.name
+      : provisioned.filter((item: any) =>
+          item.cliente
             .toLowerCase()
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
 
   const fntest = async ({ pageParam }: any) => {
-    return provisioned.slice((pageParam - 1) * 6, pageParam * 6);
+    return filtered.slice((pageParam - 1) * 6, pageParam * 6);
   };
 
   const {
@@ -75,7 +77,7 @@ export default function Provision({ provisioned }: any) {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["query"],
+    queryKey: ["query", filtered],
     queryFn: fntest,
     initialPageParam: 1,
     getNextPageParam: (_, pages) => pages.length + 1,
@@ -95,6 +97,7 @@ export default function Provision({ provisioned }: any) {
   };
   console.log(provisioned);
   console.log(data);
+  console.log(hasNextPage);
 
   const lastPostRef = useRef<HTMLElement>(null);
   const { ref, entry } = useIntersection({
@@ -126,7 +129,6 @@ export default function Provision({ provisioned }: any) {
             </button>
           </div>
           <ul role="list" className="flex flex-col px-6 gap-2">
-            provisioned:
             {data?.pages.map((group: any, i: number) => (
               <React.Fragment key={i}>
                 {group.map((item: any, i: number) => (
@@ -134,28 +136,33 @@ export default function Provision({ provisioned }: any) {
                     key={i}
                     className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md"
                   >
-                    <div className="flex min-w-0 gap-x-4">
-                      <div className="min-w-0 flex-auto">
+                    <div className="flex min-w-0 gap-x-4 justify-between w-full">
+                      <div className="min-w-0">
                         <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
-                          {i}
+                          Serial: {item.serial}
                         </p>
-                        <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
-                          {item.id}
-                        </p>
-                        <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
-                          {item.serial}
-                        </p>
-                        <p className="mt-1 truncate text-xs leading-5 text-gray-300">
-                          {item.olt}
+                        <p className="mt-1 truncate text-gray-300">
+                          OLT: {item.olt}
                         </p>
                         <p className="text-sm leading-6 text-gray-300">
-                          {item.pon}
+                          PON: {item.pon}
                         </p>
                         <p className="text-sm leading-6 text-gray-300 ">
-                          {item.idLivre}
+                          ID: {item.idLivre}
                         </p>
                         <p className="text-sm leading-6 text-gray-300 ">
-                          {item.cliente}
+                          Cliente: {item.cliente}
+                        </p>
+                      </div>
+                      <div className="min-w-0 w-60">
+                        <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
+                          Data:{" "}
+                          {item.createdAt.toLocaleDateString() +
+                            " " +
+                            item.createdAt.toLocaleTimeString()}
+                        </p>
+                        <p className="mt-1 truncate text-gray-300">
+                          Por: {item?.user?.name ?? "Desconhecido"}
                         </p>
                       </div>
                     </div>
