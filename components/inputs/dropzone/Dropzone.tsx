@@ -8,7 +8,6 @@ import {
 } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
 import { useCallback, useState } from "react";
-import DropzoneInput from "./DropzoneInput";
 
 interface input {
   id: string;
@@ -92,7 +91,7 @@ const Dropzone = ({
                       <p className="text-gray-300">Drop the files here ...</p>
                     ) : (
                       <p className="text-gray-300">
-                        <span className="font-semibold">Drag 'n' drop</span>{" "}
+                        <span className="font-semibold">{"Drag 'n' drop"}</span>{" "}
                         some files here, or{" "}
                         <span className="font-semibold">
                           click to select files

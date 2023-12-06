@@ -80,7 +80,17 @@ export default function Provision({ provisioned }: any) {
     queryKey: ["query", filtered],
     queryFn: fntest,
     initialPageParam: 1,
-    getNextPageParam: (_, pages) => pages.length + 1,
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      if (lastPage.length === 0) {
+        return undefined;
+      }
+      console.log(lastPageParam);
+      console.log(allPages);
+
+      console.log(lastPage);
+
+      return lastPageParam + 1;
+    },
   });
 
   const deleteUser = async (user: any, index: number) => {
@@ -106,7 +116,7 @@ export default function Provision({ provisioned }: any) {
   });
 
   useEffect(() => {
-    if (entry?.isIntersecting) {
+    if (entry?.isIntersecting && hasNextPage) {
       fetchNextPage();
     }
   }, [entry, fetchNextPage]);
@@ -185,7 +195,7 @@ export default function Provision({ provisioned }: any) {
             ) : hasNextPage ? (
               <Spinner />
             ) : (
-              "Nada mais para carregar"
+              <div className=" border-t-2 border-gray-300 w-full rounded-sm" />
             )}
           </div>
         </div>
