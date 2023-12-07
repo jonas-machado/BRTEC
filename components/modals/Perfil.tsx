@@ -85,13 +85,8 @@ function Perfil({ currentUser }: { currentUser?: Session | null }) {
     );
 
     await axios
-      .post("/api/profile", {
-        id: currentUser?.user.id,
-        image: urlAvatar
-          ? urlAvatar
-          : currentUser?.user.image
-          ? currentUser?.user.image
-          : null,
+      .post("/api/profile/avatar", {
+        image: urlAvatar,
       })
       .catch((err) => {
         console.log(err);
@@ -126,7 +121,7 @@ function Perfil({ currentUser }: { currentUser?: Session | null }) {
     }
     const imageRefBackground = refStorage(
       storage,
-      `${currentUser?.user.email}/image/${image?.name + v4()}`
+      `users/${currentUser?.user.email}/image/${image?.name + v4()}`
     );
     if (image) {
       const uploadBackground = await uploadBytes(
@@ -141,13 +136,8 @@ function Perfil({ currentUser }: { currentUser?: Session | null }) {
     );
 
     await axios
-      .post("/api/profile", {
-        id: currentUser?.user.id,
-        backgroundImage: urlBackground
-          ? urlBackground
-          : currentUser?.user.backgroundImage
-          ? currentUser?.user.backgroundImage
-          : null,
+      .post("/api/profile/background", {
+        backgroundImage: urlBackground,
       })
       .catch((err) => {
         console.log(err);
@@ -170,7 +160,6 @@ function Perfil({ currentUser }: { currentUser?: Session | null }) {
   const onSubmit = async ({ email, password, name }: FieldValues) => {
     axios
       .post("/api/profile", {
-        id: currentUser?.user.id,
         email,
         password,
         name,

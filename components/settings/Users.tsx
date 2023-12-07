@@ -40,6 +40,7 @@ import MotionComponent from "@/lib/framerMotion/motionComponent";
 export default function Users({ users }: any) {
   const session = useSession();
   const router = useRouter();
+  console.log(users);
 
   const notify = (text: any) => {
     toast.error(text, {
@@ -130,7 +131,12 @@ export default function Users({ users }: any) {
             {filtered.map((person: any, i: number) => (
               <li
                 key={person.email}
-                className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md"
+                className={`flex justify-between gap-x-6 p-5 bg-gray-900 opacity-80 rounded-md shadow-black shadow-[inset_0_0px_100px_0px] border-2 border-gray-900`}
+                style={{
+                  backgroundImage: `url(${person.backgroundImage})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover",
+                }}
               >
                 <div className="flex min-w-0 gap-x-4">
                   <Image
