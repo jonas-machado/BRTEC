@@ -356,21 +356,6 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
       .trim()
       .split(" ");
 
-    axios
-      .post("http://127.0.0.1:5000/configure-onu", {
-        onutype: ontType,
-        serial,
-        olt: oltName?.ip,
-        pon,
-        idLivre,
-        idOnu,
-        customVlan,
-        cliente: name,
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
     const script = new scriptText(
       pon,
       idLivre,
@@ -383,22 +368,25 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     setpppoeText(pppoeText(clientPPPoE).join("\n"));
     setpppoeText2(pppoeText2(clientPPPoE).join("\n"));
 
-    if (selectedRadio.name == "ZTE/ITBS" && oltName?.brand == "ZTE") {
-      setCadastroText(
-        cadastro(comando(pon, idLivre, "ZTE"), currentUser, oltName, serial)
-      );
-      if (serial.substring(0, 5) == "ZTEG3") {
-        return setConfigText(script.valenet());
+    const provisionZte = () => {
+      if (selectedRadio.name == "ZTE/ITBS" && oltName?.brand == "ZTE") {
+        setCadastroText(
+          cadastro(comando(pon, idLivre, "ZTE"), currentUser, oltName, serial)
+        );
+        if (serial.substring(0, 5) == "ZTEG3") {
+          return script.valenet();
+        }
+        if (serial.substring(0, 4) == "ZTEG") {
+          return script.zte();
+        }
+        if (serial.substring(0, 4) == "CMSZ") {
+          return script.chima();
+        }
+        return script.chima();
       }
-      if (serial.substring(0, 4) == "ZTEG") {
-        return setConfigText(script.zte());
-      }
-      if (serial.substring(0, 4) == "CMSZ") {
-        return setConfigText(script.chima());
-      }
-      return setConfigText(script.chima());
-    }
-
+    };
+    setConfigText(provisionZte());
+    console.log(provisionZte());
     if (
       selectedRadio.name == "ZTE/ITBS" &&
       oltName?.brand.includes("INTELBRAS")
@@ -467,6 +455,20 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
           break;
       }
     }
+    // axios
+    //   .post("http://127.0.0.1:5000/configure-onu", {
+    //     onutype: ontType,
+    //     serial,
+    //     olt: oltName?.ip,
+    //     pon,
+    //     idLivre,
+    //     idOnu,
+    //     customVlan,
+    //     cliente: name,
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
   return (
     <div>
