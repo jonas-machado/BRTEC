@@ -12,11 +12,11 @@ import ControlledInput from "../inputs/controlledInput";
 import ControlledInputConfig from "../inputs/controlledInputConfig";
 import { useForm, FieldValues } from "react-hook-form";
 
-import { cadastro } from "@/lib/text/cadastro";
-import { intelbrasI } from "@/lib/text/intelbrasI";
-import { intelbrasG } from "@/lib/text/intelbrasG";
-import { datacom } from "@/lib/text/datacom";
-import { scriptText } from "@/lib/text/zte";
+import { cadastro } from "@/utils/text/cadastro";
+import { intelbrasI } from "@/utils/text/intelbrasI";
+import { intelbrasG } from "@/utils/text/intelbrasG";
+import { datacom } from "@/utils/text/datacom";
+import { scriptText } from "@/utils/text/zte";
 //constants
 import { plans } from "@/constants/plans";
 import { ponExceptions } from "@/constants/ponException";
@@ -247,7 +247,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     } else if (oltName?.olt == "ITAPOA2") {
       const lastPon = pon.split("/");
       const lastVlanSlot1 = 0 + lastPon[2];
-      const lastVlanSlot2 = parseInt(lastPon[2]) + 16;
+      const lastVlanSlot2 = parseInt(lastPon[2], 10) + 16;
       switch (lastPon[1]) {
         case "1":
           return Number("5" + lastVlanSlot1.slice(-2));
@@ -296,6 +296,9 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
         return `onu status gpon ${pon} onu ${id}`;
       case "Datacom":
         return `do show interface gpon ${pon} onu ${id}`;
+      default:
+        // Handle the case when olt is not recognized
+        return `Unsupported olt type: ${olt}`;
     }
   };
 
@@ -645,3 +648,62 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
 }
 
 export default ConfigForm;
+
+// const RADIO_ZTE_ITBS = "ZTE/ITBS";
+// const BRAND_ZTE = "ZTE";
+// const BRAND_INTELBRAS = "INTELBRAS";
+// const RADIO_DATA_COM = "Datacom";
+
+// const handleConfigSubmit = async ({
+//   client,
+//   customProfile,
+//   customVlan,
+//   idOnu,
+//   idLivre,
+//   intelbrasModel,
+//   ontType,
+//   pon,
+// }: FieldValues) => {
+//   resetText();
+
+//   const name = client
+//     .normalize("NFD")
+//     .replace(/-/g, " ")
+//     // ... (rest of the name transformation)
+
+//   const clientPPPoE = client
+//     .toLowerCase()
+//     .normalize("NFD")
+//     .replace(/-/g, " ")
+//     // ... (rest of the client transformation)
+
+//   const script = new scriptText(
+//     pon,
+//     idLivre,
+//     serial,
+//     name,
+//     oltName?.olt,
+//     handleVlan(pon, oltName?.vlan, customVlan)
+//   );
+
+//   setpppoeText(pppoeText(clientPPPoE).join("\n"));
+//   setpppoeText2(pppoeText2(clientPPPoE).join("\n"));
+
+//   switch (selectedRadio.name) {
+//     case RADIO_ZTE_ITBS:
+//       if (oltName?.brand === BRAND_ZTE) {
+//         // Handle ZTE logic
+//       } else if (oltName?.brand.includes(BRAND_INTELBRAS)) {
+//         // Handle Intelbras logic
+//       }
+//       break;
+//     case RADIO_DATA_COM:
+//       if (oltName?.brand === "DATACOM") {
+//         // Handle Datacom logic
+//       }
+//       break;
+//     // Add more cases as needed
+//     default:
+//       // Handle default case
+//   }
+// };
