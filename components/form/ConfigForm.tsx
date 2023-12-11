@@ -29,6 +29,7 @@ import AutocompleteInput from "../inputs/AutocompleteInput";
 //toast
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { handleVlan, handleVlanDatacom } from "@/utils/provision/handleVlan";
 
 //constants
 const ontType = [{ name: "ONU" }, { name: "ONT" }];
@@ -239,52 +240,6 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     }
   }, [serial, selectedRadio, oltName]);
 
-  const handleVlan = (pon: string, vlan?: number, customVlan?: number) => {
-    if (vlan && !customVlan) {
-      return vlan;
-    } else if (customVlan) {
-      return customVlan;
-    } else if (oltName?.olt == "ITAPOA2") {
-      const lastPon = pon.split("/");
-      const lastVlanSlot1 = 0 + lastPon[2];
-      const lastVlanSlot2 = parseInt(lastPon[2], 10) + 16;
-      switch (lastPon[1]) {
-        case "1":
-          return Number("5" + lastVlanSlot1.slice(-2));
-        case "2":
-          return Number("5" + lastVlanSlot2);
-      }
-    } else if (
-      ponExceptions[oltName!.olt] &&
-      ponExceptions[oltName!.olt].includes(pon)
-    ) {
-      return ponExceptions[oltName!.olt].vlan;
-    } else if (!vlan && !customVlan) {
-      return Number(pon.replace(/[/]/gi, ""));
-    }
-  };
-
-  const handleVlanDatacom = (
-    onuType: string,
-    pon: string,
-    vlan?: number,
-    customVlan?: number
-  ) => {
-    if (vlan && !customVlan) {
-      return vlan;
-    } else if (customVlan) {
-      return customVlan;
-    } else if (!vlan && !customVlan) {
-      if (onuType == "ONU") {
-        const lastPon = pon.split("/");
-        const lastVlanSlot1 = 0 + lastPon[2];
-        return Number("1" + lastVlanSlot1.slice(-2));
-      } else {
-        return 119;
-      }
-    }
-  };
-
   //comandos
   const comando = (pon: string, id: number, olt: string) => {
     switch (olt) {
@@ -359,13 +314,13 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
       .trim()
       .split(" ");
 
-    const script = new scriptText(
+    const script: scriptText = new scriptText(
       pon,
       idLivre,
       serial,
       name,
       oltName?.olt,
-      handleVlan(pon, oltName?.vlan, customVlan)
+      handleVlan(oltName, pon, oltName?.vlan, customVlan)
     );
 
     setpppoeText(pppoeText(clientPPPoE).join("\n"));
@@ -385,7 +340,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
         if (serial.substring(0, 4) == "CMSZ") {
           return script.chima();
         }
-        return script.chima();
+        return script.default();
       }
     };
     setConfigText(provisionZte());
@@ -410,7 +365,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               idLivre,
               idOnu,
               name,
-              handleVlan(pon, oltName?.vlan, customVlan)
+              handleVlan(oltName, pon, oltName?.vlan, customVlan)
             )
           );
           break;
@@ -430,7 +385,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               serial,
               name,
               intelbrasModel,
-              handleVlan(pon, oltName?.vlan, customVlan)
+              handleVlan(oltName, pon, oltName?.vlan, customVlan)
             )
           );
           break;
@@ -648,62 +603,3 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
 }
 
 export default ConfigForm;
-
-// const RADIO_ZTE_ITBS = "ZTE/ITBS";
-// const BRAND_ZTE = "ZTE";
-// const BRAND_INTELBRAS = "INTELBRAS";
-// const RADIO_DATA_COM = "Datacom";
-
-// const handleConfigSubmit = async ({
-//   client,
-//   customProfile,
-//   customVlan,
-//   idOnu,
-//   idLivre,
-//   intelbrasModel,
-//   ontType,
-//   pon,
-// }: FieldValues) => {
-//   resetText();
-
-//   const name = client
-//     .normalize("NFD")
-//     .replace(/-/g, " ")
-//     // ... (rest of the name transformation)
-
-//   const clientPPPoE = client
-//     .toLowerCase()
-//     .normalize("NFD")
-//     .replace(/-/g, " ")
-//     // ... (rest of the client transformation)
-
-//   const script = new scriptText(
-//     pon,
-//     idLivre,
-//     serial,
-//     name,
-//     oltName?.olt,
-//     handleVlan(pon, oltName?.vlan, customVlan)
-//   );
-
-//   setpppoeText(pppoeText(clientPPPoE).join("\n"));
-//   setpppoeText2(pppoeText2(clientPPPoE).join("\n"));
-
-//   switch (selectedRadio.name) {
-//     case RADIO_ZTE_ITBS:
-//       if (oltName?.brand === BRAND_ZTE) {
-//         // Handle ZTE logic
-//       } else if (oltName?.brand.includes(BRAND_INTELBRAS)) {
-//         // Handle Intelbras logic
-//       }
-//       break;
-//     case RADIO_DATA_COM:
-//       if (oltName?.brand === "DATACOM") {
-//         // Handle Datacom logic
-//       }
-//       break;
-//     // Add more cases as needed
-//     default:
-//       // Handle default case
-//   }
-// };
