@@ -107,7 +107,9 @@ export default function Users({ users }: any) {
 
   return (
     <>
-      <MotionComponent></MotionComponent>
+      <MotionComponent>
+        <div></div>
+      </MotionComponent>
       <ToastContainer />
     </>
   );
