@@ -21,6 +21,7 @@ import MotionComponent from "@/lib/framerMotion/motionComponent";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useIntersection } from "@mantine/hooks";
 import Spinner from "../Spinner";
+import useProvisionModal from "@/lib/zustand/useProvisionModal";
 
 export default function Provision({ provisioned }: any) {
   const session = useSession();
@@ -48,20 +49,38 @@ export default function Provision({ provisioned }: any) {
     }
   }, [session?.status, router]);
 
-  const isOpen = useRegisterModal((state) => state.isOpen);
-  const onOpen: () => void = useRegisterModal((state) => state.onOpen);
-  const onClose: () => void = useRegisterModal((state) => state.onClose);
+  const isOpen = useProvisionModal((state) => state.isOpen);
+  const onOpen: () => void = useProvisionModal((state) => state.onOpen);
+  const onClose: () => void = useProvisionModal((state) => state.onClose);
 
   const [query, setQuery] = useState("");
+  const [script, setScript] = useState("");
 
   const filtered =
     query === ""
       ? provisioned
-      : provisioned.filter((item: any) =>
-          item.cliente
-            .toLowerCase()
-            .replace(/\s+/g, "")
-            .includes(query.toLowerCase().replace(/\s+/g, ""))
+      : provisioned.filter(
+          (item: any) =>
+            item.cliente
+              .toLowerCase()
+              .replace(/\s+/g, "")
+              .includes(query.toLowerCase().replace(/\s+/g, "")) ||
+            item.serial
+              .toLowerCase()
+              .replace(/\s+/g, "")
+              .includes(query.toLowerCase().replace(/\s+/g, "")) ||
+            item.olt?.olt
+              .toLowerCase()
+              .replace(/\s+/g, "")
+              .includes(query.toLowerCase().replace(/\s+/g, "")) ||
+            item.pon
+              .toLowerCase()
+              .replace(/\s+/g, "")
+              .includes(query.toLowerCase().replace(/\s+/g, "")) ||
+            item.user?.name
+              .toLowerCase()
+              .replace(/\s+/g, "")
+              .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
 
   const fntest = async ({ pageParam }: any) => {
@@ -131,12 +150,6 @@ export default function Provision({ provisioned }: any) {
                 onChange={(e: any) => setQuery(e.target.value)}
               />
             </div>
-            <button
-              className="bg-gray-800 rounded-md p-2 text-gray-300"
-              onClick={() => onOpen()}
-            >
-              Adicionar usuário
-            </button>
           </div>
           <ul role="list" className="flex flex-col px-6 gap-2">
             {data?.pages.map((group: any, i: number) => (
@@ -144,7 +157,11 @@ export default function Provision({ provisioned }: any) {
                 {group.map((item: any, i: number) => (
                   <li
                     key={i}
-                    className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md"
+                    className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md hover:bg-gray-800 cursor-pointer"
+                    onClick={() => {
+                      onOpen();
+                      setScript(item.script);
+                    }}
                   >
                     <div className="flex min-w-0 gap-x-4 justify-between w-full">
                       <div className="min-w-0">
@@ -152,7 +169,10 @@ export default function Provision({ provisioned }: any) {
                           Serial: {item.serial}
                         </p>
                         <p className="mt-1 truncate text-gray-300">
-                          OLT: {item.olt}
+                          OLT:{" "}
+                          {item?.olt?.olt
+                            ? item?.olt?.olt + " (" + item?.olt?.ip + ")"
+                            : "Erro"}
                         </p>
                         <p className="text-sm leading-6 text-gray-300">
                           PON: {item.pon}
@@ -176,14 +196,6 @@ export default function Provision({ provisioned }: any) {
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-2 items-center">
-                      <button
-                        className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
-                        onClick={() => deleteUser(item, i)}
-                      >
-                        Excluir
-                      </button>
-                    </div>
                   </li>
                 ))}
               </React.Fragment>
@@ -206,8 +218,10 @@ export default function Provision({ provisioned }: any) {
           onClose();
         }}
       >
-        <div className="">
-          <RegisterForm />
+        <div className="m-4 mt-8">
+          <p className="text-gray-300 whitespace-pre-line">
+            {script ?? "Sem script salvo"}
+          </p>
         </div>
       </Modal>
       <ToastContainer />

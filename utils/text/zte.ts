@@ -30,13 +30,13 @@ export class scriptText {
     this.vlan = vlan;
     this.olt = olt!;
     this.baseTemplate = `\
-    interface gpon-olt_${this.pon}
-    onu ${this.id} type ZTE-F601 sn ${this.sn}
-    !
-    interface gpon-onu_${this.pon}:${this.id}
-    description ${this.client}
-    tcont 2 name Tcont100M profile OT
-    `;
+interface gpon-olt_${this.pon}
+onu ${this.id} type ZTE-F601 sn ${this.sn}
+!
+interface gpon-onu_${this.pon}:${this.id}
+description ${this.client}
+tcont 2 name Tcont100M profile OT
+`;
   }
 
   chima(): string {

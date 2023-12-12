@@ -326,7 +326,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     setpppoeText(pppoeText(clientPPPoE).join("\n"));
     setpppoeText2(pppoeText2(clientPPPoE).join("\n"));
 
-    const provisionZte = () => {
+    const provision = () => {
       if (selectedRadio.name == "ZTE/ITBS" && oltName?.brand == "ZTE") {
         setCadastroText(
           cadastro(comando(pon, idLivre, "ZTE"), currentUser, oltName, serial)
@@ -342,64 +342,61 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
         }
         return script.default();
       }
-    };
-    setConfigText(provisionZte());
-    console.log(provisionZte());
-    if (
-      selectedRadio.name == "ZTE/ITBS" &&
-      oltName?.brand.includes("INTELBRAS")
-    ) {
-      switch (oltName?.olt) {
-        case "ERVINO":
-          setCadastroText(
-            cadastro(
-              comando(pon, idLivre, "IntelbrasI"),
-              currentUser,
-              oltName,
-              serial
-            )
-          );
-          setConfigText(
-            intelbrasI(
+
+      if (
+        selectedRadio.name == "ZTE/ITBS" &&
+        oltName?.brand.includes("INTELBRAS")
+      ) {
+        switch (oltName?.olt) {
+          case "ERVINO":
+            setCadastroText(
+              cadastro(
+                comando(pon, idLivre, "IntelbrasI"),
+                currentUser,
+                oltName,
+                serial
+              )
+            );
+
+            return intelbrasI(
               pon,
               idLivre,
               idOnu,
               name,
               handleVlan(oltName, pon, oltName?.vlan, customVlan)
-            )
-          );
-          break;
-        default:
-          setCadastroText(
-            cadastro(
-              comando(pon, idLivre, "IntelbrasG"),
-              currentUser,
-              oltName,
-              serial
-            )
-          );
-          setConfigText(
-            intelbrasG(
+            );
+          default:
+            setCadastroText(
+              cadastro(
+                comando(pon, idLivre, "IntelbrasG"),
+                currentUser,
+                oltName,
+                serial
+              )
+            );
+            return intelbrasG(
               pon,
               idLivre,
               serial,
               name,
               intelbrasModel,
               handleVlan(oltName, pon, oltName?.vlan, customVlan)
-            )
-          );
-          break;
+            );
+        }
       }
-    }
 
-    if (selectedRadio.name == "Datacom" && oltName?.brand == "DATACOM") {
-      setCadastroText(
-        cadastro(comando(pon, idLivre, "Datacom"), currentUser, oltName, serial)
-      );
-      switch (oltName?.olt) {
-        default:
-          setConfigText(
-            datacom(
+      if (selectedRadio.name == "Datacom" && oltName?.brand == "DATACOM") {
+        setCadastroText(
+          cadastro(
+            comando(pon, idLivre, "Datacom"),
+            currentUser,
+            oltName,
+            serial
+          )
+        );
+        switch (oltName?.olt) {
+          default:
+            return datacom(
               pon,
               idLivre,
               serial,
@@ -408,25 +405,26 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
               oltName,
               customProfile,
               handleVlanDatacom(ontType, pon, oltName?.vlan, customVlan)
-            )
-          );
-          break;
+            );
+        }
       }
-    }
-    // axios
-    //   .post("http://127.0.0.1:5000/configure-onu", {
-    //     onutype: ontType,
-    //     serial,
-    //     olt: oltName?.ip,
-    //     pon,
-    //     idLivre,
-    //     idOnu,
-    //     customVlan,
-    //     cliente: name,
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    };
+    setConfigText(provision());
+    axios
+      .post("/api/configManual", {
+        onutype: ontType,
+        serial,
+        olt: oltName?.ip,
+        pon,
+        idLivre,
+        idOnu,
+        customVlan,
+        cliente: name,
+        script: provision(),
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div>

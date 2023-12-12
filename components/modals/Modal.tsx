@@ -54,7 +54,7 @@ const Modal = ({ isOpen, currentUser, make, cancel, children }: ModalProp) => {
                     <button
                       type="button"
                       onClick={cancel}
-                      className="absolute top-3 right-2.5 cursor-pointer z-50 text-gray-400 bg-transparent  hover:text-gray-200 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                      className="absolute top-3 right-2.5 cursor-pointer z-50 text-gray-400 bg-transparent  hover:bg-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center outline-none"
                       data-modal-hide="authentication-modal"
                     >
                       <svg
