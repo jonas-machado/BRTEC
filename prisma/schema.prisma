@@ -71,7 +71,7 @@ model VerificationToken {
 
 model Olt {
   id         String       @id @default(auto()) @map("_id") @db.ObjectId
-  olt        String
+  olt        String?
   vlan       Int?
   ip         String       @unique
   brand      String

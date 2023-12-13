@@ -5,13 +5,13 @@ import getCurrentUser from "@/lib/actions/getCurrentUser";
 import MotionComponent from "@/lib/framerMotion/motionComponent";
 import Settings from "@/components/settings/Sidebar";
 import Dashboard from "@/components/settings/dashboard";
+import getUsers from "@/lib/actions/getUsers";
 
 export default async function DashboardPage() {
-  const currentUser = await getCurrentUser();
-  const { olt } = await getOlt();
+  const users = await getUsers();
   return (
     <>
-      <Dashboard />
+      <Dashboard users={users} />
     </>
   );
 }
