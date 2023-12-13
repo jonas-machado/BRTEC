@@ -4,9 +4,14 @@ import ConfigForm from "@/components/form/ConfigForm";
 import getCurrentUser from "@/lib/actions/getCurrentUser";
 import MotionComponent from "@/lib/framerMotion/motionComponent";
 import Settings from "@/components/settings/Sidebar";
+import Dashboard from "@/components/settings/dashboard";
 
 export default async function DashboardPage() {
   const currentUser = await getCurrentUser();
   const { olt } = await getOlt();
-  return <></>;
+  return (
+    <>
+      <Dashboard />
+    </>
+  );
 }
