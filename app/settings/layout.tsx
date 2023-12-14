@@ -11,6 +11,8 @@ import Image from "next/image";
 import Nav from "@/components/navLink/Nav";
 import { useRef } from "react";
 import Sidebar from "@/components/settings/Sidebar";
+import AdminOnly from "@/components/AdminOnly";
+import AdminPage from "@/components/AdminPage";
 
 export default async function RootLayout({
   children,
@@ -47,7 +49,7 @@ export default async function RootLayout({
         />
         <div className="flex w-full">
           <Sidebar currentUser={currentUser} />
-          {children}
+          <AdminPage>{children}</AdminPage>
         </div>
       </MotionPage>
     </PageWrapper>

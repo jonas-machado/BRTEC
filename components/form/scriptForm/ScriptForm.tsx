@@ -46,12 +46,6 @@ const ScriptForm = ({ currentUser }: { currentUser?: User | null }) => {
     });
   };
 
-  useEffect(() => {
-    if (session?.status == "unauthenticated") {
-      router.push("/");
-    }
-  }, [session?.status, router]);
-
   const schema: any = {
     padraoEmail: z.object({
       addres: z
