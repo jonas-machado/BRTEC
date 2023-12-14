@@ -1,5 +1,6 @@
 "use client";
 
+import { Switch } from "@headlessui/react";
 import { User } from "@prisma/client";
 import {
   AreaChart,
@@ -9,8 +10,36 @@ import {
   Subtitle,
   Title,
 } from "@tremor/react";
-
+import { useState } from "react";
+const cities = [
+  {
+    name: "New York",
+    sales: 9800,
+  },
+  {
+    name: "London",
+    sales: 4567,
+  },
+  {
+    name: "Hong Kong",
+    sales: 3908,
+  },
+  {
+    name: "San Francisco",
+    sales: 2400,
+  },
+  {
+    name: "Singapore",
+    sales: 1908,
+  },
+  {
+    name: "Zurich",
+    sales: 1398,
+  },
+];
 export default function Dashboard({ users }: any) {
+  const [value, setValue] = useState(true);
+
   const generateData = () => {
     const months = [
       "Jan",
@@ -26,48 +55,95 @@ export default function Dashboard({ users }: any) {
       "Nov",
       "Dez",
     ];
-    const chartData: any = {};
-
-    users.forEach((user: any) => {
-      user.configured.forEach((configuredItem: any) => {
-        const month = configuredItem.updatedAt.getMonth(); // Assuming 'updatedAt' is a date field
-        const monthKey = `${
-          months[month]
-        } ${configuredItem.updatedAt.getFullYear()}`; // Get month name + year
-        if (!chartData[monthKey]) {
-          chartData[monthKey] = {
-            date: monthKey,
-            [user.name]: 0,
-          };
-        }
-        chartData[monthKey][user.name]++;
-      });
-      return chartData;
-      // dataset.push({
-      //   date,
-      //   "checkout-1": Math.round(150 + Math.random() * 20 - 10),
-      //   "checkout-2": Math.round(200 + Math.random() * 20 - 10),
-      //   "checkout-3": Math.round(250 + Math.random() * 20 - 10),
-      // });
-    });
+    let data = [];
+    for (let i = 0; i < months.length; i++) {
+      const chartData: any = {};
+      for (let user of users) {
+        const month = user.configured.filter((onu: any) => {
+          return onu.updatedAt.getMonth() == i || onu.createdAt.getMonth() == i;
+        });
+        console.log(month);
+        chartData[user.name] = month.length;
+      }
+      data.push({ date: months[i], ...chartData });
+    }
+    return data;
   };
-  console.log(generateData());
+  const chartData = generateData();
+  const usersName = users.map((user: any) => user.name);
+  console.log(chartData);
   return (
-    <div className="grid w-full gap-4">
-      {/* <Card className="mt-8 bg-opacity-80 backdrop-blur-md mx-4 row-auto">
-        <Title className="mb-2">My admin dashboard</Title>
-        <AreaChart
-          className="mt-4 h-auto w-full"
-          defaultValue={0}
-          data={""}
-          categories={["checkout-1", "checkout-2", "checkout-3"]}
-          index="date"
-          colors={["indigo", "fuchsia", "emerald", "neutral"]}
-          allowDecimals={false}
-          yAxisWidth={60}
-          noDataText="No data. Run your first test to get started!"
-        />
-      </Card> */}
+    <div className="flex w-full gap-4 m-4 flex-col">
+      <Card className="bg-opacity-80 backdrop-blur-md row-auto">
+        <Title>ONU configurada por mês</Title>
+        <div className="p-6">
+          <AreaChart
+            className="h-72 mt-4"
+            data={chartData}
+            index="date"
+            categories={usersName}
+            colors={[
+              "cyan",
+              "amber",
+              "blue",
+              "emerald",
+              "fuchsia",
+              "gray",
+              "green",
+              "indigo",
+              "orange",
+              "pink",
+              "purple",
+              "red",
+              "rose",
+              "sky",
+              "teal",
+              "violet",
+              "yellow",
+            ]}
+            yAxisWidth={30}
+            enableLegendSlider={value}
+          />
+        </div>
+      </Card>
+      <div className="flex gap-4">
+        <Card className="bg-opacity-80 backdrop-blur-md ">
+          <DonutChart
+            className="m-6"
+            data={cities}
+            category="sales"
+            index="name"
+            colors={["slate", "violet", "indigo", "rose", "cyan", "amber"]}
+          />
+        </Card>
+        <Card className="bg-opacity-80 backdrop-blur-md ">
+          <DonutChart
+            className="m-6"
+            data={cities}
+            category="sales"
+            index="name"
+            colors={["slate", "violet", "indigo", "rose", "cyan", "amber"]}
+          />
+        </Card>
+        <Card className="bg-opacity-80 backdrop-blur-md ">
+          <DonutChart
+            className="m-6"
+            data={cities}
+            category="sales"
+            index="name"
+            colors={["slate", "violet", "indigo", "rose", "cyan", "amber"]}
+          />
+        </Card>
+        <Card className="bg-opacity-80 backdrop-blur-md ">
+          <DonutChart
+            className="m-6"
+            data={cities}
+            category="sales"
+            index="name"
+            colors={["slate", "violet", "indigo", "rose", "cyan", "amber"]}
+          />
+        </Card>
+      </div>
     </div>
   );
 }
