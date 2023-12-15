@@ -21,7 +21,7 @@ export default async function AdminPage({ children }: Admin) {
               height={500}
               className=""
               alt="game over"
-              src={`/images/gameover.gif`}
+              src={`/images/gameOver.gif`}
             />
           </div>
         </>
