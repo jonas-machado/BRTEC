@@ -596,15 +596,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
           />
         </div>
       </section>
-      <AdminOnly>
-        <div className="bg-gray-800 w-[200px] h-[200px]">
-          <textarea
-            name=""
-            id=""
-            className="lg:h-full min-h-[400px] scrollbar-corner-transparent resize-none scrollbar-thumb-rounded-md scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent lg:min-h-0 border-2 w-full rounded-md bg-gray-900 opacity-90 backdrop-blur-sm border-black shadow-sm outline-none text-sm text-white p-3"
-          ></textarea>
-        </div>
-      </AdminOnly>
+
       <ToastContainer />
     </div>
   );
