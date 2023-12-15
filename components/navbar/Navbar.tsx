@@ -69,7 +69,10 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
                   height="1280.000000pt"
                   viewBox="0 0 1157.000000 1280.000000"
                   preserveAspectRatio="xMidYMid meet"
-                  className="w-12 h-12 text-purple-600"
+                  className="w-12 h-12 text-purple-600 cursor-pointer"
+                  onClick={() => {
+                    router.push("/config/manual");
+                  }}
                 >
                   <metadata>
                     Created by potrace 1.15, written by Peter Selinger 2001-2017

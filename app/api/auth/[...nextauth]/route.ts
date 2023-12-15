@@ -48,6 +48,9 @@ export const authOptions: AuthOptions = {
   ],
   pages: { signIn: "/" },
   debug: process.env.NODE_ENV === "development",
+  events: {
+    async signOut({ token }) {},
+  },
   callbacks: {
     async jwt({ token, trigger, account, user, session }) {
       if (account) {

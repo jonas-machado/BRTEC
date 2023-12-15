@@ -10,7 +10,7 @@ declare module "next-auth" {
       id?: UserId;
       backgroundImage?: User.backgroundImage;
       role?: UserRole;
-      sector: User.sector;
+      sector?: User.sector;
     };
   }
   interface User {
@@ -23,9 +23,9 @@ declare module "next-auth" {
 
 declare module "next-auth/jwt" {
   interface JWT {
-    id: User.id;
-    role: UserRole;
+    id?: User.id;
+    role?: UserRole;
     backgroundImage?: User.backgroundImage;
-    sector: User.sector;
+    sector?: User.sector;
   }
 }
