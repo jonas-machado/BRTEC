@@ -12,7 +12,7 @@ export default function PageWrapper({
   return (
     <>
       <AnimatePresence mode="wait">
-        <div className={classname}>{children}</div>
+        <div className={classname + " h-full w-full"}>{children}</div>
       </AnimatePresence>
     </>
   );

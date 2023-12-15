@@ -15,6 +15,7 @@ import EditorOutput from "../EditorOutput";
 import Editor from "../Editor";
 import { sectorArray } from "@/constants/sectorArray";
 import useEditorModal from "@/lib/zustand/useEditorModal";
+import AdminOnly from "../AdminOnly";
 
 const SolutionForm = ({ post, currentUser }: any) => {
   const isOpen = useEditorModal((state) => state.isOpen);
@@ -73,16 +74,18 @@ const SolutionForm = ({ post, currentUser }: any) => {
               value={query}
               onChange={(e: any) => setQuery(e.target.value)}
             />
-            <button
-              type="button"
-              className="bg-gray-900 text-sm p-2 text-gray-300 hover:text-white border-2 border-gray-950 focus:outline-none font-bold rounded-lg text-center"
-              onClick={() => {
-                setEdit({});
-                onOpen();
-              }}
-            >
-              Adicionar
-            </button>
+            <AdminOnly>
+              <button
+                type="button"
+                className="bg-gray-900 text-sm p-2 text-gray-300 hover:text-white border-2 border-gray-950 focus:outline-none font-bold rounded-lg text-center"
+                onClick={() => {
+                  setEdit({});
+                  onOpen();
+                }}
+              >
+                Adicionar
+              </button>
+            </AdminOnly>
           </div>
         </div>
         <TabBody>
@@ -100,21 +103,23 @@ const SolutionForm = ({ post, currentUser }: any) => {
         {filtered.map((post: any, index: number) => (
           <DisclosureBank key={post.id} title={post.title}>
             <EditorOutput content={post.content} index={index} />
-            <div className="flex justify-end mx-8 mb-3 border-t-2 pt-6 gap-4">
-              <button
-                className="bg-gray-950 rounded-md p-2 px-4 text-lg"
-                onClick={() => {
-                  onOpen();
-                  setEdit({
-                    postId: post.id,
-                    postContent: post.content,
-                    postTitle: post.title,
-                  });
-                }}
-              >
-                Editar
-              </button>
-            </div>
+            <AdminOnly>
+              <div className="flex justify-end mx-8 mb-3 border-t-2 pt-6 gap-4">
+                <button
+                  className="bg-gray-950 rounded-md p-2 px-4 text-lg"
+                  onClick={() => {
+                    onOpen();
+                    setEdit({
+                      postId: post.id,
+                      postContent: post.content,
+                      postTitle: post.title,
+                    });
+                  }}
+                >
+                  Editar
+                </button>
+              </div>
+            </AdminOnly>
           </DisclosureBank>
         ))}
         <div className="fixed bottom-10 right-12"></div>

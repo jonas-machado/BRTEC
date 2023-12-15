@@ -2,16 +2,17 @@ import { getCurrentUser } from "@/app/api/auth/[...nextauth]/route";
 import { NoSymbolIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 
-interface Admin {
+interface Sector {
+  sector: string;
   children: React.ReactNode;
 }
 
-export default async function AdminPage({ children }: Admin) {
+export default async function SectorPage({ sector, children }: Sector) {
   const user = await getCurrentUser();
-  console.log(user?.user.role);
+  console.log(user?.user.sector);
   return (
     <>
-      {user?.user.role == "ADMIN" ? (
+      {user?.user.sector == sector ? (
         children
       ) : (
         <>

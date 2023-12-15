@@ -14,11 +14,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: [
-    "/config",
-    "/ponVerification",
-    "/script",
-    "/solutionBank",
-    "/settings",
-  ],
+  matcher: ["/"],
 };

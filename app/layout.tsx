@@ -22,7 +22,7 @@ export default function RootLayout({
       <body
         className={
           inter.className +
-          " bg-black bg-no-repeat bg-fit h-full min-h-screen scrollbar-corner-transparent resize-none scrollbar-w-3 scrollbar-thumb-rounded-lg scrollbar-thumb-gray-800 scrollbar-thin scrollbar-track-transparent scrollbar-track-rounded-md"
+          " bg-black bg-no-repeat bg-fit min-h-screen scrollbar-corner-transparent resize-none scrollbar-w-3 scrollbar-thumb-rounded-lg scrollbar-thumb-gray-800 scrollbar-thin scrollbar-track-transparent scrollbar-track-rounded-md"
         }
       >
         <AuthContext>

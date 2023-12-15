@@ -47,10 +47,12 @@ export default async function RootLayout({
           shadow="0 40px 50px #ffffff,0 40px 50px #ffffff"
           showSpinner={false}
         />
-        <div className="flex w-full">
-          <Sidebar currentUser={currentUser} />
-          <AdminPage>{children}</AdminPage>
-        </div>
+        <AdminPage>
+          <div className="flex w-full h-full">
+            <Sidebar currentUser={currentUser} />
+            {children}
+          </div>
+        </AdminPage>
       </MotionPage>
     </PageWrapper>
   );
