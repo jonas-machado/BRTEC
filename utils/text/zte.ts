@@ -97,11 +97,9 @@ vlan port eth_0/1 mode tag vlan ${this.vlan}
 !
 `;
 
-    const config = oltTemplates[this.olt] || {
-      extraConfig: defaultExtraConfig,
-    };
+    const config = oltTemplates[this.olt]?.template ?? defaultExtraConfig;
 
-    return this.baseTemplate + config.extraConfig;
+    return this.baseTemplate + config;
   }
   /// onu zte
   zte(): string {
@@ -168,11 +166,9 @@ vlan port eth_0/1 mode tag vlan ${this.vlan}
 !
 `;
 
-    const config = oltTemplates[this.olt] || {
-      extraConfig: defaultExtraConfig,
-    };
+    const config = oltTemplates[this.olt]?.template ?? defaultExtraConfig;
 
-    return this.baseTemplate + config.extraConfig;
+    return this.baseTemplate + config;
   }
 
   //SCRIPT PARA VALENET

@@ -72,40 +72,5 @@ export default function ProvisionPerMonth({ users }: any) {
   const chartData = generateData();
   const usersName = users.map((user: any) => user.name);
   console.log(chartData);
-  return (
-    <div className="w-full">
-      <Card className="bg-opacity-80 backdrop-blur-md row-auto">
-        <Title>ONU configurada por mês</Title>
-        <div className="p-6">
-          <AreaChart
-            className="h-72 mt-4"
-            data={chartData}
-            index="date"
-            categories={usersName}
-            colors={[
-              "cyan",
-              "amber",
-              "blue",
-              "emerald",
-              "fuchsia",
-              "gray",
-              "green",
-              "indigo",
-              "orange",
-              "pink",
-              "purple",
-              "red",
-              "rose",
-              "sky",
-              "teal",
-              "violet",
-              "yellow",
-            ]}
-            yAxisWidth={30}
-            enableLegendSlider={value}
-          />
-        </div>
-      </Card>
-    </div>
-  );
+  return <div className="w-full"></div>;
 }

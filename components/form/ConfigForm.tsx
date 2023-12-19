@@ -323,6 +323,14 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
       oltName?.olt,
       handleVlan(oltName, pon, oltName?.vlan, customVlan)
     );
+    console.log(
+      pon,
+      idLivre,
+      serial,
+      name,
+      oltName?.olt,
+      handleVlan(oltName, pon, oltName?.vlan, customVlan)
+    );
 
     setpppoeText(pppoeText(clientPPPoE).join("\n"));
     setpppoeText2(pppoeText2(clientPPPoE).join("\n"));
@@ -410,6 +418,7 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
         }
       }
     };
+    console.log(provision());
     setConfigText(provision());
     axios
       .post("/api/configManual", {
