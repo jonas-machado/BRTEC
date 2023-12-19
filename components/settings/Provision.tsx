@@ -14,6 +14,7 @@ import Search from "../inputs/search";
 import useRegisterModal from "@/lib/zustand/useRegisterModal";
 import Modal from "../modals/Modal";
 
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
 //Constants
 
 import axios from "axios";
@@ -143,7 +144,15 @@ export default function Provision({ provisioned }: any) {
     <>
       <MotionComponent id="users" className="w-full">
         <div className="flex flex-col m-2 w-full pt-4 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
-          <div className="flex m-6 justify-end gap-2">
+          <div className="flex m-6 justify-between gap-2">
+            <div>
+              <button
+                className="bg-gray-900 rounded-md p-2 text-gray-300 hover:bg-gray-800 transition"
+                onClick={() => router.refresh()}
+              >
+                <ArrowPathIcon className="w-6 h-6" />
+              </button>
+            </div>
             <div className=" max-w-xs">
               <Search
                 value={query}
