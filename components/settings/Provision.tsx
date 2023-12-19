@@ -144,7 +144,6 @@ export default function Provision({ provisioned }: any) {
       <MotionComponent id="users" className="w-full">
         <div className="flex flex-col m-2 w-full pt-4 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
           <div className="flex m-6 justify-end gap-2">
-            <div></div>
             <div className=" max-w-xs">
               <Search
                 value={query}
