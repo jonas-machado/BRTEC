@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Fragment, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 //import io from "socket.io-client";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -8,10 +8,7 @@ import { useSession } from "next-auth/react";
 //toast
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import RegisterForm from "../form/RegisterForm";
-import Image from "next/image";
 import Search from "../inputs/search";
-import useRegisterModal from "@/lib/zustand/useRegisterModal";
 import Modal from "../modals/Modal";
 
 import { ArrowPathIcon } from "@heroicons/react/24/outline";

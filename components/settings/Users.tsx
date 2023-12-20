@@ -5,21 +5,6 @@ import React, { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
-import { useForm, FieldValues } from "react-hook-form";
-
-import {
-  UserIcon,
-  PresentationChartLineIcon,
-  QueueListIcon,
-  CommandLineIcon,
-  ChevronUpDownIcon,
-  CheckIcon,
-} from "@heroicons/react/24/outline";
-
-//ZOD
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
 //toast
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,8 +15,6 @@ import useRegisterModal from "@/lib/zustand/useRegisterModal";
 import Modal from "../modals/Modal";
 
 //Constants
-import { sectorArray } from "@/constants/sectorArray";
-import { Listbox, Transition } from "@headlessui/react";
 import useEditUserModal from "@/lib/zustand/useEditUser";
 import EditUserForm from "../form/EditUserForm";
 import axios from "axios";

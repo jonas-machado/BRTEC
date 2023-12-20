@@ -1,24 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import TextAreaUseForm from "../../inputs/textAreaLabelUseForm";
 import ControlledInput from "../../inputs/controlledInput";
 import Input from "@/components/inputs/inputLabelUseForm";
 
 import { User } from "@prisma/client";
 //constants
-import { tabScript } from "@/constants/tabScript";
 import { bases } from "@/constants/bases";
 import { sla } from "@/constants/sla";
-import { AnimatePresence, motion } from "framer-motion";
-
-//ZOD
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { motion } from "framer-motion";
 
 const ScriptForm = ({
   currentUser,

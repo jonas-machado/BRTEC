@@ -1,5 +1,4 @@
 import { getCurrentUser } from "@/app/api/auth/[...nextauth]/route";
-import { NoSymbolIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 
 interface Sector {
