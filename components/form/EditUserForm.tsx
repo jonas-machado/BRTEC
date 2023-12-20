@@ -73,7 +73,6 @@ export default function EditUserForm({ selectedUser }: any) {
   //função on submit que envia os dados para o nextauth e posteriomente para o mongoDB
   const handleClickUpdate = async ({ sector, role, email }: FieldValues) => {
     setIsLoading(true);
-    console.log(email, sector);
     await axios
       .post("/api/user/update", {
         sector,

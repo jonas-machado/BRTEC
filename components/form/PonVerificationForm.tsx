@@ -47,7 +47,6 @@ const PonVerificationForm = ({ olt }: ConfigProps) => {
   } = useForm();
 
   const notify = (text: any) => {
-    console.log("toast running");
     toast.error(text, {
       theme: "dark",
       pauseOnFocusLoss: false,

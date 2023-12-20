@@ -63,7 +63,6 @@ export default function LoginForm() {
       })
       .catch((err) => console.log(err));
   };
-  console.log(isLoading);
   if (status == "authenticated") {
     router.push("/config/manual");
   }

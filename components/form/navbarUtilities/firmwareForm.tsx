@@ -71,14 +71,12 @@ export default function FirmwareForm({ id }: { id?: string }) {
   } = useForm<FieldValues>({
     resolver: zodResolver(schema),
   });
-  const watchAll = watch();
   //use effect para verificar erros nos campos
   useEffect(() => {
     for (let error in errors) {
       notify(errors[error]?.message);
     }
   }, [errors]);
-  console.log(watchAll);
   //função on submit que envia os dados para o nextauth e posteriomente para o mongoDB
   const handleClickUpdate = async ({
     company,
@@ -88,7 +86,6 @@ export default function FirmwareForm({ id }: { id?: string }) {
   }: FieldValues) => {
     toastId.current = toast.loading("Enviando...", { theme: "dark" });
 
-    console.log(dropZone[0]);
     const fileRef = ref(storage, `firmware/${v4() + dropZone[0].name}`);
 
     await uploadBytes(fileRef, dropZone[0]).then(() => {
@@ -99,7 +96,6 @@ export default function FirmwareForm({ id }: { id?: string }) {
       });
     });
     const url = await getDownloadURL(fileRef);
-    console.log(url);
     return await axios
       .post("/api/firmware/create", {
         company,
