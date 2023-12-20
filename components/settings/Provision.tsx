@@ -142,8 +142,8 @@ export default function Provision({ provisioned }: any) {
   }, [entry, fetchNextPage]);
   return (
     <>
-      <MotionComponent id="users" className="w-full">
-        <div className="flex flex-col m-2 w-full pt-4 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
+      <MotionComponent id="users" className="w-full ">
+        <div className="flex flex-col m-2 w-full pt-4 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80 overflow-y-scroll overflow-x-hidden">
           <div className="flex m-6 justify-between gap-2">
             <div>
               <button
@@ -196,9 +196,9 @@ export default function Provision({ provisioned }: any) {
                       <div className="min-w-0 w-60">
                         <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
                           Data:{" "}
-                          {item.createdAt.toLocaleDateString() +
+                          {item.updatedAt.toLocaleDateString() +
                             " " +
-                            item.createdAt.toLocaleTimeString()}
+                            item.updatedAt.toLocaleTimeString()}
                         </p>
                         <p className="mt-1 truncate text-gray-300">
                           Por: {item?.user?.name ?? "Desconhecido"}
@@ -219,20 +219,20 @@ export default function Provision({ provisioned }: any) {
               <div className=" border-t-2 border-gray-300 w-full rounded-sm" />
             )}
           </div>
+          <Modal
+            isOpen={isOpen}
+            cancel={() => {
+              onClose();
+            }}
+          >
+            <div className="m-4 mt-8">
+              <p className="text-gray-300 whitespace-pre-line">
+                {script ?? "Sem script salvo"}
+              </p>
+            </div>
+          </Modal>
         </div>
       </MotionComponent>
-      <Modal
-        isOpen={isOpen}
-        cancel={() => {
-          onClose();
-        }}
-      >
-        <div className="m-4 mt-8">
-          <p className="text-gray-300 whitespace-pre-line">
-            {script ?? "Sem script salvo"}
-          </p>
-        </div>
-      </Modal>
       <ToastContainer />
     </>
   );
