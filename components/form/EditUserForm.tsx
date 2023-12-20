@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { BeatLoader, PulseLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -23,6 +23,8 @@ import useEditUserModal from "@/lib/zustand/useEditUser";
 const role = ["ADMIN", "USER"];
 
 export default function EditUserForm({ selectedUser }: any) {
+  const { data: session, update, status } = useSession();
+
   const editIsOpen = useEditUserModal((state) => state.isOpen);
   const editOnOpen: () => void = useEditUserModal((state) => state.onOpen);
   const editOnClose: () => void = useEditUserModal((state) => state.onClose);
@@ -73,6 +75,14 @@ export default function EditUserForm({ selectedUser }: any) {
   //função on submit que envia os dados para o nextauth e posteriomente para o mongoDB
   const handleClickUpdate = async ({ sector, role, email }: FieldValues) => {
     setIsLoading(true);
+    const newSession = {
+      user: {
+        sector: sector,
+        role: role,
+      },
+    };
+    await update(newSession);
+
     await axios
       .post("/api/user/update", {
         sector,

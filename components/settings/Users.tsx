@@ -21,7 +21,7 @@ import axios from "axios";
 import MotionComponent from "@/lib/framerMotion/motionComponent";
 
 export default function Users({ users }: any) {
-  const session = useSession();
+  const { data: session, update, status } = useSession();
   const router = useRouter();
   console.log(users);
 
@@ -41,10 +41,10 @@ export default function Users({ users }: any) {
   };
 
   useEffect(() => {
-    if (session?.status == "unauthenticated") {
+    if (status == "unauthenticated") {
       router.push("/");
     }
-  }, [session?.status, router]);
+  }, [status, router]);
 
   const isOpen = useRegisterModal((state) => state.isOpen);
   const onOpen: () => void = useRegisterModal((state) => state.onOpen);

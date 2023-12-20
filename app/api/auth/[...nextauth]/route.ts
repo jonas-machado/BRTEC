@@ -67,8 +67,12 @@ export const authOptions: AuthOptions = {
       if (trigger === "update" && session.user.image) {
         token.picture = session.user.image;
       }
-      if (trigger === "update" && session.user.role) {
+      if (
+        (trigger === "update" && session.user.role) ||
+        (trigger === "update" && session.user.sector)
+      ) {
         token.role = session.user.role;
+        token.sector = session.user.sector;
       }
       return token;
     },
