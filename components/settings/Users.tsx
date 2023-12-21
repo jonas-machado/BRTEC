@@ -76,6 +76,7 @@ export default function Users({ users }: any) {
   };
   const deleteUser = async (user: any, index: number) => {
     setDeleteLoading({ state: true, index: index });
+
     await axios
       .post("/api/user/delete", {
         email: user.email,
@@ -94,7 +95,10 @@ export default function Users({ users }: any) {
 
   return (
     <>
-      <MotionComponent id="users" className="w-full">
+      <MotionComponent
+        id="users"
+        className="w-full overflow-y-scroll overflow-x-hidden"
+      >
         <div className="flex flex-col m-2 w-full pt-4 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
           <div className="flex m-6 justify-end gap-2">
             <div className=" max-w-xs">

@@ -74,6 +74,7 @@ export const authOptions: AuthOptions = {
         token.role = session.user.role;
         token.sector = session.user.sector;
       }
+      console.log(token);
       return token;
     },
     async session({ session, token }) {
