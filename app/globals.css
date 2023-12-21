@@ -297,3 +297,28 @@ svg.icon--unlink {
 .image-tool__image-preloader {
   background-color: transparent !important;
 }
+
+/*inline editor*/
+
+.easy-edit-wrapper {
+  color: aliceblue;
+  padding: 0.5rem;
+}
+
+.easy-edit-hover-on {
+  font-weight: 700;
+  font-style: normal !important;
+}
+
+.easy-edit-component-wrapper input {
+  background-color: transparent;
+  outline: none;
+  caret-color: aliceblue;
+  color: aliceblue;
+}
+
+.easy-edit-button {
+  color: aliceblue;
+  background-color: rgba(17, 24, 39, 0.812);
+  border-radius: 0.2rem;
+}
