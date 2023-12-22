@@ -324,3 +324,9 @@ svg.icon--unlink {
   background-color: rgba(17, 24, 39, 0.812);
   border-radius: 0.2rem;
 }
+
+/*mui*/
+
+.MuiInputBase-input {
+  color: aliceblue;
+}

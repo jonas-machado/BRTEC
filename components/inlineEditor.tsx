@@ -6,8 +6,12 @@ import {
   ChevronUpDownIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 
 const people = [
   {
@@ -27,11 +31,17 @@ const people = [
 export default function InlineEditor() {
   const [selected, setSelected] = useState([]);
   const [status, setStatus] = useState(false);
+  const [value, setValue] = useState("10:00");
+
   const save = (value: any) => {
     console.log(value);
   };
   const cancel = () => {
     console.log("Cancelled");
+  };
+
+  const onChange = (timeValue: any) => {
+    setValue(timeValue);
   };
 
   return (
@@ -53,7 +63,18 @@ export default function InlineEditor() {
           cancelButtonLabel={<XMarkIcon className="w-4 h-4" />}
           attributes={{ name: "awesome-input", id: 1 }}
         />
-
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateTimePicker
+            ampm={false}
+            label="With Time Clock"
+            viewRenderers={{
+              hours: renderTimeViewClock,
+              minutes: renderTimeViewClock,
+              seconds: renderTimeViewClock,
+            }}
+            className="text-gray-300"
+          />
+        </LocalizationProvider>
         <div className="w-60 h-20">
           <Listbox value={selected} onChange={setSelected} multiple>
             <div className="relative h-full items-center">
