@@ -9,7 +9,9 @@ export default async function monitoring() {
 
   return (
     <MotionContent>
-      <InlineEditor />
+      <div className="flex mx-auto my-12 w-11/12">
+        <InlineEditor />
+      </div>
     </MotionContent>
   );
 }

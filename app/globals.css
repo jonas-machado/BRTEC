@@ -303,6 +303,7 @@ svg.icon--unlink {
 .easy-edit-wrapper {
   color: aliceblue;
   padding: 0.5rem;
+  font-size: 1.5rem;
 }
 
 .easy-edit-hover-on {
@@ -315,6 +316,7 @@ svg.icon--unlink {
   outline: none;
   caret-color: aliceblue;
   color: aliceblue;
+  font-size: 1.5rem;
 }
 
 .easy-edit-button {
