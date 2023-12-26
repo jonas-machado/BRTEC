@@ -134,3 +134,13 @@ model Post {
   authorId  String?  @db.ObjectId
   author    User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
 }
+
+model Monitoring {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  text      String
+  isUp      Boolean
+  dateDown  DateTime
+  bases     String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -29,17 +29,23 @@ const people = [
 ];
 
 interface InlineEditorProps {
+  changeStatus: () => void;
   date: Date;
   bases: string[];
+  setBases: any;
   text: string;
   isUp: boolean;
+  array: any;
 }
 
 export default function InlineEditor({
+  changeStatus,
   date,
   bases,
+  setBases,
   text,
   isUp,
+  array,
 }: InlineEditorProps) {
   const [selected, setSelected] = useState([]);
   const [status, setStatus] = useState(false);
@@ -55,16 +61,16 @@ export default function InlineEditor({
     <>
       <div
         className={`bg-black px-2 backdrop-blur-md flex w-full transition h-full rounded-md items-center gap-4 bg-opacity-20 ${
-          status ? "bg-green-400" : "bg-red-600"
+          status || isUp ? "bg-green-400" : "bg-red-600"
         }`}
       >
         <button
-          onClick={() => setStatus(!status)}
+          onClick={changeStatus}
           className={`text-black rounded-md p-2 min-w-[70px] ${
-            status ? "bg-green-400" : "bg-red-600"
+            status || isUp ? "bg-green-400" : "bg-red-600"
           }`}
         >
-          {!status ? "DOWN" : "UP"}
+          {!status || !isUp ? "DOWN" : "UP"}
         </button>
         <EasyEdit
           type={Types.TEXT}
@@ -73,11 +79,13 @@ export default function InlineEditor({
           saveButtonLabel={<CheckIcon className="w-4 h-4" />}
           cancelButtonLabel={<XMarkIcon className="w-4 h-4" />}
           attributes={{ name: "awesome-input", id: 1 }}
+          value={text}
+          defaultValue="Clique para editar"
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateTimePicker
             ampm={false}
-            defaultValue={dayjs()}
+            defaultValue={dayjs(date)}
             format="DD/MM/YY HH:mm"
             viewRenderers={{
               hours: renderTimeViewClock,
@@ -87,10 +95,10 @@ export default function InlineEditor({
           />
         </LocalizationProvider>
         <div className="w-60 backdrop-blur-xl rounded-lg shadow-black">
-          <Listbox value={selected} onChange={setSelected} multiple>
+          <Listbox value={bases} onChange={setBases} multiple>
             <div className="relative h-full items-center">
               <Listbox.Button className="relative w-full h-9 cursor-pointer rounded-lg bg-transparent pl-3 pr-10 text-left">
-                {selected.map((item: any) => (
+                {bases.map((item: any) => (
                   <>
                     <span
                       className={` truncate ${item.class} rounded-full p-1 px-2 text-lg`}
@@ -113,7 +121,7 @@ export default function InlineEditor({
                 leaveTo="opacity-0"
               >
                 <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-900 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                  {people.map((item, itemIdx) => (
+                  {array.map((item: any, itemIdx: number) => (
                     <Listbox.Option
                       key={itemIdx}
                       className={({ active }) =>
