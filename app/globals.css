@@ -300,23 +300,29 @@ svg.icon--unlink {
 
 /*inline editor*/
 
-.easy-edit-wrapper {
+.easy-edit-wrapper,
+.easy-edit-inline-wrapper {
   color: aliceblue;
   padding: 0.5rem;
   font-size: 1.5rem;
+  width: 100%;
+  white-space: nowrap;
 }
 
 .easy-edit-hover-on {
-  font-weight: 700;
+  font-weight: 400;
   font-style: normal !important;
 }
-
+.easy-edit-component-wrapper {
+  width: 95%;
+}
 .easy-edit-component-wrapper input {
   background-color: transparent;
   outline: none;
   caret-color: aliceblue;
   color: aliceblue;
   font-size: 1.5rem;
+  width: 100%;
 }
 
 .easy-edit-button {
@@ -329,4 +335,77 @@ svg.icon--unlink {
 
 .MuiInputBase-input {
   color: aliceblue;
+  font-size: x-large;
+  width: 16.1rem;
+  padding: 0;
+}
+
+.MuiIconButton-root {
+  color: aliceblue;
+  margin: 0;
+  padding-right: 0;
+}
+.MuiInputBase-root {
+  padding-right: 0;
+}
+.css-1k4oq0i-MuiPaper-root-MuiPickersPopper-paper {
+  background-color: rgba(0, 0, 0, 0.61);
+  --tw-backdrop-blur: blur(12px);
+  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness)
+    var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale)
+    var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
+    var(--tw-backdrop-opacity) var(--tw-backdrop-saturate)
+    var(--tw-backdrop-sepia);
+}
+
+.css-1u23akw-MuiButtonBase-root-MuiPickersDay-root {
+  color: aliceblue;
+}
+
+.css-1u23akw-MuiButtonBase-root-MuiPickersDay-root:hover {
+  background-color: rgb(17 24 39);
+}
+
+.MuiPickersDay-today {
+  color: #9333ea !important;
+  background-color: rgb(18, 22, 32) !important;
+}
+.MuiPickersDay-today:hover {
+  color: #9333ea !important;
+  background-color: rgb(24, 29, 43) !important;
+}
+.css-rhmlg1-MuiTypography-root-MuiDayCalendar-weekDayLabel {
+  color: aliceblue;
+}
+
+.MuiPickersDay-root.Mui-selected {
+  background-color: rgb(17 24 39) !important;
+}
+
+.MuiPickersDay-root.Mui-selected:hover {
+  background-color: rgb(27, 38, 63) !important;
+}
+
+.MuiPickersYear-root,
+.MuiPickersCalendarHeader-label {
+  color: aliceblue;
+}
+
+.MuiClockPointer-root,
+.MuiClock-pin {
+  background-color: #9333ea;
+}
+
+.MuiClockPointer-thumb {
+  background-color: black;
+  border-color: #9333ea;
+}
+
+.MuiClockNumber-root {
+  color: aliceblue;
+}
+
+fieldset {
+  border: none !important;
+  outline: none !important;
 }

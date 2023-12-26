@@ -11,8 +11,8 @@ import { Listbox, Transition } from "@headlessui/react";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
-
 const people = [
   {
     name: "VOU",
@@ -28,10 +28,21 @@ const people = [
   },
 ];
 
-export default function InlineEditor() {
+interface InlineEditorProps {
+  date: Date;
+  bases: string[];
+  text: string;
+  isUp: boolean;
+}
+
+export default function InlineEditor({
+  date,
+  bases,
+  text,
+  isUp,
+}: InlineEditorProps) {
   const [selected, setSelected] = useState([]);
   const [status, setStatus] = useState(false);
-  const [value, setValue] = useState("10:00");
 
   const save = (value: any) => {
     console.log(value);
@@ -40,16 +51,16 @@ export default function InlineEditor() {
     console.log("Cancelled");
   };
 
-  const onChange = (timeValue: any) => {
-    setValue(timeValue);
-  };
-
   return (
     <>
-      <div className="bg-black bg-opacity-80 backdrop-blur-md flex w-full h-full p-12 rounded-md items-center">
+      <div
+        className={`bg-black px-2 backdrop-blur-md flex w-full transition h-full rounded-md items-center gap-4 bg-opacity-20 ${
+          status ? "bg-green-400" : "bg-red-600"
+        }`}
+      >
         <button
           onClick={() => setStatus(!status)}
-          className={`text-black rounded-md p-2 w-20 ${
+          className={`text-black rounded-md p-2 min-w-[70px] ${
             status ? "bg-green-400" : "bg-red-600"
           }`}
         >
@@ -66,19 +77,19 @@ export default function InlineEditor() {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateTimePicker
             ampm={false}
-            label="With Time Clock"
+            defaultValue={dayjs()}
+            format="DD/MM/YY HH:mm"
             viewRenderers={{
               hours: renderTimeViewClock,
               minutes: renderTimeViewClock,
               seconds: renderTimeViewClock,
             }}
-            className="text-gray-300"
           />
         </LocalizationProvider>
-        <div className="w-60 h-20">
+        <div className="w-60 backdrop-blur-xl rounded-lg shadow-black">
           <Listbox value={selected} onChange={setSelected} multiple>
             <div className="relative h-full items-center">
-              <Listbox.Button className="relative w-full h-full cursor-pointer rounded-lg bg-transparent py-2 pl-3 pr-10 text-left">
+              <Listbox.Button className="relative w-full h-9 cursor-pointer rounded-lg bg-transparent pl-3 pr-10 text-left">
                 {selected.map((item: any) => (
                   <>
                     <span
@@ -90,7 +101,7 @@ export default function InlineEditor() {
                 ))}
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center ">
                   <ChevronUpDownIcon
-                    className="h-10 w-10 text-gray-400"
+                    className="h-8 w-8 text-gray-400"
                     aria-hidden="true"
                   />
                 </span>
