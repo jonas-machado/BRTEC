@@ -153,8 +153,27 @@ async function maps() {
     ],
   });
 }
+const date = new Date();
+async function monitoring() {
+  await prismadb.monitoring.createMany({
+    data: [
+      {
+        text: "apenas testando, esse é o primeiro",
+        isUp: true,
+        dateDown: date,
+        bases: ["ATELE", "VOU"],
+      },
+      {
+        text: "apenas testando, esse é o segundo",
+        isUp: false,
+        dateDown: date,
+        bases: ["XTELE"],
+      },
+    ],
+  });
+}
 
-maps()
+monitoring()
   .then(async () => {
     await prismadb.$disconnect();
   })

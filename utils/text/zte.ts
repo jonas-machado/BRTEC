@@ -186,19 +186,4 @@ performance ethuni eth_0/1 start
 `;
     return this.baseTemplate + defaultScript;
   }
-
-  default(): string {
-    const defaultScript = `\
-gemport 1 name Gemport1 tcont 2 queue 1 
-switchport mode trunk vport 1 
-service-port 1 vport 1 user-vlan ${this.vlan} vlan ${this.vlan}
-! 
-pon-onu-mng gpon-onu_${this.pon}:${this.id}
-service inter gemport 1 vlan ${this.vlan}
-performance ethuni eth_0/1 start 
-vlan port eth_0/1 mode tag vlan ${this.vlan}
-!
-    `;
-    return this.baseTemplate + defaultScript;
-  }
 }
