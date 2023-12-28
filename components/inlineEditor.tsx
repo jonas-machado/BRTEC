@@ -57,7 +57,7 @@ export default function InlineEditor({
   return (
     <>
       <div
-        className={`bg-black px-2 backdrop-blur-md flex w-full transition h-full rounded-md items-center gap-4 bg-opacity-20 ${
+        className={`bg-black relative z-0 px-2 backdrop-blur-md flex w-full transition h-full rounded-md items-center gap-4 bg-opacity-20 ${
           isUp ? "bg-green-400" : "bg-red-600"
         }`}
       >
@@ -91,7 +91,7 @@ export default function InlineEditor({
             }}
           />
         </LocalizationProvider>
-        <div className="relative w-60 backdrop-blur-xl rounded-lg shadow-black">
+        <div className="w-60 relative z-0 backdrop-blur-xl rounded-lg shadow-black">
           <Listbox value={bases} onChange={setBases} multiple>
             <div className="relative h-full items-center">
               <Listbox.Button className="relative w-full h-9 cursor-pointer rounded-lg bg-transparent pl-3 pr-10 text-left">
@@ -117,7 +117,7 @@ export default function InlineEditor({
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Listbox.Options className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-900 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                <Listbox.Options className="absolute bottom-11 mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-900 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
                   {array.map((item: any, itemIdx: number) => (
                     <Listbox.Option
                       key={itemIdx}
