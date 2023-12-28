@@ -332,18 +332,21 @@ svg.icon--unlink {
 }
 
 /*mui*/
+.MuiInputBase-root {
+  width: 160px;
+}
 
 .MuiInputBase-input {
   color: aliceblue;
-  font-size: x-large;
-  width: 16.1rem;
+  font-size: large;
+  width: 120px;
   padding: 0;
 }
 
 .MuiIconButton-root {
   color: aliceblue;
   margin: 0;
-  padding-right: 0;
+  padding: 0;
 }
 .MuiInputBase-root {
   padding-right: 0;
@@ -368,14 +371,29 @@ svg.icon--unlink {
 
 .MuiPickersDay-today {
   color: #9333ea !important;
-  background-color: rgb(18, 22, 32) !important;
+  border: 0 !important;
 }
 .MuiPickersDay-today:hover {
   color: #9333ea !important;
   background-color: rgb(24, 29, 43) !important;
+  border: 0 !important;
 }
 .css-rhmlg1-MuiTypography-root-MuiDayCalendar-weekDayLabel {
   color: aliceblue;
+}
+
+.css-1vs7z2v-MuiYearCalendar-root::-webkit-scrollbar-thumb {
+  width: 0.2rem;
+  background: rgb(31 41 55);
+  border-radius: 1rem;
+}
+
+.css-1vs7z2v-MuiYearCalendar-root::-webkit-scrollbar-track {
+  width: 0.375rem;
+}
+
+.css-1vs7z2v-MuiYearCalendar-root::-webkit-scrollbar {
+  width: 10px;
 }
 
 .MuiPickersDay-root.Mui-selected {

@@ -21,23 +21,23 @@ const basesObj = [
 
 export default function Monitoring({ monitoring }: { monitoring: any }) {
   const currentDate = new Date();
-  const [bases, setBases] = useState([]);
-  const [isUp, setIsUp] = useState(false);
+
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex w-full justify-center flex-col gap-2">
       {monitoring.map((item: any, i: number) => (
-        <>
+        <div
+          style={{
+            zIndex: 30 - i,
+          }}
+          key={i}
+        >
           <InlineEditor
-            key={item.id}
-            array={basesObj}
             date={item.dateDown}
-            bases={bases}
-            setBases={setBases}
+            bases={item.bases}
             text={item.text}
             isUp={item.isUp}
-            changeStatus={() => setIsUp(!isUp)}
           />
-        </>
+        </div>
       ))}
     </div>
   );

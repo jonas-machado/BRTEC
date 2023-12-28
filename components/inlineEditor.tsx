@@ -13,7 +13,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
-const people = [
+const array = [
   {
     name: "VOU",
     class: "text-orange-600 bg-orange-600 bg-opacity-20",
@@ -32,21 +32,19 @@ interface InlineEditorProps {
   changeStatus: () => void;
   date: Date;
   bases: string[];
-  setBases: any;
   text: string;
   isUp: boolean;
-  array: any;
 }
 
 export default function InlineEditor({
-  changeStatus,
   date,
   bases,
-  setBases,
   text,
   isUp,
-  array,
 }: InlineEditorProps) {
+  const [currentBase, setCurrentBase] = useState([]);
+  const [isUpNow, setIsUpNow] = useState(false);
+  console.log(bases);
   const save = (value: any) => {
     console.log(value);
   };
@@ -62,7 +60,7 @@ export default function InlineEditor({
         }`}
       >
         <button
-          onClick={changeStatus}
+          onClick={() => setIsUpNow(!isUpNow)}
           className={`text-black rounded-md p-2 min-w-[70px] ${
             isUp ? "bg-green-400" : "bg-red-600"
           }`}
@@ -81,6 +79,7 @@ export default function InlineEditor({
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateTimePicker
+            className="w-[280px]"
             ampm={false}
             defaultValue={dayjs(date)}
             format="DD/MM/YY HH:mm"
@@ -92,18 +91,28 @@ export default function InlineEditor({
           />
         </LocalizationProvider>
         <div className="w-60 relative z-0 backdrop-blur-xl rounded-lg shadow-black">
-          <Listbox value={bases} onChange={setBases} multiple>
+          <Listbox value={currentBase} onChange={setCurrentBase} multiple>
             <div className="relative h-full items-center">
               <Listbox.Button className="relative w-full h-9 cursor-pointer rounded-lg bg-transparent pl-3 pr-10 text-left">
-                {bases.map((item: any) => (
-                  <>
-                    <span
-                      className={` truncate ${item.class} rounded-full p-1 px-2 text-lg`}
-                    >
-                      {item.name}
-                    </span>
-                  </>
-                ))}
+                {currentBase
+                  ? currentBase.map((item: any) => (
+                      <>
+                        <span
+                          className={` truncate ${item.class} rounded-full p-1 px-2 text-lg`}
+                        >
+                          {item.name}
+                        </span>
+                      </>
+                    ))
+                  : bases.map((item: any) => (
+                      <>
+                        <span
+                          className={` truncate ${item.class} rounded-full p-1 px-2 text-lg`}
+                        >
+                          {item.name}
+                        </span>
+                      </>
+                    ))}
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center ">
                   <ChevronUpDownIcon
                     className="h-8 w-8 text-gray-400"
@@ -117,7 +126,7 @@ export default function InlineEditor({
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Listbox.Options className="absolute bottom-11 mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-900 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-900 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
                   {array.map((item: any, itemIdx: number) => (
                     <Listbox.Option
                       key={itemIdx}
