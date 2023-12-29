@@ -13,6 +13,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
+import { TextareaAutosize } from "@mui/base/TextareaAutosize";
+
 const array = [
   {
     name: "VOU",
@@ -29,7 +31,6 @@ const array = [
 ];
 
 interface InlineEditorProps {
-  changeStatus: () => void;
   date: Date;
   bases: string[];
   text: string;
@@ -42,41 +43,32 @@ export default function InlineEditor({
   text,
   isUp,
 }: InlineEditorProps) {
-  const [currentBase, setCurrentBase] = useState([]);
-  const [isUpNow, setIsUpNow] = useState(false);
-  console.log(bases);
+  const [currentBase, setCurrentBase] = useState(bases);
+  const [isUpNow, setIsUpNow] = useState(isUp);
+  console.log(currentBase);
   const save = (value: any) => {
     console.log(value);
   };
   const cancel = () => {
     console.log("Cancelled");
   };
-
+  console.log(isUpNow);
   return (
     <>
       <div
         className={`bg-black relative z-0 px-2 backdrop-blur-md flex w-full transition h-full rounded-md items-center gap-4 bg-opacity-20 ${
-          isUp ? "bg-green-400" : "bg-red-600"
+          isUpNow ? "bg-green-400" : "bg-red-600"
         }`}
       >
         <button
           onClick={() => setIsUpNow(!isUpNow)}
           className={`text-black rounded-md p-2 min-w-[70px] ${
-            isUp ? "bg-green-400" : "bg-red-600"
+            isUpNow ? "bg-green-400" : "bg-red-600"
           }`}
         >
-          {isUp ? "UP" : "DOWN"}
+          {isUpNow ? "UP" : "DOWN"}
         </button>
-        <EasyEdit
-          type={Types.TEXT}
-          onSave={save}
-          onCancel={cancel}
-          saveButtonLabel={<CheckIcon className="w-4 h-4" />}
-          cancelButtonLabel={<XMarkIcon className="w-4 h-4" />}
-          attributes={{ name: "awesome-input", id: 1 }}
-          value={text}
-          defaultValue="Clique para editar"
-        />
+        <TextareaAutosize className="w-full bg-transparent text-gray-300 text-2xl outline-none" />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateTimePicker
             className="w-[280px]"
@@ -90,29 +82,21 @@ export default function InlineEditor({
             }}
           />
         </LocalizationProvider>
-        <div className="w-60 relative z-0 backdrop-blur-xl rounded-lg shadow-black">
+        <div className="relative z-0 ml-4 backdrop-blur-xl rounded-lg shadow-black">
           <Listbox value={currentBase} onChange={setCurrentBase} multiple>
             <div className="relative h-full items-center">
-              <Listbox.Button className="relative w-full h-9 cursor-pointer rounded-lg bg-transparent pl-3 pr-10 text-left">
-                {currentBase
-                  ? currentBase.map((item: any) => (
-                      <>
-                        <span
-                          className={` truncate ${item.class} rounded-full p-1 px-2 text-lg`}
-                        >
-                          {item.name}
-                        </span>
-                      </>
-                    ))
-                  : bases.map((item: any) => (
-                      <>
-                        <span
-                          className={` truncate ${item.class} rounded-full p-1 px-2 text-lg`}
-                        >
-                          {item.name}
-                        </span>
-                      </>
-                    ))}
+              <Listbox.Button className="relative flex items-center min-w-[90px] w-full h-9 cursor-pointer rounded-lg bg-transparent pr-10 text-left">
+                {currentBase.map((item: any) => (
+                  <>
+                    <span
+                      className={` truncate ${
+                        array.find((base: any) => base.name == item)?.class
+                      } rounded-full px-2 text-lg font-bold`}
+                    >
+                      {item}
+                    </span>
+                  </>
+                ))}
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center ">
                   <ChevronUpDownIcon
                     className="h-8 w-8 text-gray-400"
@@ -135,7 +119,7 @@ export default function InlineEditor({
                           active ? "bg-gray-800" : "text-gray-900"
                         }`
                       }
-                      value={item}
+                      value={item.name}
                     >
                       {({ selected }) => (
                         <>
@@ -163,6 +147,9 @@ export default function InlineEditor({
             </div>
           </Listbox>
         </div>
+        <button>
+          <XMarkIcon className="w-10 h-10 font-bold" />
+        </button>
       </div>
     </>
   );

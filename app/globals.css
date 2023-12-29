@@ -298,39 +298,6 @@ svg.icon--unlink {
   background-color: transparent !important;
 }
 
-/*inline editor*/
-
-.easy-edit-wrapper,
-.easy-edit-inline-wrapper {
-  color: aliceblue;
-  padding: 0.5rem;
-  font-size: 1.5rem;
-  width: 100%;
-  white-space: nowrap;
-}
-
-.easy-edit-hover-on {
-  font-weight: 400;
-  font-style: normal !important;
-}
-.easy-edit-component-wrapper {
-  width: 95%;
-}
-.easy-edit-component-wrapper input {
-  background-color: transparent;
-  outline: none;
-  caret-color: aliceblue;
-  color: aliceblue;
-  font-size: 1.5rem;
-  width: 100%;
-}
-
-.easy-edit-button {
-  color: aliceblue;
-  background-color: rgba(17, 24, 39, 0.812);
-  border-radius: 0.2rem;
-}
-
 /*mui*/
 .MuiInputBase-root {
   width: 160px;
