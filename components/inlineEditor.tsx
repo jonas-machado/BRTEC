@@ -56,7 +56,7 @@ export default function InlineEditor({
   return (
     <>
       <div
-        className={`bg-black relative z-0 px-2 backdrop-blur-md flex w-full transition h-full rounded-md items-center gap-4 bg-opacity-20 ${
+        className={`bg-black relative z-0 p-2 backdrop-blur-md flex w-full transition h-full rounded-md items-center gap-4 bg-opacity-20 ${
           isUpNow ? "bg-green-400" : "bg-red-600"
         }`}
       >
@@ -68,10 +68,10 @@ export default function InlineEditor({
         >
           {isUpNow ? "UP" : "DOWN"}
         </button>
-        <TextareaAutosize className="w-full bg-transparent text-gray-300 text-2xl outline-none" />
+        <TextareaAutosize className="w-full bg-transparent resize-none text-gray-300 text-2xl outline-none" />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateTimePicker
-            className="w-[280px]"
+            className="mr-4"
             ampm={false}
             defaultValue={dayjs(date)}
             format="DD/MM/YY HH:mm"
