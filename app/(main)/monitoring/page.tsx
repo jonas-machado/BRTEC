@@ -9,6 +9,7 @@ import { getMonitoring } from "@/lib/actions/getMonitoring";
 export default async function monitoring() {
   const currentUser = await getCurrentUser();
   const monitoring = await getMonitoring();
+
   return (
     <MotionContent>
       <div className="flex mx-auto my-12 w-11/12">

@@ -89,6 +89,7 @@ export default function InlineEditor({
                 {currentBase.map((item: any) => (
                   <>
                     <span
+                      key={item}
                       className={` truncate ${
                         array.find((base: any) => base.name == item)?.class
                       } rounded-full px-2 text-lg font-bold`}
