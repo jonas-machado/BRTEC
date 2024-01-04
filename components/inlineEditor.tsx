@@ -87,16 +87,14 @@ export default function InlineEditor({
             <div className="relative h-full items-center">
               <Listbox.Button className="relative flex items-center min-w-[90px] w-full h-9 cursor-pointer rounded-lg bg-transparent pr-10 text-left">
                 {currentBase.map((item: any) => (
-                  <>
-                    <span
-                      key={item}
-                      className={` truncate ${
-                        array.find((base: any) => base.name == item)?.class
-                      } rounded-full px-2 text-lg font-bold`}
-                    >
-                      {item}
-                    </span>
-                  </>
+                  <span
+                    key={item}
+                    className={` truncate ${
+                      array.find((base: any) => base.name == item)?.class
+                    } rounded-full px-2 text-lg font-bold`}
+                  >
+                    {item}
+                  </span>
                 ))}
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center ">
                   <ChevronUpDownIcon

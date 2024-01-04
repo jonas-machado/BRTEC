@@ -2,9 +2,9 @@
 
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import InlineEditor from "./inlineEditor";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-
+import Pusher from "pusher-js";
 const basesObj = [
   {
     name: "VOU",
@@ -20,8 +20,32 @@ const basesObj = [
   },
 ];
 
+const app_id = "1733861";
+const key = "c57621405b54fd226199";
+const secret = "0bde71219c7fb53b2cbb";
+const cluster = "sa1";
+
+const pusher = new Pusher(key!, {
+  cluster: cluster!,
+});
+
 export default function Monitoring({ monitoring }: { monitoring: any }) {
   const currentDate = new Date();
+
+  const [notifications, setNotifications] = useState<string[]>([]);
+
+  useEffect(() => {
+    const channel = pusher.subscribe("eventTest");
+
+    channel.bind("test", (data: any) => {
+      setNotifications([...notifications, data]);
+    });
+    console.log(notifications);
+
+    return () => {
+      pusher.unsubscribe("eventTest");
+    };
+  }, [notifications]);
 
   async function pushData(data: any) {
     const res = await axios.post("/api/event", {
