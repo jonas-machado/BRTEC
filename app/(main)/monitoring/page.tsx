@@ -5,7 +5,6 @@ import InlineEditor from "@/components/inlineEditor";
 import React, { Component } from "react";
 import Monitoring from "@/components/Monitoring";
 import { getMonitoring } from "@/lib/actions/getMonitoring";
-import Pusher from "pusher-js";
 
 export default async function monitoring() {
   const currentUser = await getCurrentUser();
