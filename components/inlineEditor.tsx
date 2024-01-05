@@ -6,7 +6,7 @@ import {
   ChevronUpDownIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -14,6 +14,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
+import dynamic from "next/dynamic";
+import { io } from "socket.io-client";
 
 const array = [
   {
@@ -45,14 +47,31 @@ export default function InlineEditor({
 }: InlineEditorProps) {
   const [currentBase, setCurrentBase] = useState(bases);
   const [isUpNow, setIsUpNow] = useState(isUp);
-  console.log(currentBase);
+  const socketRef = useRef<any>();
   const save = (value: any) => {
     console.log(value);
   };
   const cancel = () => {
     console.log("Cancelled");
   };
-  console.log(isUpNow);
+
+  useEffect(() => {
+    const URL: any =
+      process.env.NODE_ENV === "production"
+        ? "http://177.200.131.54:3001"
+        : "http://localhost:3001";
+
+    const socket = io(URL);
+    socketRef.current = socket;
+    return () => {
+      socket.disconnect();
+      socketRef.current = null;
+    };
+  }, []);
+
+  const message = () => {};
+
+  console.log(socketRef);
   return (
     <>
       <div

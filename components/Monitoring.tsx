@@ -4,7 +4,7 @@ import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import InlineEditor from "./inlineEditor";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Pusher from "pusher-js";
+
 const basesObj = [
   {
     name: "VOU",
