@@ -6,7 +6,7 @@ import {
   ChevronUpDownIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -15,7 +15,9 @@ import dayjs from "dayjs";
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import dynamic from "next/dynamic";
-import { io } from "socket.io-client";
+import { Socket, io } from "socket.io-client";
+import axios from "axios";
+import { SocketContext } from "@/lib/socket";
 
 const array = [
   {
@@ -33,6 +35,7 @@ const array = [
 ];
 
 interface InlineEditorProps {
+  id: string;
   date: Date;
   bases: string[];
   text: string;
@@ -40,38 +43,36 @@ interface InlineEditorProps {
 }
 
 export default function InlineEditor({
+  id,
   date,
   bases,
   text,
   isUp,
 }: InlineEditorProps) {
+  const socket = useContext(SocketContext);
   const [currentBase, setCurrentBase] = useState(bases);
   const [isUpNow, setIsUpNow] = useState(isUp);
-  const socketRef = useRef<any>();
-  const save = (value: any) => {
-    console.log(value);
-  };
-  const cancel = () => {
-    console.log("Cancelled");
-  };
+  const [currentText, setCurrentText] = useState(text);
 
   useEffect(() => {
-    const URL: any =
-      process.env.NODE_ENV === "production"
-        ? "http://177.200.131.54:3001"
-        : "http://localhost:3001";
+    socket?.on(
+      "attMessage",
+      async ({ message, textId }: { message: string; textId: string }) => {
+        if (textId == id) {
+          await axios.post("/api/monitoring/update", { id, text: message });
+          setCurrentText(message);
+        }
+        console.log(message);
+      }
+    );
+  }, [socket]);
 
-    const socket = io(URL);
-    socketRef.current = socket;
-    return () => {
-      socket.disconnect();
-      socketRef.current = null;
-    };
-  }, []);
+  const message = (value: string) => {
+    setCurrentText(value);
+    console.log(value);
+    socket?.emit("message", { message: value, id });
+  };
 
-  const message = () => {};
-
-  console.log(socketRef);
   return (
     <>
       <div
@@ -87,7 +88,11 @@ export default function InlineEditor({
         >
           {isUpNow ? "UP" : "DOWN"}
         </button>
-        <TextareaAutosize className=" w-full bg-transparent resize-none text-gray-300 text-2xl outline-none" />
+        <TextareaAutosize
+          onChange={(e) => message(e.target.value)}
+          className=" w-full bg-transparent resize-none text-gray-300 text-2xl outline-none"
+          value={currentText}
+        />
         <div className="mr-4 w-full flex justify-end items-center">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker

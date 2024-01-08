@@ -2,8 +2,9 @@
 
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import InlineEditor from "./inlineEditor";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { Socket, io } from "socket.io-client";
 
 const basesObj = [
   {
@@ -21,25 +22,8 @@ const basesObj = [
 ];
 
 export default function Monitoring({ monitoring }: { monitoring: any }) {
-  const currentDate = new Date();
-
-  const [notifications, setNotifications] = useState<string[]>([]);
-
-  async function pushData(data: any) {
-    const res = await axios.post("/api/event", {
-      data,
-    });
-    console.log(res);
-  }
-
   return (
     <div className="flex w-full justify-center flex-col gap-2">
-      <button
-        onClick={() => pushData("teste")}
-        className="w-full bg-black rounded-md"
-      >
-        Enviar
-      </button>
       {monitoring.map((item: any, i: number) => (
         <div
           style={{
@@ -48,6 +32,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
           key={i}
         >
           <InlineEditor
+            id={item.id}
             date={item.dateDown}
             bases={item.bases}
             text={item.text}
