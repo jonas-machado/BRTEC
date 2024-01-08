@@ -62,7 +62,6 @@ export default function InlineEditor({
           await axios.post("/api/monitoring/update", { id, text: message });
           setCurrentText(message);
         }
-        console.log(message);
       }
     );
   }, [socket]);
