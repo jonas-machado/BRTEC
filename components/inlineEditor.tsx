@@ -53,6 +53,7 @@ export default function InlineEditor({
   const [currentBase, setCurrentBase] = useState(bases);
   const [isUpNow, setIsUpNow] = useState(isUp);
   const [currentText, setCurrentText] = useState(text);
+  const [currentTime, setCurrentTime] = useState(date);
 
   useEffect(() => {
     socket?.on(
@@ -64,12 +65,72 @@ export default function InlineEditor({
         }
       }
     );
+
+    socket?.on(
+      "attStatus",
+      async ({ isUp, itemId }: { isUp: boolean; itemId: string }) => {
+        if (itemId == id) {
+          await axios.post("/api/monitoring/update", { id, isUp });
+          setIsUpNow(isUp);
+        }
+      }
+    );
+
+    socket?.on(
+      "attDate",
+      async ({ currentDate, itemId }: { currentDate: any; itemId: string }) => {
+        if (itemId == id) {
+          await axios.post("/api/monitoring/update", {
+            id,
+            dateDown: currentDate,
+          });
+          setCurrentTime(currentDate);
+        }
+      }
+    );
+
+    socket?.on(
+      "attBases",
+      async ({
+        currentBases,
+        itemId,
+      }: {
+        currentBases: string[];
+        itemId: string;
+      }) => {
+        if (itemId == id) {
+          await axios.post("/api/monitoring/update", {
+            id,
+            bases: currentBases,
+          });
+          setCurrentBase(currentBases);
+        }
+      }
+    );
   }, [socket]);
 
   const message = (value: string) => {
     setCurrentText(value);
     console.log(value);
     socket?.emit("message", { message: value, id });
+  };
+
+  const statusFn = (value: boolean) => {
+    setIsUpNow(value);
+    console.log(value);
+    socket?.emit("status", { isUp: value, id });
+  };
+
+  const dateDownFn = (value: any) => {
+    setCurrentTime(value);
+    console.log(currentTime);
+    console.log(value);
+    socket?.emit("date", { currentDate: value, id });
+  };
+
+  const basesFn = (value: any) => {
+    console.log(value);
+    socket?.emit("bases", { currentBases: value, id });
   };
 
   return (
@@ -80,7 +141,10 @@ export default function InlineEditor({
         }`}
       >
         <button
-          onClick={() => setIsUpNow(!isUpNow)}
+          onClick={() => {
+            setIsUpNow(!isUpNow);
+            statusFn(!isUpNow);
+          }}
           className={`text-black rounded-md p-2 min-w-[70px] ${
             isUpNow ? "bg-green-400" : "bg-red-600"
           }`}
@@ -95,9 +159,11 @@ export default function InlineEditor({
         <div className="mr-4 w-full flex justify-end items-center">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker
+              onChange={(e) => dateDownFn(e?.toDate())}
               className=""
               ampm={false}
-              defaultValue={dayjs(date)}
+              value={dayjs(currentTime)}
+              defaultValue={dayjs()}
               format="DD/MM/YY HH:mm"
               viewRenderers={{
                 hours: renderTimeViewClock,
@@ -107,7 +173,14 @@ export default function InlineEditor({
             />
           </LocalizationProvider>
           <div className="relative z-0 ml-4 backdrop-blur-xl rounded-lg shadow-black">
-            <Listbox value={currentBase} onChange={setCurrentBase} multiple>
+            <Listbox
+              value={currentBase}
+              onChange={(e) => {
+                setCurrentBase(e);
+                basesFn(e);
+              }}
+              multiple
+            >
               <div className="relative h-full items-center">
                 <Listbox.Button className="relative flex items-center min-w-[90px] w-full h-9 cursor-pointer rounded-lg bg-transparent pr-10 text-left">
                   {currentBase.map((item: any) => (
