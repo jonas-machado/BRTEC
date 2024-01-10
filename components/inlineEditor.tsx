@@ -107,6 +107,12 @@ export default function InlineEditor({
         }
       }
     );
+    return () => {
+      socket.off("attMessage");
+      socket.off("attStatus");
+      socket.off("attDate");
+      socket.off("attBases");
+    };
   }, [socket]);
 
   const message = (value: string) => {

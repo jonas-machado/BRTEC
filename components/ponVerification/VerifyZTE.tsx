@@ -1,14 +1,16 @@
-import React, { HtmlHTMLAttributes } from "react";
+import React, { HtmlHTMLAttributes, useContext } from "react";
 import { useState, useEffect, Fragment } from "react";
 import { useForm, Controller, FieldValues, useWatch } from "react-hook-form";
 import Input from "@/components/inputs/inputLabelUseForm";
-import { socket } from "@/lib/socket";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ControlledCheckbox from "@/components/inputs/controlledCheckbox";
 import AutocompleteInput from "../inputs/AutocompleteInput";
+import { SocketContext } from "@/lib/socket";
 
 const VerifyPon = ({ olt, response, multipleResponse }: any) => {
+  const socket = useContext(SocketContext);
+
   const [text, setText] = useState<string>("");
   const [excludeText, setExcludeText] = useState<string>("");
   const [quantidadeOnu, setQuantidadeOnu] = useState<string>("");

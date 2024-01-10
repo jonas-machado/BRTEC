@@ -24,6 +24,14 @@ const basesObj = [
 export default function Monitoring({ monitoring }: { monitoring: any }) {
   return (
     <div className="flex w-full justify-center flex-col gap-2">
+      <div className="bg-black bg-opacity-80 backdrop-blur-xl rounded-md p-2">
+        <button className="bg-gray-900 rounded-md text-gray-300 p-1 px-2">
+          Enviar alerta
+        </button>
+        <button className="bg-gray-900 rounded-md text-gray-300 p-1 px-2">
+          Adicionar
+        </button>
+      </div>
       {monitoring.map((item: any, i: number) => (
         <div
           style={{

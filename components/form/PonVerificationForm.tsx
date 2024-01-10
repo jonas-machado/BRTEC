@@ -1,17 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useState, useEffect, useContext } from "react";
 import TabBody from "@/components/tab/TabBody";
 import TabHead from "@/components/tab/TabHead";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { socket } from "@/lib/socket";
 import { AnimatePresence, motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import VerifyPon from "../ponVerification/VerifyZTE";
 import VerifyCTO from "../ponVerification/VerifyCTO";
+import { SocketContext } from "@/lib/socket";
 
 //constants
 const tabNames = [
@@ -29,7 +28,7 @@ const PonVerificationForm = ({ olt }: ConfigProps) => {
   const [openTab, setOpenTab] = useState("Verificar posição livre");
   const [response, setResponse] = useState<any>();
   const [multipleResponse, setMultipleResponse] = useState<string[]>([]);
-  console.log(response);
+  const socket = useContext(SocketContext);
   const session = useSession();
   const router = useRouter();
 
@@ -38,13 +37,6 @@ const PonVerificationForm = ({ olt }: ConfigProps) => {
       router.push("/");
     }
   }, [session?.status, router]);
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
 
   const notify = (text: any) => {
     toast.error(text, {
@@ -56,14 +48,8 @@ const PonVerificationForm = ({ olt }: ConfigProps) => {
 
   useEffect(() => {
     // Handle connection event
-    socket.on("connect", () => {
-      console.log("Connected to the server");
-    });
 
     // Handle disconnection event
-    socket.on("disconnect", () => {
-      console.log("Disconnected from the server");
-    });
 
     function onTelnetResponse(value: any) {
       setResponse(value);
