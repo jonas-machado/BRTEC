@@ -2,9 +2,14 @@
 
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import InlineEditor from "./inlineEditor";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Socket, io } from "socket.io-client";
+import PageWrapper from "@/lib/framerMotion/pageWrapper";
+import { AnimatePresence } from "framer-motion";
+import MotionComponent from "@/lib/framerMotion/motionComponent";
+import { useRouter } from "next/navigation";
+import { SocketContext } from "@/lib/socket";
 
 const basesObj = [
   {
@@ -22,32 +27,65 @@ const basesObj = [
 ];
 
 export default function Monitoring({ monitoring }: { monitoring: any }) {
+  const [monitor, setMonitor] = useState(monitoring);
+  const router = useRouter();
+  const date = new Date();
+  const socket = useContext(SocketContext);
+
+  useEffect(() => {
+    socket?.on("routerRefresh", () => {
+      console.log("working");
+      router.refresh();
+    });
+
+    return () => {
+      socket.off("routerRefresh");
+    };
+  }, [socket, router]);
+
+  const add = async () => {
+    await axios.post("/api/monitoring/create", {
+      isUp: false,
+      dateDown: date,
+    });
+    socket?.emit("refresh");
+  };
   return (
     <div className="flex w-full justify-center flex-col gap-2">
-      <div className="bg-black bg-opacity-80 backdrop-blur-xl rounded-md p-2">
-        <button className="bg-gray-900 rounded-md text-gray-300 p-1 px-2">
-          Enviar alerta
-        </button>
-        <button className="bg-gray-900 rounded-md text-gray-300 p-1 px-2">
-          Adicionar
-        </button>
-      </div>
-      {monitoring.map((item: any, i: number) => (
-        <div
-          style={{
-            zIndex: 30 - i,
-          }}
-          key={i}
-        >
-          <InlineEditor
-            id={item.id}
-            date={item.dateDown}
-            bases={item.bases}
-            text={item.text}
-            isUp={item.isUp}
-          />
+      <div className=" flex justify-between gap-2 bg-black bg-opacity-80 backdrop-blur-md rounded-md p-2">
+        <p className="text-gray-300 flex items-center font-bold ml-4 text-2xl gap-4">
+          MONITORAMENTO
+        </p>
+        <div className=" flex gap-2 p-2">
+          <button className="bg-gray-900 rounded-md text-gray-300 p-1 px-2">
+            Enviar alerta
+          </button>
+          <button
+            onClick={add}
+            className="bg-gray-900 rounded-md text-gray-300 p-1 px-2"
+          >
+            Adicionar
+          </button>
         </div>
-      ))}
+      </div>
+      <AnimatePresence mode="wait">
+        {monitor.map((item: any, i: number) => (
+          <MotionComponent
+            key={i}
+            style={{
+              zIndex: 30 - i,
+            }}
+          >
+            <InlineEditor
+              id={item.id}
+              date={item.dateDown}
+              bases={item.bases}
+              text={item.text}
+              isUp={item.isUp}
+            />
+          </MotionComponent>
+        ))}
+      </AnimatePresence>
     </div>
   );
 }

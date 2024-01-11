@@ -18,6 +18,7 @@ import dynamic from "next/dynamic";
 import { Socket, io } from "socket.io-client";
 import axios from "axios";
 import { SocketContext } from "@/lib/socket";
+import { useRouter } from "next/navigation";
 
 const array = [
   {
@@ -50,6 +51,7 @@ export default function InlineEditor({
   isUp,
 }: InlineEditorProps) {
   const socket = useContext(SocketContext);
+  const router = useRouter();
   const [currentBase, setCurrentBase] = useState(bases);
   const [isUpNow, setIsUpNow] = useState(isUp);
   const [currentText, setCurrentText] = useState(text);
@@ -139,6 +141,11 @@ export default function InlineEditor({
     socket?.emit("bases", { currentBases: value, id });
   };
 
+  const deleteItem = async () => {
+    await axios.post("/api/monitoring/delete", { id });
+    socket?.emit("refresh");
+  };
+
   return (
     <>
       <div
@@ -160,7 +167,7 @@ export default function InlineEditor({
         <TextareaAutosize
           onChange={(e) => message(e.target.value)}
           className=" w-full bg-transparent resize-none text-gray-300 text-2xl outline-none"
-          value={currentText}
+          value={currentText ?? "Escreva aqui"}
         />
         <div className="mr-4 w-full flex justify-end items-center">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -249,7 +256,7 @@ export default function InlineEditor({
               </div>
             </Listbox>
           </div>
-          <button>
+          <button onClick={deleteItem}>
             <XMarkIcon className="w-10 h-10 font-bold" />
           </button>
         </div>

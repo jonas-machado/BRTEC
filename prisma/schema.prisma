@@ -137,7 +137,7 @@ model Post {
 
 model Monitoring {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  text      String
+  text      String?
   isUp      Boolean
   dateDown  DateTime
   bases     String[]

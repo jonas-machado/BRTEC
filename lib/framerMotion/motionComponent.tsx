@@ -7,10 +7,12 @@ export default function MotionComponent({
   id,
   className,
   children,
+  style,
 }: {
   id?: string;
   className?: string;
   children: React.ReactNode;
+  style: any;
 }) {
   const pathname = usePathname();
 
@@ -22,6 +24,7 @@ export default function MotionComponent({
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -100 }}
+        style={style}
       >
         {children}
       </motion.div>
