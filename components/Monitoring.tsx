@@ -31,17 +31,17 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
   const router = useRouter();
   const date = new Date();
   const socket = useContext(SocketContext);
-
+  console.log(monitoring);
   useEffect(() => {
-    socket?.on("routerRefresh", () => {
-      console.log("working");
+    socket?.on("routerRefresh", async () => {
       router.refresh();
+      console.log(monitoring);
     });
 
     return () => {
       socket.off("routerRefresh");
     };
-  }, [socket, router]);
+  }, [socket, router, monitoring]);
 
   const add = async () => {
     await axios.post("/api/monitoring/create", {
@@ -52,7 +52,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
   };
   return (
     <div className="flex w-full justify-center flex-col gap-2">
-      <div className=" flex justify-between gap-2 bg-black bg-opacity-80 backdrop-blur-md rounded-md p-2">
+      <div className=" flex z-10 justify-between gap-2 bg-black bg-opacity-80 backdrop-blur-md rounded-md p-2">
         <p className="text-gray-300 flex items-center font-bold ml-4 text-2xl gap-4">
           MONITORAMENTO
         </p>
@@ -69,7 +69,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
         </div>
       </div>
       <AnimatePresence mode="wait">
-        {monitor.map((item: any, i: number) => (
+        {monitoring.map((item: any, i: number) => (
           <MotionComponent
             key={i}
             style={{

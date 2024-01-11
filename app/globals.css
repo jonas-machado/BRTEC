@@ -300,40 +300,40 @@ svg.icon--unlink {
 
 /*mui*/
 .MuiInputBase-root {
-  width: 160px;
+  width: 160px !important;
 }
 
 .MuiInputBase-input {
-  color: aliceblue;
-  font-size: large;
-  width: 122px;
-  padding: 0;
+  color: aliceblue !important;
+  font-size: large !important;
+  width: 122px !important;
+  padding: 0 !important;
 }
 
 .MuiIconButton-root {
-  color: aliceblue;
-  margin: 0;
-  padding: 0;
+  color: aliceblue !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 .MuiInputBase-root {
-  padding-right: 0;
+  padding-right: 0 !important;
 }
 .css-1k4oq0i-MuiPaper-root-MuiPickersPopper-paper {
-  background-color: rgba(0, 0, 0, 0.61);
-  --tw-backdrop-blur: blur(12px);
+  background-color: rgba(0, 0, 0, 0.61) !important;
+  --tw-backdrop-blur: blur(12px) !important;
   backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness)
     var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale)
     var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
     var(--tw-backdrop-opacity) var(--tw-backdrop-saturate)
-    var(--tw-backdrop-sepia);
+    var(--tw-backdrop-sepia) !important;
 }
 
 .css-1u23akw-MuiButtonBase-root-MuiPickersDay-root {
-  color: aliceblue;
+  color: aliceblue !important;
 }
 
 .css-1u23akw-MuiButtonBase-root-MuiPickersDay-root:hover {
-  background-color: rgb(17 24 39);
+  background-color: rgb(17 24 39) !important;
 }
 
 .MuiPickersDay-today {
@@ -346,21 +346,21 @@ svg.icon--unlink {
   border: 0 !important;
 }
 .css-rhmlg1-MuiTypography-root-MuiDayCalendar-weekDayLabel {
-  color: aliceblue;
+  color: aliceblue !important;
 }
 
 .css-1vs7z2v-MuiYearCalendar-root::-webkit-scrollbar-thumb {
-  width: 0.2rem;
-  background: rgb(31 41 55);
-  border-radius: 1rem;
+  width: 0.2rem !important;
+  background: rgb(31 41 55) !important;
+  border-radius: 1rem !important;
 }
 
 .css-1vs7z2v-MuiYearCalendar-root::-webkit-scrollbar-track {
-  width: 0.375rem;
+  width: 0.375rem !important;
 }
 
 .css-1vs7z2v-MuiYearCalendar-root::-webkit-scrollbar {
-  width: 10px;
+  width: 10px !important;
 }
 
 .MuiPickersDay-root.Mui-selected {
@@ -373,21 +373,21 @@ svg.icon--unlink {
 
 .MuiPickersYear-root,
 .MuiPickersCalendarHeader-label {
-  color: aliceblue;
+  color: aliceblue !important;
 }
 
 .MuiClockPointer-root,
 .MuiClock-pin {
-  background-color: #9333ea;
+  background-color: #9333ea !important;
 }
 
 .MuiClockPointer-thumb {
-  background-color: black;
-  border-color: #9333ea;
+  background-color: black !important;
+  border-color: #9333ea !important;
 }
 
 .MuiClockNumber-root {
-  color: aliceblue;
+  color: aliceblue !important;
 }
 
 fieldset {
