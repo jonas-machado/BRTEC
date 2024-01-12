@@ -52,7 +52,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
   };
   return (
     <div className="flex w-full justify-center flex-col gap-2">
-      <div className=" flex z-10 justify-between gap-2 bg-black bg-opacity-80 backdrop-blur-md rounded-md p-2">
+      <div className=" flex z-40 justify-between gap-2 bg-black bg-opacity-80 backdrop-blur-md rounded-md p-2">
         <p className="text-gray-300 flex items-center font-bold ml-4 text-2xl gap-4">
           MONITORAMENTO
         </p>
@@ -68,7 +68,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
           </button>
         </div>
       </div>
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {monitoring.map((item: any, i: number) => (
           <MotionComponent
             key={i}

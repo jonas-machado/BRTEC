@@ -62,7 +62,7 @@ export default function InlineEditor({
       "attMessage",
       async ({ message, textId }: { message: string; textId: string }) => {
         if (textId == id) {
-          await axios.post("/api/monitoring/update", { id, text: message });
+          axios.post("/api/monitoring/update", { id, text: message });
           setCurrentText(message);
         }
       }
@@ -72,7 +72,7 @@ export default function InlineEditor({
       "attStatus",
       async ({ isUp, itemId }: { isUp: boolean; itemId: string }) => {
         if (itemId == id) {
-          await axios.post("/api/monitoring/update", { id, isUp });
+          axios.post("/api/monitoring/update", { id, isUp });
           setIsUpNow(isUp);
         }
       }
@@ -82,7 +82,7 @@ export default function InlineEditor({
       "attDate",
       async ({ currentDate, itemId }: { currentDate: any; itemId: string }) => {
         if (itemId == id) {
-          await axios.post("/api/monitoring/update", {
+          axios.post("/api/monitoring/update", {
             id,
             dateDown: currentDate,
           });
@@ -101,7 +101,7 @@ export default function InlineEditor({
         itemId: string;
       }) => {
         if (itemId == id) {
-          await axios.post("/api/monitoring/update", {
+          axios.post("/api/monitoring/update", {
             id,
             bases: currentBases,
           });
@@ -185,7 +185,7 @@ export default function InlineEditor({
               }}
             />
           </LocalizationProvider>
-          <div className="relative z-0 ml-4 backdrop-blur-xl rounded-lg shadow-black">
+          <div className="relative z-0 ml-4 !backdrop-blur-xl rounded-lg transition">
             <Listbox
               value={currentBase}
               onChange={(e) => {
@@ -194,8 +194,8 @@ export default function InlineEditor({
               }}
               multiple
             >
-              <div className="relative h-full items-center">
-                <Listbox.Button className="relative flex items-center min-w-[90px] w-full h-9 cursor-pointer rounded-lg bg-transparent pr-10 text-left">
+              <div className="relative h-full items-center ">
+                <Listbox.Button className="relative flex items-center min-w-[90px] w-full h-9 cursor-pointer rounded-lg bg-transparent transition pr-10 text-left">
                   {currentBase.map((item: any) => (
                     <span
                       key={item}
