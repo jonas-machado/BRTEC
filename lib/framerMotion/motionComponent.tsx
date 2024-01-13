@@ -12,7 +12,7 @@ export default function MotionComponent({
   id?: string;
   className?: string;
   children: React.ReactNode;
-  style: any;
+  style?: any;
 }) {
   const pathname = usePathname();
 

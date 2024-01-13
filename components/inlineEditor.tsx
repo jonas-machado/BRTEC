@@ -36,6 +36,7 @@ const array = [
 ];
 
 interface InlineEditorProps {
+  index: number;
   id: string;
   date: Date;
   bases: string[];
@@ -44,6 +45,7 @@ interface InlineEditorProps {
 }
 
 export default function InlineEditor({
+  index,
   id,
   date,
   bases,
@@ -62,7 +64,7 @@ export default function InlineEditor({
       "attMessage",
       async ({ message, textId }: { message: string; textId: string }) => {
         if (textId == id) {
-          axios.post("/api/monitoring/update", { id, text: message });
+          console.log(message);
           setCurrentText(message);
         }
       }
@@ -72,7 +74,6 @@ export default function InlineEditor({
       "attStatus",
       async ({ isUp, itemId }: { isUp: boolean; itemId: string }) => {
         if (itemId == id) {
-          axios.post("/api/monitoring/update", { id, isUp });
           setIsUpNow(isUp);
         }
       }
@@ -82,10 +83,6 @@ export default function InlineEditor({
       "attDate",
       async ({ currentDate, itemId }: { currentDate: any; itemId: string }) => {
         if (itemId == id) {
-          axios.post("/api/monitoring/update", {
-            id,
-            dateDown: currentDate,
-          });
           setCurrentTime(currentDate);
         }
       }
@@ -101,10 +98,6 @@ export default function InlineEditor({
         itemId: string;
       }) => {
         if (itemId == id) {
-          axios.post("/api/monitoring/update", {
-            id,
-            bases: currentBases,
-          });
           setCurrentBase(currentBases);
         }
       }

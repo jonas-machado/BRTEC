@@ -27,7 +27,7 @@ const basesObj = [
 ];
 
 export default function Monitoring({ monitoring }: { monitoring: any }) {
-  const [monitor, setMonitor] = useState(monitoring);
+  const [monitor, setMonitor] = useState<any>();
   const router = useRouter();
   const date = new Date();
   const socket = useContext(SocketContext);
@@ -42,6 +42,10 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
       socket.off("routerRefresh");
     };
   }, [socket, router, monitoring]);
+
+  useEffect(() => {
+    setMonitor(monitoring);
+  }, [monitoring]);
 
   const add = async () => {
     await axios.post("/api/monitoring/create", {
@@ -69,7 +73,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
         </div>
       </div>
       <AnimatePresence>
-        {monitoring.map((item: any, i: number) => (
+        {monitor?.map((item: any, i: number) => (
           <MotionComponent
             key={i}
             style={{
@@ -77,6 +81,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
             }}
           >
             <InlineEditor
+              index={i}
               id={item.id}
               date={item.dateDown}
               bases={item.bases}
