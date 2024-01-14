@@ -75,7 +75,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
       <AnimatePresence>
         {monitor?.map((item: any, i: number) => (
           <MotionComponent
-            key={i}
+            key={item.id}
             style={{
               zIndex: 30 - i,
             }}
