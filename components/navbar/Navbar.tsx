@@ -273,11 +273,87 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
               <div className="hidden items-center justify-end lg:flex md:flex-1 lg:w-0">
                 <button
                   type="button"
+                  data-dropdown-toggle="notification-dropdown"
                   className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <span className="sr-only">View notifications</span>
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
                 </button>
+
+                <div
+                  className="hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white rounded divide-y divide-gray-100 shadow-lg dark:divide-gray-600 dark:bg-gray-700"
+                  id="notification-dropdown"
+                >
+                  <div className="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    Notifications
+                  </div>
+                  <div>
+                    <a
+                      href="#"
+                      className="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
+                    >
+                      <div className="flex-shrink-0">
+                        <div className="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 rounded-full border border-white bg-primary-700 dark:border-gray-700">
+                          <svg
+                            className="w-2 h-2 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 18 18"
+                          >
+                            <path d="M15.977.783A1 1 0 0 0 15 0H3a1 1 0 0 0-.977.783L.2 9h4.239a2.99 2.99 0 0 1 2.742 1.8 1.977 1.977 0 0 0 3.638 0A2.99 2.99 0 0 1 13.561 9H17.8L15.977.783ZM6 2h6a1 1 0 1 1 0 2H6a1 1 0 0 1 0-2Zm7 5H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Z" />
+                            <path d="M1 18h16a1 1 0 0 0 1-1v-6h-4.439a.99.99 0 0 0-.908.6 3.978 3.978 0 0 1-7.306 0 .99.99 0 0 0-.908-.6H0v6a1 1 0 0 0 1 1Z" />
+                          </svg>
+                        </div>
+                      </div>
+                      <div className="pl-3 w-full">
+                        <div className="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
+                          New message from{" "}
+                          <span className="font-semibold text-gray-900 dark:text-white">
+                            Bonnie Green
+                          </span>
+                          : "Hey, what's up? All set for the presentation?"
+                        </div>
+                        <div className="text-xs font-medium text-primary-700 dark:text-primary-400">
+                          a few moments ago
+                        </div>
+                      </div>
+                    </a>
+                    <a
+                      href="#"
+                      className="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
+                    >
+                      <div className="flex-shrink-0">
+                        <div className="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-gray-900 rounded-full border border-white dark:border-gray-700">
+                          <svg
+                            className="w-2 h-2 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 20 18"
+                          >
+                            <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-2V5a1 1 0 0 0-2 0v2h-2a1 1 0 1 0 0 2h2v2a1 1 0 0 0 2 0V9h2a1 1 0 1 0 0-2Z" />
+                          </svg>
+                        </div>
+                      </div>
+                      <div className="pl-3 w-full">
+                        <div className="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
+                          <span className="font-semibold text-gray-900 dark:text-white">
+                            Jese leos
+                          </span>{" "}
+                          and{" "}
+                          <span className="font-medium text-gray-900 dark:text-white">
+                            5 others
+                          </span>{" "}
+                          started following you.
+                        </div>
+                        <div className="text-xs font-medium text-primary-700 dark:text-primary-400">
+                          10 minutes ago
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
