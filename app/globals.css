@@ -318,7 +318,7 @@ svg.icon--unlink {
 .MuiInputBase-root {
   padding-right: 0 !important;
 }
-.css-1k4oq0i-MuiPaper-root-MuiPickersPopper-paper {
+.MuiPaper-root {
   background-color: rgba(0, 0, 0, 0.61) !important;
   --tw-backdrop-blur: blur(12px) !important;
   backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness)
@@ -328,11 +328,11 @@ svg.icon--unlink {
     var(--tw-backdrop-sepia) !important;
 }
 
-.css-1u23akw-MuiButtonBase-root-MuiPickersDay-root {
+.MuiPickersDay-root {
   color: aliceblue !important;
 }
 
-.css-1u23akw-MuiButtonBase-root-MuiPickersDay-root:hover {
+.MuiPickersDay-root:hover {
   background-color: rgb(17 24 39) !important;
 }
 
@@ -345,21 +345,21 @@ svg.icon--unlink {
   background-color: rgb(24, 29, 43) !important;
   border: 0 !important;
 }
-.css-rhmlg1-MuiTypography-root-MuiDayCalendar-weekDayLabel {
+.MuiDayCalendar-weekDayLabel {
   color: aliceblue !important;
 }
 
-.css-1vs7z2v-MuiYearCalendar-root::-webkit-scrollbar-thumb {
+.MuiYearCalendar-root::-webkit-scrollbar-thumb {
   width: 0.2rem !important;
   background: rgb(31 41 55) !important;
   border-radius: 1rem !important;
 }
 
-.css-1vs7z2v-MuiYearCalendar-root::-webkit-scrollbar-track {
+.MuiYearCalendar-root::-webkit-scrollbar-track {
   width: 0.375rem !important;
 }
 
-.css-1vs7z2v-MuiYearCalendar-root::-webkit-scrollbar {
+.MuiYearCalendar-root::-webkit-scrollbar {
   width: 10px !important;
 }
 

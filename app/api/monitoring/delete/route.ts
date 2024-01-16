@@ -1,4 +1,5 @@
 import prisma from "@/lib/prismadb";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -10,5 +11,5 @@ export async function POST(request: Request) {
     },
   });
 
-  return Response.json(deletedItem);
+  return NextResponse.json(deletedItem);
 }
