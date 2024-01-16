@@ -54,6 +54,12 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
     });
     socket?.emit("refresh");
   };
+
+  const alert = () => {
+    socket?.emit("alert", {
+      message: "Novo alerta no monitoramento!",
+    });
+  };
   return (
     <div className="flex w-full justify-center flex-col gap-2">
       <div className=" flex z-40 justify-between gap-2 bg-black bg-opacity-80 backdrop-blur-md rounded-md p-2">
@@ -61,7 +67,10 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
           MONITORAMENTO
         </p>
         <div className=" flex gap-2 p-2">
-          <button className="bg-gray-900 rounded-md text-gray-300 p-1 px-2">
+          <button
+            onClick={alert}
+            className="bg-gray-900 rounded-md text-gray-300 p-1 px-2"
+          >
             Enviar alerta
           </button>
           <button
