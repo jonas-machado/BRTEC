@@ -5,7 +5,6 @@ import TabHead from "@/components/tab/TabHead";
 import Input from "@/components/inputs/inputLabelUseForm";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { socket } from "@/lib/socket";
 import { AnimatePresence, motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -57,7 +56,6 @@ const VerifyCTO = ({ olt }: any) => {
     const onuTotal = res.filter((el: any) => el.includes(`${pon}:`));
 
     setText(onuTotal.join("\n"));
-    socket.disconnect();
   };
   return (
     <div className="grid lg:grid-cols-4">
