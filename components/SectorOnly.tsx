@@ -9,6 +9,5 @@ interface Sector {
 
 export default function SectorOnly({ sector, children }: Sector) {
   const { data, status } = useSession();
-  console.log(data?.user.sector);
   return <>{data?.user.sector === sector && children}</>;
 }

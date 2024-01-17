@@ -216,7 +216,6 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
         }
       }
       if (oltSelected?.brand == "DATACOM") {
-        console.log(response);
         setText(response.data);
         const res = response.data
           .split("\n")
@@ -234,11 +233,9 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
         setOnuDown(include(res, "Down"));
         setOnuUp(include(res, "Up"));
         setText(res.join("\n"));
-        console.log(res);
         for (let i = 1; i <= 127; i++) {
           const idToCheck = ` ${i} `;
           const verify: any = response.data.includes(idToCheck);
-          console.log(verify);
           if (!verify) {
             setIdLivre((prevState) => [...prevState, i]);
           }
@@ -253,7 +250,6 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
   const onSubmitDown = ({ options }: FieldValues) => {
     if (oltSelected.brand == "ZTE") {
       const onu = options.map((arr: string) => arr.split(":")[1]);
-      console.log(onu);
       setExcludeText(`\
 conf t
 interface gpon-olt_${pon}
@@ -266,9 +262,6 @@ ${onu.map((el: string) => `no onu ${el}`).join("\n")}
       const pattern = `${startString}(.*)`;
 
       // Execute the regular expression and retrieve the captured substring
-
-      console.log(options);
-      console.log(servicePort);
 
       const onuServicePort = servicePort
         .filter((el) => isArrayIncluded(el, options))

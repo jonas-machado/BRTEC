@@ -40,9 +40,7 @@ export default function Provision({ provisioned }: any) {
   };
 
   useEffect(() => {
-    console.log(session?.status);
     if (session?.status == "unauthenticated") {
-      console.log("não autenticado");
       router.push("/");
     }
   }, [session?.status, router]);
@@ -101,10 +99,6 @@ export default function Provision({ provisioned }: any) {
       if (lastPage.length === 0) {
         return undefined;
       }
-      console.log(lastPageParam);
-      console.log(allPages);
-
-      console.log(lastPage);
 
       return lastPageParam + 1;
     },
@@ -119,12 +113,8 @@ export default function Provision({ provisioned }: any) {
         if (res.data.error) {
         }
         router.refresh();
-        console.log(res);
       });
   };
-  console.log(provisioned);
-  console.log(data);
-  console.log(hasNextPage);
 
   const lastPostRef = useRef<HTMLElement>(null);
   const { ref, entry } = useIntersection({

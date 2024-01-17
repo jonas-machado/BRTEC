@@ -43,7 +43,6 @@ const VerifyCTO = ({ olt }: any) => {
   });
 
   const notify = (text: any) => {
-    console.log("toast running");
     toast.error(text, {
       theme: "dark",
       pauseOnFocusLoss: false,

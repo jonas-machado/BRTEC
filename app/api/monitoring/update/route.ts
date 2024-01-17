@@ -16,7 +16,6 @@ export async function POST(request: Request) {
     dateDown?: Date;
     bases?: string[];
   } = body;
-  console.log(id, text, isUp, dateDown, bases);
 
   const updateData: any = {};
 

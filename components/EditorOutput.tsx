@@ -46,7 +46,6 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
         holder: `editor${index}`,
         onReady() {
           console.log("Editor.js is ready to work!");
-          console.log(content.blocks);
           ref.current = editor;
         },
         placeholder: "Digite aqui para escrever sua postagem...",
@@ -74,18 +73,15 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
               withBackground: true,
               uploader: {
                 async uploadByFile(file: File) {
-                  console.log(file);
                   const imageRef = refStorage(
                     storage,
                     `images/${file.name + v4()}`
                   );
-                  console.log(imageRef);
 
                   const upload = await uploadBytes(imageRef, file).then(() => {
                     console.log("image uploaded");
                   });
                   const url = await getDownloadURL(imageRef);
-                  console.log(url);
                   return {
                     success: 1,
                     file: {
@@ -101,16 +97,13 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
             config: {
               uploader: {
                 async uploadByFile(file: File) {
-                  console.log(file);
                   const fileRef = refStorage(
                     storage,
                     `files/${file.name + v4()}`
                   );
-                  console.log(fileRef);
 
                   const upload = await uploadBytes(fileRef, file);
                   const url = await getDownloadURL(fileRef);
-                  console.log(url);
                   return {
                     success: 1,
                     file: {

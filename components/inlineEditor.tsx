@@ -64,7 +64,6 @@ export default function InlineEditor({
       "attMessage",
       async ({ message, textId }: { message: string; textId: string }) => {
         if (textId == id) {
-          console.log(message);
           setCurrentText(message);
         }
       }
@@ -112,25 +111,20 @@ export default function InlineEditor({
 
   const message = (value: string) => {
     setCurrentText(value);
-    console.log(value);
     socket?.emit("message", { message: value, id });
   };
 
   const statusFn = (value: boolean) => {
     setIsUpNow(value);
-    console.log(value);
     socket?.emit("status", { isUp: value, id });
   };
 
   const dateDownFn = (value: any) => {
     setCurrentTime(value);
-    console.log(currentTime);
-    console.log(value);
     socket?.emit("date", { currentDate: value, id });
   };
 
   const basesFn = (value: any) => {
-    console.log(value);
     socket?.emit("bases", { currentBases: value, id });
   };
 

@@ -18,7 +18,6 @@ const ControlledInput = ({
   defaultValue,
   error,
 }: input) => {
-  console.log(array);
   return (
     <>
       <Controller

@@ -31,11 +31,9 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
   const router = useRouter();
   const date = new Date();
   const socket = useContext(SocketContext);
-  console.log(monitoring);
   useEffect(() => {
     socket?.on("routerRefresh", async () => {
       router.refresh();
-      console.log(monitoring);
     });
 
     return () => {

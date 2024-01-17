@@ -74,7 +74,6 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
   const { mutate: createPost } = useMutation({
     mutationFn: async ({ title, content, sector }: FieldValues) => {
       const payload = { title, content, sector };
-      console.log(payload);
       const { data } = await axios.post("/api/post/create", payload);
       return data;
     },
@@ -95,7 +94,6 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
   const { mutate: updatePost } = useMutation({
     mutationFn: async ({ title, content, sector }: FieldValues) => {
       const payload = { title, content, sector, postId };
-      console.log(payload);
       const { data } = await axios.post("/api/post/update", payload);
       return data;
     },
@@ -117,7 +115,6 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
   const { mutate: deletePost } = useMutation({
     mutationFn: async (postId: number) => {
       const payload = { postId };
-      console.log(payload);
       const { data } = await axios.post("/api/post/delete", payload);
       return data;
     },
@@ -184,18 +181,15 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
             config: {
               uploader: {
                 async uploadByFile(file: File) {
-                  console.log(file);
                   const imageRef = refStorage(
                     storage,
                     `posts/images/${v4() + file.name}`
                   );
-                  console.log(imageRef);
 
                   const upload = await uploadBytes(imageRef, file).then(() => {
                     console.log("image uploaded");
                   });
                   const url = await getDownloadURL(imageRef);
-                  console.log(url);
                   return {
                     success: 1,
                     file: {
@@ -273,14 +267,9 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
           underline: Underline,
         },
       });
-      editor.isReady
-        .then(() => {
-          console.log("Editor.js is ready to work!");
-          /** Do anything you need after editor initialization */
-        })
-        .catch((reason) => {
-          console.log(`Editor.js initialization failed because of ${reason}`);
-        });
+      editor.isReady.catch((reason) => {
+        console.log(`Editor.js initialization failed because of ${reason}`);
+      });
       ref.current = editor;
     }
   }, []);
@@ -314,7 +303,6 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
   }, [isMounted, initializeEditor]);
 
   const onSubmit = async (value: FieldValues) => {
-    console.log(value);
     const blocks = await ref.current?.save();
 
     const payload: FieldValues = {

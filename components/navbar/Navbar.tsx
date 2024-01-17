@@ -15,7 +15,6 @@ import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import useSound from "use-sound";
 
 //constants
 import { Session } from "next-auth";
@@ -43,7 +42,6 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
   const [newAlert, setNewAlert] = useState(false);
   const [alert, setAlert] = useState<string[]>([]);
   const audio = new Audio("/sounds/alert.mp3");
-  console.log(alert);
   useEffect(() => {
     socket?.on("alertUsers", ({ message }) => {
       audio.play();

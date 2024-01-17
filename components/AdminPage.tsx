@@ -8,7 +8,6 @@ interface Admin {
 
 export default async function AdminPage({ children }: Admin) {
   const user = await getCurrentUser();
-  console.log(user?.user.role);
   return (
     <>
       {user?.user.role == "ADMIN" ? (

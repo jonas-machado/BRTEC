@@ -36,7 +36,6 @@ export default function Dashboard({ users }: any) {
     return data;
   }, [users]);
   const usersName = users.map((user: any) => user.name);
-  console.log(chartData);
   return (
     <div className="flex w-full gap-4 m-4 flex-col">
       <Card className="bg-opacity-80 backdrop-blur-md row-auto">

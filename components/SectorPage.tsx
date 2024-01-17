@@ -8,7 +8,6 @@ interface Sector {
 
 export default async function SectorPage({ sector, children }: Sector) {
   const user = await getCurrentUser();
-  console.log(user?.user.sector);
   return (
     <>
       {user?.user.sector == sector ? (

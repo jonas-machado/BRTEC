@@ -22,15 +22,12 @@ import { v4 } from "uuid";
 import { useRouter } from "next/navigation";
 
 function Perfil({ currentUser }: { currentUser?: Session | null }) {
-  console.log(currentUser);
   const perfilModal = usePerfilModal();
   const router = useRouter();
   const [avatarLoading, setAvatarLoading] = useState<boolean>(false);
   const [bgLoading, setBgLoading] = useState<boolean>(false);
 
   const { data: session, update } = useSession();
-
-  console.log(currentUser);
 
   const schema = z
     .object({

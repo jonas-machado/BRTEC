@@ -14,7 +14,6 @@ export async function POST(request: Request) {
     dateDown: Date;
     bases: string[];
   } = body;
-  console.log(text, isUp, dateDown, bases);
 
   // Include only defined fields in the updateData object:
 

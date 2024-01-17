@@ -34,7 +34,6 @@ const Dropzone = ({
 
   const onDrop = useCallback((acceptedFiles: any) => {
     // Do something with the files
-    console.log(acceptedFiles);
     setFileSelected(acceptedFiles[0]);
     setValue("dropZone", acceptedFiles);
   }, []);

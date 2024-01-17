@@ -23,7 +23,6 @@ import MotionComponent from "@/lib/framerMotion/motionComponent";
 export default function Users({ users }: any) {
   const { data: session, update, status } = useSession();
   const router = useRouter();
-  console.log(users);
 
   const notify = (text: any) => {
     toast.error(text, {
@@ -71,7 +70,6 @@ export default function Users({ users }: any) {
 
   const editUser = (user: any) => {
     setSelectedUser(user);
-    console.log(selectedUser);
     editOnOpen();
   };
   const deleteUser = async (user: any, index: number) => {
@@ -89,7 +87,6 @@ export default function Users({ users }: any) {
         setDeleteLoading(false);
         notifySuc("Excluido com sucesso");
         router.refresh();
-        console.log(res);
       });
   };
 

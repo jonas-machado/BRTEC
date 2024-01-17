@@ -17,7 +17,6 @@ export default function NavbarUtilities() {
   const path = usePathname();
   const session = useSession();
   const router = useRouter();
-  console.log(path);
 
   const notify = (text: any) => {
     toast.error(text, {
