@@ -1,11 +1,10 @@
+"use client";
+
 import { useState, useEffect, Fragment } from "react";
 import { useForm, Controller } from "react-hook-form";
-import TabBody from "@/components/tab/TabBody";
-import TabHead from "@/components/tab/TabHead";
+
 import Input from "@/components/inputs/inputLabelUseForm";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
-import { AnimatePresence, motion } from "framer-motion";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AutocompleteInput from "../inputs/AutocompleteInput";
@@ -13,16 +12,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const VerifyCTO = ({ olt }: any) => {
-  const [text, setText] = useState<string>("");
-  const [quantidadeOnu, setQuantidadeOnu] = useState<string>("");
-  const [idLivre, setIdLivre] = useState<number[]>([]);
-  const [onuDown, setOnuDown] = useState<string[]>([]);
-  const [onuLos, setOnuLos] = useState<string[]>([]);
-  const [onuDyingGasp, setOnuDyingGasp] = useState<string[]>([]);
-  const [onuOff, setOnuOff] = useState<string[]>([]);
-  const [response, setResponse] = useState<any>();
-  const [selected, setSelected] = useState<any>();
-
   const schema: any = {
     pon: z
       .string()
@@ -50,12 +39,8 @@ const VerifyCTO = ({ olt }: any) => {
     });
   };
 
-  const onSubmit = async ({ pon }: any) => {
-    const res = response.replace(//g, "").split("\n");
-    const onuTotal = res.filter((el: any) => el.includes(`${pon}:`));
+  const onSubmit = () => {};
 
-    setText(onuTotal.join("\n"));
-  };
   return (
     <div className="grid lg:grid-cols-4">
       <div>
@@ -77,6 +62,7 @@ const VerifyCTO = ({ olt }: any) => {
             placeholder="x/x/x"
             id="pon"
             register={register}
+            error={errors}
             required
           />
           <div className="w-full ">
