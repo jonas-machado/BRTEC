@@ -71,6 +71,7 @@
     "tailwindcss": "3.3.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.3.3",
+    "use-sound": "^4.0.1",
     "utf-8-validate": "^5.0.10",
     "uuid": "^9.0.0",
     "ws": "^8.14.2",

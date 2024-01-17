@@ -15,19 +15,7 @@ import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
-import {
-  EditInactiveIcon,
-  DuplicateInactiveIcon,
-  DuplicateActiveIcon,
-  ArchiveInactiveIcon,
-  ArchiveActiveIcon,
-  MoveInactiveIcon,
-  MoveActiveIcon,
-  DeleteInactiveIcon,
-  DeleteActiveIcon,
-  EditActiveIcon,
-} from "@/utils/headlessui/menuDropdown";
+import useSound from "use-sound";
 
 //constants
 import { Session } from "next-auth";
@@ -36,7 +24,6 @@ import Perfil from "../modals/Perfil";
 
 import usePerfilModal from "@/lib/zustand/usePerfilModal";
 import { SocketContext } from "@/lib/socket";
-
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
@@ -52,13 +39,15 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
   const isOpen = usePerfilModal((state) => state.isOpen);
   const onOpen: () => void = usePerfilModal((state) => state.onOpen);
   const onClose: () => void = usePerfilModal((state) => state.onClose);
-  console.log(maps);
   const socket = useContext(SocketContext);
-
+  const [newAlert, setNewAlert] = useState(false);
   const [alert, setAlert] = useState<string[]>([]);
+  const audio = new Audio("/sounds/alert.mp3");
   console.log(alert);
   useEffect(() => {
     socket?.on("alertUsers", ({ message }) => {
+      audio.play();
+      setNewAlert(true);
       setAlert((prev) => [...prev, message]);
     });
 
@@ -276,7 +265,14 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
                   className="relative w-full justify-end inline-block text-left"
                 >
                   <div className="flex justify-end">
-                    <Menu.Button className="inline-flex transition justify-center rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <Menu.Button
+                      onClick={() => setNewAlert(false)}
+                      className={`inline-flex ${
+                        newAlert
+                          ? "shadow-[0px_0px_10px] shadow-purple-600"
+                          : ""
+                      } transition justify-center rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none`}
+                    >
                       <BellIcon className="h-6 w-6" aria-hidden="true" />
                     </Menu.Button>
                   </div>
@@ -290,21 +286,29 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute z-50 right-0 mt-2 w-auto origin-top-right divide-gray-100 rounded-md bg-black bg-opacity-70 backdrop-blur-md p-4 shadow-lg ring-1 ring-black/5 focus:outline-none">
-                      {alert?.map((item, i) => (
-                        <Menu.Item key={item}>
-                          {({ active }) => (
-                            <button
-                              className={`${
-                                active
-                                  ? "bg-gray-900 text-gray-300"
-                                  : "text-gray-300"
-                              } group  flex w-full items-center rounded-md p-2 text-lg`}
-                            >
-                              {item}
-                            </button>
-                          )}
-                        </Menu.Item>
-                      ))}
+                      {alert.length > 0 ? (
+                        alert?.map((item, i) => (
+                          <Menu.Item key={item}>
+                            {({ active }) => (
+                              <button
+                                className={`${
+                                  active
+                                    ? "bg-gray-900 text-gray-300"
+                                    : "text-gray-300"
+                                } group  flex w-full items-center rounded-md p-2 text-lg`}
+                              >
+                                {item}
+                              </button>
+                            )}
+                          </Menu.Item>
+                        ))
+                      ) : (
+                        <p
+                          className={`text-gray-500 group flex w-full items-center rounded-md p-2 text-lg`}
+                        >
+                          Nenhuma notificação até o momento
+                        </p>
+                      )}
                     </Menu.Items>
                   </Transition>
                 </Menu>
