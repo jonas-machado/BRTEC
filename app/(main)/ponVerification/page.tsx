@@ -1,6 +1,6 @@
 import React from "react";
 import { getOlt } from "@/lib/actions/getOlt";
-import PonVerificationForm from "@/components/form/PonVerificationForm";
+import PonVerificationForm from "@/components/form/ponVerification/PonVerificationForm";
 import SectorPage from "@/components/SectorPage";
 
 const ponVerification = async () => {

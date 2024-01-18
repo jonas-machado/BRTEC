@@ -7,10 +7,11 @@ import Input from "@/components/inputs/inputLabelUseForm";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AutocompleteInput from "../inputs/AutocompleteInput";
+import AutocompleteInput from "../../inputs/AutocompleteInput";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import ControlledCheckbox from "@/components/inputs/controlledCheckbox";
+const oltBrand = ["ZTE", "DATACOM", "INTELBRAS G", "INTELBRAS I"];
 const VerifyCTO = ({ olt }: any) => {
   const schema: any = {
     pon: z
@@ -30,7 +31,7 @@ const VerifyCTO = ({ olt }: any) => {
   } = useForm({
     resolver: zodResolver(schema),
   });
-
+  const { olt: oltData, pon } = watch();
   const notify = (text: any) => {
     toast.error(text, {
       theme: "dark",
@@ -38,24 +39,34 @@ const VerifyCTO = ({ olt }: any) => {
       pauseOnHover: false,
     });
   };
-
+  console.log(olt);
+  const comandoOnu = () => {
+    switch (oltData) {
+      case "ZTE":
+        return "";
+      case "DATACOM":
+        return "";
+      case "INTELBRAS G":
+        return "";
+      case "INTELBRAS I":
+        return "";
+    }
+  };
   const onSubmit = () => {};
 
   return (
-    <div className="grid lg:grid-cols-4">
-      <div>
+    <div className="">
+      <div className="grid lg:grid-cols-2">
         <form
-          className="p-4 space-y-1 row-span-2"
+          className="flex flex-col p-4 space-y-1 row-span-2 gap-1"
           onSubmit={handleSubmit(onSubmit)}
           autoComplete="off"
         >
-          <AutocompleteInput
-            id="olt"
-            label="OLT"
-            placeHolder="Selecione a OLT"
-            options={olt}
-            control={control}
-            name="oltName"
+          <ControlledCheckbox
+            array={oltBrand}
+            direction="row"
+            name={"olt"}
+            register={register}
           />
           <Input
             label="PON"
@@ -74,15 +85,15 @@ const VerifyCTO = ({ olt }: any) => {
             </button>
           </div>
         </form>
-      </div>
-      <div className="mt-4 col-span-2">
-        <h1 className="text-gray-300">ONU COM QUEDA RECENTEMENTE</h1>
-        <p className="text-gray-300">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora eos
-          delectus soluta expedita eligendi dolore debitis. Dicta, libero magnam
-          excepturi sequi, voluptatum ullam quibusdam blanditiis optio eaque
-          nulla numquam vero?
-        </p>
+        <div className="mt-4">
+          <h1 className="text-gray-300">ONU COM QUEDA RECENTEMENTE</h1>
+          <p className="text-gray-300">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora eos
+            delectus soluta expedita eligendi dolore debitis. Dicta, libero
+            magnam excepturi sequi, voluptatum ullam quibusdam blanditiis optio
+            eaque nulla numquam vero?
+          </p>
+        </div>
       </div>
     </div>
   );

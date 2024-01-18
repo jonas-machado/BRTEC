@@ -8,7 +8,7 @@ function ControlledCheckbox({
 }: {
   array: string[];
   direction: string;
-  name: any;
+  name: string;
   register: any;
 }) {
   return (
@@ -27,7 +27,7 @@ function ControlledCheckbox({
               htmlFor={i}
               className="inline-flex items-center justify-between w-full p-2 text-gray-300 bg-gray-900 border-gray-800 rounded-lg cursor-pointer hover:text-gray-400 peer-checked:text-gray-300 peer-checked:bg-gray-600 hover:bg-gray-800 transition"
             >
-              <div className="w-full text-lg font-semibold text-center">
+              <div className="w-full text-lg font-semibold text-center whitespace-nowrap">
                 {arr}
               </div>
             </label>

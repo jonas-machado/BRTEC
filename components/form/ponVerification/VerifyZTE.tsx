@@ -5,7 +5,7 @@ import Input from "@/components/inputs/inputLabelUseForm";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ControlledCheckbox from "@/components/inputs/controlledCheckbox";
-import AutocompleteInput from "../inputs/AutocompleteInput";
+import AutocompleteInput from "../../inputs/AutocompleteInput";
 import { SocketContext } from "@/lib/socket";
 
 const VerifyPon = ({ olt, response, multipleResponse }: any) => {

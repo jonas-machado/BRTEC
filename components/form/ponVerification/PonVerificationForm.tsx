@@ -8,8 +8,8 @@ import { useSession } from "next-auth/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import VerifyPon from "../ponVerification/VerifyZTE";
-import VerifyCTO from "../ponVerification/VerifyCTO";
+import VerifyPon from "./VerifyZTE";
+import VerifyCTO from "./VerifyCTO";
 import { SocketContext } from "@/lib/socket";
 
 //constants
