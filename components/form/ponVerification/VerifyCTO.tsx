@@ -31,6 +31,7 @@ const VerifyCTO = ({ olt }: any) => {
   } = useForm({
     resolver: zodResolver(schema),
   });
+  const [comando, setComando] = useState();
   const { olt: oltData, pon } = watch();
   const notify = (text: any) => {
     toast.error(text, {
@@ -43,13 +44,13 @@ const VerifyCTO = ({ olt }: any) => {
   const comandoOnu = () => {
     switch (oltData) {
       case "ZTE":
-        return "";
+        return `show gpon onu state gpon-olt_${pon}`;
       case "DATACOM":
-        return "";
+        return `do show interface gpon ${pon} onu`;
       case "INTELBRAS G":
-        return "";
+        return ``;
       case "INTELBRAS I":
-        return "";
+        return ``;
     }
   };
   const onSubmit = () => {};
@@ -86,13 +87,8 @@ const VerifyCTO = ({ olt }: any) => {
           </div>
         </form>
         <div className="mt-4">
-          <h1 className="text-gray-300">ONU COM QUEDA RECENTEMENTE</h1>
-          <p className="text-gray-300">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora eos
-            delectus soluta expedita eligendi dolore debitis. Dicta, libero
-            magnam excepturi sequi, voluptatum ullam quibusdam blanditiis optio
-            eaque nulla numquam vero?
-          </p>
+          <h1 className="text-gray-300">Comandos</h1>
+          <p className="text-gray-300">{comando}</p>
         </div>
       </div>
     </div>

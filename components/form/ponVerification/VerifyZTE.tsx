@@ -1,3 +1,5 @@
+"use client";
+
 import React, { HtmlHTMLAttributes, useContext } from "react";
 import { useState, useEffect, Fragment } from "react";
 import { useForm, Controller, FieldValues, useWatch } from "react-hook-form";
@@ -8,9 +10,9 @@ import ControlledCheckbox from "@/components/inputs/controlledCheckbox";
 import AutocompleteInput from "../../inputs/AutocompleteInput";
 import { SocketContext } from "@/lib/socket";
 
-const VerifyPon = ({ olt, response, multipleResponse }: any) => {
+const VerifyPon = ({ olt }: any) => {
   const socket = useContext(SocketContext);
-
+  console.log(olt);
   const [text, setText] = useState<string>("");
   const [excludeText, setExcludeText] = useState<string>("");
   const [quantidadeOnu, setQuantidadeOnu] = useState<string>("");
@@ -28,7 +30,8 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
   const [onuOff, setOnuOff] = useState<string[]>([]);
   const [onuWorking, setOnuWorking] = useState<string[]>([]);
   const [exclude, setExclude] = useState<boolean>(false);
-
+  const [response, setResponse] = useState<any>();
+  const [multipleResponse, setMultipleResponse] = useState<any>();
   const {
     register,
     handleSubmit,
@@ -56,6 +59,28 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
 
   const oltSelected = watch().olt;
   const pon = watch().pon;
+
+  useEffect(() => {
+    // Handle connection event
+
+    // Handle disconnection event
+
+    function onTelnetResponse(value: any) {
+      setResponse(value);
+    }
+
+    function onMultipleResponse(value: any) {
+      setMultipleResponse(value);
+    }
+
+    socket.on("telnet response", onTelnetResponse);
+    socket.on("multipleResponse", onMultipleResponse);
+
+    return () => {
+      socket.off("telnet response", onTelnetResponse);
+      socket.off("multipleResponse", onMultipleResponse);
+    };
+  }, []);
 
   const onDetail = (ont: any, todos?: boolean) => {
     if (oltSelected?.brand == "ZTE") {
@@ -134,7 +159,7 @@ const VerifyPon = ({ olt, response, multipleResponse }: any) => {
   }
 
   useEffect(() => {
-    const res = multipleResponse.data?.map((res: any) =>
+    const res = multipleResponse?.data?.map((res: any) =>
       res.replace(/.*/g, "")
     );
     setText(res?.join("\n"));
@@ -285,8 +310,8 @@ commit
   };
 
   return (
-    <div>
-      <div className="grid lg:grid-cols-4">
+    <div className="bg-black bg-opacity-70 rounded-md backdrop-blur-md">
+      <div className="grid lg:grid-cols-4 ">
         <div>
           <form
             className="p-4 space-y-1 row-span-2"
@@ -318,7 +343,7 @@ commit
               </button>
             </div>
           </form>
-          <div className="bg-gray-900 bg-opacity-60 rounded-xl py-2 m-4 mt-0">
+          <div className=" py-2 m-4 mt-0">
             <div className="m-4 ">
               <h1 className="text-gray-300 text-md font-bold">INFORMAÇÕES</h1>
               <div className="mt-4">
@@ -508,7 +533,7 @@ commit
         </div>
       </div>
 
-      <div className="grid grid-cols-[70%,29%] gap-2">
+      <div className="grid grid-cols-[70%,29%] gap-2 px-4">
         <textarea
           readOnly
           value={text}
