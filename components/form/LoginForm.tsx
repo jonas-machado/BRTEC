@@ -68,13 +68,13 @@ export default function LoginForm() {
     router.push("/config/manual");
   }
 
-  if (status == "loading") {
+  if (status != "loading") {
     return (
       <AnimatePresence mode="wait">
         <motion.div
           key="loading"
           id="container"
-          className="flex animate-pulse justify-center items-center bg-black  rounded-full bg-opacity-50 shadow-[0px_0px_40px] shadow-black p-10 py-16"
+          className="flex animate-pulse justify-center items-center w-[15%] h-[30%] bg-black  rounded-full bg-opacity-50 shadow-[0px_0px_40px] shadow-black p-10 py-16"
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{
