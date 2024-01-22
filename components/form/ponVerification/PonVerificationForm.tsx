@@ -15,10 +15,10 @@ import TabHeadLink from "@/components/tab/TabHeadLink";
 
 //constants
 const tabNames = [
-  { name: "Verificar posição livre", link: "verifyOlt" },
-  { name: "Aferir CTO", link: "verifyCto" },
-  { name: "Diagnosticar ONT", link: "verifyOlt" },
-  { name: "Diagnosticar Rádio", link: "verifyOlt" },
+  { name: "Verificar posição livre", link: "/ponVerification/verifyOlt" },
+  { name: "Aferir CTO", link: "/ponVerification/verifyCto" },
+  { name: "Diagnosticar ONT", link: "/ponVerification/ontDiagnostic" },
+  { name: "Diagnosticar Rádio", link: "/ponVerification/radioDiagnostic" },
 ];
 
 interface ConfigProps {
@@ -32,6 +32,7 @@ const PonVerificationForm = ({ olt }: ConfigProps) => {
   const session = useSession();
   const router = useRouter();
   const path = usePathname();
+  console.log(path);
   useEffect(() => {
     if (session?.status == "unauthenticated") {
       router.push("/");

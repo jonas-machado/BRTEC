@@ -59,7 +59,9 @@ const ControlledInput = ({
                     {({ checked }) => (
                       <div className="flex w-full justify-between ">
                         <div className="w-full text-center">
-                          <span className={`text-gray-300`}>{arr.name}</span>
+                          <span className={`text-gray-300 whitespace-nowrap`}>
+                            {arr.name}
+                          </span>
                         </div>
                       </div>
                     )}
