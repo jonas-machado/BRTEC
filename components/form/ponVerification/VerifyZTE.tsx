@@ -310,7 +310,7 @@ commit
   };
 
   return (
-    <div className="bg-black bg-opacity-70 rounded-md backdrop-blur-md">
+    <div className="bg-black bg-opacity-70 rounded-md backdrop-blur-md w-full">
       <div className="grid lg:grid-cols-4 ">
         <div>
           <form

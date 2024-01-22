@@ -3,7 +3,7 @@
 import { useState, useEffect, useContext } from "react";
 import TabBody from "@/components/tab/TabBody";
 import TabHead from "@/components/tab/TabHead";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,13 +11,14 @@ import "react-toastify/dist/ReactToastify.css";
 import VerifyPon from "./VerifyZTE";
 import VerifyCTO from "./VerifyCTO";
 import { SocketContext } from "@/lib/socket";
+import TabHeadLink from "@/components/tab/TabHeadLink";
 
 //constants
 const tabNames = [
-  "Verificar posição livre",
-  "Aferir CTO",
-  "Diagnosticar ONT",
-  "Diagnosticar Rádio",
+  { name: "Verificar posição livre", link: "verifyOlt" },
+  { name: "Aferir CTO", link: "verifyCto" },
+  { name: "Diagnosticar ONT", link: "verifyOlt" },
+  { name: "Diagnosticar Rádio", link: "verifyOlt" },
 ];
 
 interface ConfigProps {
@@ -30,7 +31,7 @@ const PonVerificationForm = ({ olt }: ConfigProps) => {
   const socket = useContext(SocketContext);
   const session = useSession();
   const router = useRouter();
-
+  const path = usePathname();
   useEffect(() => {
     if (session?.status == "unauthenticated") {
       router.push("/");
@@ -47,17 +48,17 @@ const PonVerificationForm = ({ olt }: ConfigProps) => {
 
   return (
     <>
-      <div className="container relative bg-black backdrop-blur bg-opacity-80 w-11/12 mx-auto rounded-xl z-0">
+      <div className="relative bg-black backdrop-blur bg-opacity-80 rounded-xl z-0 mb-2">
         <TabBody>
           {tabNames.map((tab) => (
-            <TabHead
-              key={tab}
-              state={openTab}
-              id={tab}
-              onClick={() => setOpenTab(tab)}
+            <TabHeadLink
+              key={tab.name}
+              id={tab.link}
+              href={tab.link}
+              state={path}
             >
-              {tab}
-            </TabHead>
+              {tab.name}
+            </TabHeadLink>
           ))}
         </TabBody>
       </div>

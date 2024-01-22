@@ -1,15 +1,12 @@
-import getCurrentUser from "@/lib/actions/getCurrentUser";
 import MotionContent from "@/lib/framerMotion/motionContent";
-import VerifyPon from "@/components/form/ponVerification/VerifyZTE";
 import { getOlt } from "@/lib/actions/getOlt";
+import VerifyCTO from "@/components/form/ponVerification/VerifyCTO";
 
 export default async function monitoring() {
   const { olt } = await getOlt();
   return (
     <MotionContent>
-      <div className="flex mt-2">
-        <VerifyPon olt={olt} />
-      </div>
+      <VerifyCTO olt={olt} />
     </MotionContent>
   );
 }

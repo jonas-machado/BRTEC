@@ -10,7 +10,7 @@ export default async function RootLayout({
   const olt = await getOlt();
   return (
     <SectorPage sector="N2">
-      <div className="mt-14 z-0">
+      <div className="mt-14 z-0 w-11/12 mx-auto">
         <PonVerificationForm olt={olt} />
         {children}
       </div>

@@ -22,7 +22,7 @@ const links = [
   },
   {
     name: "Aferir pon",
-    link: "/ponVerification",
+    link: "/ponVerification/verifyOlt",
     icon: WrenchScrewdriverIcon,
   },
   {

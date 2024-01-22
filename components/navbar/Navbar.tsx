@@ -41,8 +41,8 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
   const socket = useContext(SocketContext);
   const [newAlert, setNewAlert] = useState(false);
   const [alert, setAlert] = useState<string[]>([]);
-  const audio = new Audio("/sounds/alert.mp3");
   useEffect(() => {
+    const audio = new Audio("sounds/alert.mp3");
     socket?.on("alertUsers", ({ message }) => {
       audio.play();
       setNewAlert(true);
@@ -52,7 +52,7 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
     return () => {
       socket.off("alertUsers");
     };
-  }, [socket]);
+  }, []);
 
   return (
     <>
