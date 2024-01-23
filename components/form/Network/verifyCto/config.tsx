@@ -139,8 +139,8 @@ const Config = ({
           Texto para comparar <strong>antes</strong>:
         </h1>
         <textarea
-          name=""
-          id=""
+          {...register("firstPon")}
+          id="firstPon"
           className="w-full bg-gray-900 rounded-md h-60 text-gray-300 p-2"
         ></textarea>
       </div>
@@ -149,8 +149,8 @@ const Config = ({
           Texto para comparar <strong>depois</strong>:
         </h1>
         <textarea
-          name=""
-          id=""
+          {...register("secondPon")}
+          id="secondPon"
           className="w-full bg-gray-900 rounded-md h-60 text-gray-300 p-2"
         ></textarea>
       </div>

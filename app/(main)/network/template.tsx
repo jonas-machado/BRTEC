@@ -1,8 +1,8 @@
 import { SocketProvider } from "@/lib/socket";
 import SectorPage from "@/components/SectorPage";
-import PonVerificationForm from "@/components/form/ponVerification/PonVerificationForm";
+import PonVerificationForm from "@/components/form/Network/NetworkHead";
 import { getOlt } from "@/lib/actions/getOlt";
-export default async function RootLayout({
+export default async function NetworkTemplate({
   children,
 }: {
   children: React.ReactNode;

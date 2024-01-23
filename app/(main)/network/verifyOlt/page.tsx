@@ -1,6 +1,6 @@
 import getCurrentUser from "@/lib/actions/getCurrentUser";
 import MotionContent from "@/lib/framerMotion/motionContent";
-import VerifyPon from "@/components/form/ponVerification/VerifyZTE";
+import VerifyPon from "@/components/form/Network/VerifyZTE";
 import { getOlt } from "@/lib/actions/getOlt";
 
 export default async function monitoring() {

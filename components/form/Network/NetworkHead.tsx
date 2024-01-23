@@ -15,17 +15,17 @@ import TabHeadLink from "@/components/tab/TabHeadLink";
 
 //constants
 const tabNames = [
-  { name: "Verificar posição livre", link: "/ponVerification/verifyOlt" },
-  { name: "Aferir CTO", link: "/ponVerification/verifyCto" },
-  { name: "Diagnosticar ONT", link: "/ponVerification/ontDiagnostic" },
-  { name: "Diagnosticar Rádio", link: "/ponVerification/radioDiagnostic" },
+  { name: "Verificar posição livre", link: "/network/verifyOlt" },
+  { name: "Aferir CTO", link: "/network/verifyCto" },
+  { name: "Diagnosticar ONT", link: "/network/ontDiagnostic" },
+  { name: "Diagnosticar Rádio", link: "/network/radioDiagnostic" },
 ];
 
 interface ConfigProps {
   olt: any;
 }
 
-const PonVerificationForm = ({ olt }: ConfigProps) => {
+const networkHead = ({ olt }: ConfigProps) => {
   const [openTab, setOpenTab] = useState("Verificar posição livre");
 
   const socket = useContext(SocketContext);
@@ -67,4 +67,4 @@ const PonVerificationForm = ({ olt }: ConfigProps) => {
   );
 };
 
-export default PonVerificationForm;
+export default networkHead;
