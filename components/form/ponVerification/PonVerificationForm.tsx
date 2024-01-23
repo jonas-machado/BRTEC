@@ -9,7 +9,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import VerifyPon from "./VerifyZTE";
-import VerifyCTO from "./VerifyCTO";
+import VerifyCTO from "./verifyCto/VerifyCto";
 import { SocketContext } from "@/lib/socket";
 import TabHeadLink from "@/components/tab/TabHeadLink";
 
