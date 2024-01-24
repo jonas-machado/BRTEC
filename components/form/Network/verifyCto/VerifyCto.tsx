@@ -33,6 +33,13 @@ const VerifyCTO = ({ olt }: any) => {
     pon: z.string().trim().nonempty(),
   });
 
+  const schemaVerify = z.object({
+    firstPon: z.string().trim().nonempty(),
+    secondPon: z.string().trim().nonempty(),
+    mac: z.string().trim().nonempty(),
+    servicePort: z.string().trim().optional(),
+  });
+
   const {
     register,
     handleSubmit,
@@ -41,7 +48,19 @@ const VerifyCTO = ({ olt }: any) => {
     watch,
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
+
+  const {
+    register: registerVerify,
+    handleSubmit: handleSubmitVerify,
+    control: controlVerify,
+    reset: resetVerify,
+    watch: watchVerify,
+    formState: { errors: errorsVerify },
+  } = useForm({ resolver: zodResolver(schemaVerify) });
+
   const { olts, pon } = watch();
+  const { mac } = watchVerify();
+
   const notify = (text: any) => {
     toast.error(text, {
       theme: "dark",
@@ -49,7 +68,7 @@ const VerifyCTO = ({ olt }: any) => {
       pauseOnHover: false,
     });
   };
-  console.log(command);
+  console.log(errorsVerify);
 
   const onSubmit = ({ olts, pon }: FieldValues) => {
     console.log(olts, pon);
@@ -78,14 +97,20 @@ const VerifyCTO = ({ olt }: any) => {
     }
   };
 
+  const onSubmitVerify = (value: any) => {
+    console.log(value);
+  };
+
   return (
     <div className=" w-full bg-black bg-opacity-80 backdrop-blur-md p-4 gap-4 h-full">
       {!verify ? (
         <Config
           verifyState={() => setVerify(!verify)}
           handleSubmit={handleSubmit(onSubmit)}
+          handleSubmitVerify={handleSubmitVerify(onSubmitVerify)}
           command={command}
           register={register}
+          registerVerify={registerVerify}
           control={control}
           currentOlt={olts}
           errors={errors}

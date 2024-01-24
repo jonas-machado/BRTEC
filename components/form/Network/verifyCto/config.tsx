@@ -23,8 +23,11 @@ const oltBrand = [
 interface Config {
   verifyState: () => void;
   handleSubmit: () => void;
+  handleSubmitVerify: () => void;
   command?: string[];
   register: any;
+  registerVerify: any;
+
   control: any;
   currentOlt: string;
   errors: any;
@@ -33,13 +36,15 @@ interface Config {
 const Config = ({
   verifyState,
   handleSubmit,
+  handleSubmitVerify,
   command,
   errors,
   register,
+  registerVerify,
   control,
   currentOlt,
 }: Config) => {
-  //
+  console.log(handleSubmitVerify);
 
   return (
     <MotionContent id="config">
@@ -86,52 +91,57 @@ const Config = ({
             </div>
           ))}
         </div>
-        <div className="">
-          <h1 className="text-gray-300 text-xl mb-2">
-            Texto para comparar <strong>antes</strong>:
-          </h1>
-          <textarea
-            {...register("firstPon")}
-            id="firstPon"
-            className="w-full bg-gray-900 rounded-md h-60 text-gray-300 p-2"
-          ></textarea>
-        </div>
-        <div className="">
-          <h1 className="text-gray-300 text-xl mb-2">
-            Texto para comparar <strong>depois</strong>:
-          </h1>
-          <textarea
-            {...register("secondPon")}
-            id="secondPon"
-            className="w-full bg-gray-900 rounded-md h-60 text-gray-300 p-2"
-          ></textarea>
-        </div>
-        <div className=" col-span-2">
-          <h1 className="text-gray-300 text-xl mb-2">Todos os MAC da PON:</h1>
-          <textarea
-            name=""
-            id=""
-            className="w-full bg-gray-900 rounded-md h-60 text-gray-300 p-2"
-          ></textarea>
-        </div>
-        {currentOlt == "DATACOM" && (
-          <div className=" col-span-2">
+        <form
+          className=" col-span-2 grid grid-cols-2 gap-2"
+          onSubmit={handleSubmitVerify}
+          autoComplete="off"
+        >
+          <div className="">
             <h1 className="text-gray-300 text-xl mb-2">
-              Todos os service-port da PON:
+              Texto para comparar <strong>antes</strong>:
             </h1>
             <textarea
-              name=""
-              id=""
+              {...registerVerify("firstPon")}
+              id="firstPon"
               className="w-full bg-gray-900 rounded-md h-60 text-gray-300 p-2"
             ></textarea>
           </div>
-        )}
-        <button
-          onClick={verifyState}
-          className="bg-gray-900 rounded-md p-2 text-gray-300 w-full col-span-2 hover:bg-gray-800 transition"
-        >
-          Verificar
-        </button>
+          <div className="">
+            <h1 className="text-gray-300 text-xl mb-2">
+              Texto para comparar <strong>depois</strong>:
+            </h1>
+            <textarea
+              {...registerVerify("secondPon")}
+              id="secondPon"
+              className="w-full bg-gray-900 rounded-md h-60 text-gray-300 p-2"
+            ></textarea>
+          </div>
+          <div className=" col-span-2">
+            <h1 className="text-gray-300 text-xl mb-2">Todos os MAC da PON:</h1>
+            <textarea
+              {...registerVerify("mac")}
+              className="w-full bg-gray-900 rounded-md h-60 text-gray-300 p-2"
+            ></textarea>
+          </div>
+          {currentOlt == "DATACOM" && (
+            <div className=" col-span-2">
+              <h1 className="text-gray-300 text-xl mb-2">
+                Todos os service-port da PON:
+              </h1>
+              <textarea
+                {...registerVerify("servicePort")}
+                className="w-full bg-gray-900 rounded-md h-60 text-gray-300 p-2"
+              ></textarea>
+            </div>
+          )}
+          <button
+            onClick={verifyState}
+            type="submit"
+            className="bg-gray-900 rounded-md p-2 text-gray-300 w-full col-span-2 hover:bg-gray-800 transition"
+          >
+            Verificar
+          </button>
+        </form>
       </div>
     </MotionContent>
   );

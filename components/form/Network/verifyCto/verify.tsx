@@ -22,16 +22,25 @@ const oltBrand = [
 
 interface Verify {
   verifyState: () => void;
+  handleSubmitVerify: () => void;
+  registerVerify: any;
 }
 
-const Verify = ({ verifyState }: Verify) => {
+const Verify = ({
+  verifyState,
+  handleSubmitVerify,
+  registerVerify,
+}: Verify) => {
   return (
     <MotionContent id="verify">
       <div className="flex flex-col w-full gap-4 h-full">
-        <div>
+        <div className="">
+          <h1 className="text-gray-300 text-xl mb-2">
+            Texto para comparar <strong>depois</strong>:
+          </h1>
           <textarea
-            name=""
-            id=""
+            {...registerVerify("secondPon")}
+            id="secondPon"
             className="w-full bg-gray-900 rounded-md h-60 text-gray-300 p-2"
           ></textarea>
         </div>
