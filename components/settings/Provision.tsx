@@ -20,6 +20,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useIntersection } from "@mantine/hooks";
 import Spinner from "../Spinner";
 import useProvisionModal from "@/lib/zustand/useProvisionModal";
+import MotionDelay from "@/lib/framerMotion/motionDelay";
 
 export default function Provision({ provisioned }: any) {
   const session = useSession();
@@ -151,48 +152,50 @@ export default function Provision({ provisioned }: any) {
             {data?.pages.map((group: any, i: number) => (
               <React.Fragment key={i}>
                 {group.map((item: any, i: number) => (
-                  <li
-                    key={i}
-                    className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md hover:bg-gray-800 cursor-pointer"
-                    onClick={() => {
-                      onOpen();
-                      setScript(item.script);
-                    }}
-                  >
-                    <div className="flex min-w-0 gap-x-4 justify-between w-full">
-                      <div className="min-w-0">
-                        <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
-                          Serial: {item.serial}
-                        </p>
-                        <p className="mt-1 truncate text-gray-300">
-                          OLT:{" "}
-                          {item?.olt?.olt
-                            ? item?.olt?.olt + " (" + item?.olt?.ip + ")"
-                            : "Erro"}
-                        </p>
-                        <p className="text-sm leading-6 text-gray-300">
-                          PON: {item.pon}
-                        </p>
-                        <p className="text-sm leading-6 text-gray-300 ">
-                          ID: {item.idLivre}
-                        </p>
-                        <p className="text-sm leading-6 text-gray-300 ">
-                          Cliente: {item.cliente}
-                        </p>
+                  <MotionDelay index={i}>
+                    <li
+                      key={i}
+                      className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md hover:bg-gray-800 cursor-pointer"
+                      onClick={() => {
+                        onOpen();
+                        setScript(item.script);
+                      }}
+                    >
+                      <div className="flex min-w-0 gap-x-4 justify-between w-full">
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
+                            Serial: {item.serial}
+                          </p>
+                          <p className="mt-1 truncate text-gray-300">
+                            OLT:{" "}
+                            {item?.olt?.olt
+                              ? item?.olt?.olt + " (" + item?.olt?.ip + ")"
+                              : "Erro"}
+                          </p>
+                          <p className="text-sm leading-6 text-gray-300">
+                            PON: {item.pon}
+                          </p>
+                          <p className="text-sm leading-6 text-gray-300 ">
+                            ID: {item.idLivre}
+                          </p>
+                          <p className="text-sm leading-6 text-gray-300 ">
+                            Cliente: {item.cliente}
+                          </p>
+                        </div>
+                        <div className="min-w-0 w-60">
+                          <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
+                            Data:{" "}
+                            {item.updatedAt.toLocaleDateString() +
+                              " " +
+                              item.updatedAt.toLocaleTimeString()}
+                          </p>
+                          <p className="mt-1 truncate text-gray-300">
+                            Por: {item?.user?.name ?? "Desconhecido"}
+                          </p>
+                        </div>
                       </div>
-                      <div className="min-w-0 w-60">
-                        <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
-                          Data:{" "}
-                          {item.updatedAt.toLocaleDateString() +
-                            " " +
-                            item.updatedAt.toLocaleTimeString()}
-                        </p>
-                        <p className="mt-1 truncate text-gray-300">
-                          Por: {item?.user?.name ?? "Desconhecido"}
-                        </p>
-                      </div>
-                    </div>
-                  </li>
+                    </li>
+                  </MotionDelay>
                 ))}
               </React.Fragment>
             ))}

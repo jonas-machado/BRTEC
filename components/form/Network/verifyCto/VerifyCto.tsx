@@ -80,25 +80,19 @@ const VerifyCTO = ({ olt }: any) => {
 
   return (
     <div className=" w-full bg-black bg-opacity-80 backdrop-blur-md p-4 gap-4 h-full">
-      <AnimatePresence mode="wait">
-        {!verify ? (
-          <MotionContent id="config">
-            <Config
-              verifyState={() => setVerify(!verify)}
-              handleSubmit={handleSubmit(onSubmit)}
-              command={command}
-              register={register}
-              control={control}
-              currentOlt={olts}
-              errors={errors}
-            />
-          </MotionContent>
-        ) : (
-          <MotionContent id="verify">
-            <Verify verifyState={() => setVerify(!verify)} />
-          </MotionContent>
-        )}
-      </AnimatePresence>
+      {!verify ? (
+        <Config
+          verifyState={() => setVerify(!verify)}
+          handleSubmit={handleSubmit(onSubmit)}
+          command={command}
+          register={register}
+          control={control}
+          currentOlt={olts}
+          errors={errors}
+        />
+      ) : (
+        <Verify verifyState={() => setVerify(!verify)} />
+      )}
     </div>
   );
 };
