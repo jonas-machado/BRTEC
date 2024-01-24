@@ -116,7 +116,11 @@ const VerifyCTO = ({ olt }: any) => {
           errors={errors}
         />
       ) : (
-        <Verify verifyState={() => setVerify(!verify)} />
+        <Verify
+          handleSubmitVerify={handleSubmitVerify(onSubmitVerify)}
+          registerVerify={registerVerify}
+          verifyState={() => setVerify(!verify)}
+        />
       )}
     </div>
   );

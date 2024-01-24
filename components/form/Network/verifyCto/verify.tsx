@@ -33,7 +33,7 @@ const Verify = ({
 }: Verify) => {
   return (
     <MotionContent id="verify">
-      <div className="flex flex-col w-full gap-4 h-full">
+      <form className="flex flex-col w-full gap-4 h-full">
         <div className="">
           <h1 className="text-gray-300 text-xl mb-2">
             Texto para comparar <strong>depois</strong>:
