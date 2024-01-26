@@ -104,23 +104,27 @@ const VerifyCTO = ({ olt }: any) => {
   return (
     <div className=" w-full bg-black bg-opacity-80 backdrop-blur-md p-4 gap-4 h-full">
       {!verify ? (
-        <Config
-          verifyState={() => setVerify(!verify)}
-          handleSubmit={handleSubmit(onSubmit)}
-          handleSubmitVerify={handleSubmitVerify(onSubmitVerify)}
-          command={command}
-          register={register}
-          registerVerify={registerVerify}
-          control={control}
-          currentOlt={olts}
-          errors={errors}
-        />
+        <MotionContent id="config">
+          <Config
+            verifyState={() => setVerify(!verify)}
+            handleSubmit={handleSubmit(onSubmit)}
+            handleSubmitVerify={handleSubmitVerify(onSubmitVerify)}
+            command={command}
+            register={register}
+            registerVerify={registerVerify}
+            control={control}
+            currentOlt={olts}
+            errors={errors}
+          />
+        </MotionContent>
       ) : (
-        <Verify
-          handleSubmitVerify={handleSubmitVerify(onSubmitVerify)}
-          registerVerify={registerVerify}
-          verifyState={() => setVerify(!verify)}
-        />
+        <MotionContent id="verify">
+          <Verify
+            handleSubmitVerify={handleSubmitVerify(onSubmitVerify)}
+            registerVerify={registerVerify}
+            verifyState={() => setVerify(!verify)}
+          />
+        </MotionContent>
       )}
     </div>
   );
