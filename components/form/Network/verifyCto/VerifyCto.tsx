@@ -32,14 +32,6 @@ const VerifyCTO = ({ olt }: any) => {
     olts: z.string().nonempty(),
     pon: z.string().trim().nonempty(),
   });
-
-  const schemaVerify = z.object({
-    firstPon: z.string().trim().nonempty(),
-    secondPon: z.string().trim().nonempty(),
-    mac: z.string().trim().nonempty(),
-    servicePort: z.string().trim().optional(),
-  });
-
   const {
     register,
     handleSubmit,
@@ -48,6 +40,21 @@ const VerifyCTO = ({ olt }: any) => {
     watch,
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
+  const { olts, pon } = watch();
+
+  const schemaVerify =
+    olts == "DATACOM"
+      ? z.object({
+          firstPon: z.string().trim().nonempty(),
+          secondPon: z.string().trim().nonempty(),
+          mac: z.string().trim().nonempty(),
+          servicePort: z.string().trim().optional().nullable(),
+        })
+      : z.object({
+          firstPon: z.string().trim().nonempty(),
+          secondPon: z.string().trim().nonempty(),
+          mac: z.string().trim().nonempty(),
+        });
 
   const {
     register: registerVerify,
@@ -58,7 +65,6 @@ const VerifyCTO = ({ olt }: any) => {
     formState: { errors: errorsVerify },
   } = useForm({ resolver: zodResolver(schemaVerify) });
 
-  const { olts, pon } = watch();
   const { mac } = watchVerify();
 
   const notify = (text: any) => {
@@ -102,31 +108,36 @@ const VerifyCTO = ({ olt }: any) => {
   };
 
   return (
-    <div className=" w-full bg-black bg-opacity-80 backdrop-blur-md p-4 gap-4 h-full">
-      {!verify ? (
-        <MotionContent id="config">
-          <Config
-            verifyState={() => setVerify(!verify)}
-            handleSubmit={handleSubmit(onSubmit)}
-            handleSubmitVerify={handleSubmitVerify(onSubmitVerify)}
-            command={command}
-            register={register}
-            registerVerify={registerVerify}
-            control={control}
-            currentOlt={olts}
-            errors={errors}
-          />
-        </MotionContent>
-      ) : (
-        <MotionContent id="verify">
-          <Verify
-            handleSubmitVerify={handleSubmitVerify(onSubmitVerify)}
-            registerVerify={registerVerify}
-            verifyState={() => setVerify(!verify)}
-          />
-        </MotionContent>
-      )}
-    </div>
+    <>
+      <div className=" w-full bg-black bg-opacity-80 backdrop-blur-md p-4 gap-4 h-full">
+        {!verify ? (
+          <MotionContent id="config">
+            <Config
+              verifyState={() => setVerify(!verify)}
+              handleSubmit={handleSubmit(onSubmit)}
+              handleSubmitVerify={handleSubmitVerify(onSubmitVerify)}
+              command={command}
+              register={register}
+              registerVerify={registerVerify}
+              control={control}
+              currentOlt={olts}
+              errors={errors}
+            />
+          </MotionContent>
+        ) : (
+          <MotionContent id="verify">
+            <Verify
+              handleSubmitVerify={handleSubmitVerify(onSubmitVerify)}
+              registerVerify={registerVerify}
+              verifyState={() => setVerify(!verify)}
+            />
+          </MotionContent>
+        )}
+      </div>
+      <div className="bg-black bg-opacity-70 backdrop-blur-md rounded-md">
+        {difference}
+      </div>
+    </>
   );
 };
 

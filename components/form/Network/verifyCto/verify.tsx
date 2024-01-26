@@ -40,7 +40,7 @@ const Verify = ({
         <textarea
           {...registerVerify("secondPon")}
           id="secondPon"
-          className="w-full bg-gray-900 rounded-md h-60 text-gray-300 p-2"
+          className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
         ></textarea>
       </div>
       <div className="flex gap-4">

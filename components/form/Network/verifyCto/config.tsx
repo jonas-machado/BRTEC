@@ -100,7 +100,7 @@ const Config = ({
           <textarea
             {...registerVerify("firstPon")}
             id="firstPon"
-            className="w-full bg-gray-900 rounded-md h-60 text-gray-300 p-2"
+            className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
           ></textarea>
         </div>
         <div className="">
@@ -110,14 +110,14 @@ const Config = ({
           <textarea
             {...registerVerify("secondPon")}
             id="secondPon"
-            className="w-full bg-gray-900 rounded-md h-60 text-gray-300 p-2"
+            className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
           ></textarea>
         </div>
         <div className=" col-span-2">
           <h1 className="text-gray-300 text-xl mb-2">Todos os MAC da PON:</h1>
           <textarea
             {...registerVerify("mac")}
-            className="w-full bg-gray-900 rounded-md h-60 text-gray-300 p-2"
+            className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
           ></textarea>
         </div>
         {currentOlt == "DATACOM" && (
@@ -127,14 +127,14 @@ const Config = ({
             </h1>
             <textarea
               {...registerVerify("servicePort")}
-              className="w-full bg-gray-900 rounded-md h-60 text-gray-300 p-2"
+              className="w-full bg-gray-900 outline-nonerounded-md h-60 text-gray-300 p-2"
             ></textarea>
           </div>
         )}
         <button
           onClick={verifyState}
           type="submit"
-          className="bg-gray-900 rounded-md p-2 text-gray-300 w-full col-span-2 hover:bg-gray-800 transition"
+          className="bg-gray-900 outline-none rounded-md p-2 text-gray-300 w-full col-span-2 hover:bg-gray-800 transition"
         >
           Verificar
         </button>
