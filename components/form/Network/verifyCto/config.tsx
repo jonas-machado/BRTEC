@@ -132,7 +132,7 @@ const Config = ({
           </div>
         )}
         <button
-          onClick={verifyState}
+          //onClick={verifyState}
           type="submit"
           className="bg-gray-900 outline-none rounded-md p-2 text-gray-300 w-full col-span-2 hover:bg-gray-800 transition"
         >
