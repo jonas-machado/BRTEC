@@ -114,64 +114,77 @@ const VerifyCTO = ({ olt }: any) => {
       <div className=" w-full bg-black bg-opacity-80 backdrop-blur-md p-4 gap-4 h-full">
         <MotionContent id="config">
           <div className="grid lg:grid-cols-2 w-full gap-4 h-full">
-            <form
-              className="flex flex-col space-y-1 gap-1"
-              onSubmit={handleSubmit(onSubmit)}
-              autoComplete="off"
-            >
-              <ControlledInput
-                array={oltBrand}
-                name={"olts"}
-                control={control}
-                error={errors}
-                defaultValue="ZTE"
-              />
-              <Input
-                label="PON"
-                placeholder="x/x/x"
-                id="pon"
-                register={register}
-                error={errors}
-                required
-              />
-              <div className="w-full ">
-                <button
-                  type="submit"
-                  className="flex w-full justify-center py-2 px-3 rounded-md border border-gray-900 bg-gray-900  text-sm font-medium leading-4 text-gray-200 shadow-sm hover:bg-gray-600 focus:outline-none"
+            {!verify && (
+              <>
+                <form
+                  className="flex flex-col space-y-1 gap-1"
+                  onSubmit={handleSubmit(onSubmit)}
+                  autoComplete="off"
                 >
-                  GERAR
-                </button>
-              </div>
-            </form>
-            <div className="">
-              <h1 className="text-gray-300 text-2xl font-bold">Comandos:</h1>
-              {command?.map((item) => (
-                <div className="flex gap-2 my-2">
-                  <span className="text-gray-300">{item}</span>
-                  <CopyToClipboard text={item}>
-                    <button className="text-gray-300 bg-gray-900 rounded-md px-1 focus:bg-gray-800 transition">
-                      Copiar
+                  <ControlledInput
+                    array={oltBrand}
+                    name={"olts"}
+                    control={control}
+                    error={errors}
+                    defaultValue="ZTE"
+                  />
+                  <Input
+                    label="PON"
+                    placeholder="x/x/x"
+                    id="pon"
+                    register={register}
+                    error={errors}
+                    required
+                  />
+                  <div className="w-full ">
+                    <button
+                      type="submit"
+                      className="flex w-full justify-center py-2 px-3 rounded-md border border-gray-900 bg-gray-900  text-sm font-medium leading-4 text-gray-200 shadow-sm hover:bg-gray-600 focus:outline-none"
+                    >
+                      GERAR
                     </button>
-                  </CopyToClipboard>
+                  </div>
+                </form>
+
+                <div className="">
+                  <h1 className="text-gray-300 text-2xl font-bold">
+                    Comandos:
+                  </h1>
+                  {command?.map((item) => (
+                    <div className="flex gap-2 my-2">
+                      <span className="text-gray-300">{item}</span>
+                      <CopyToClipboard text={item}>
+                        <button className="text-gray-300 bg-gray-900 rounded-md px-1 focus:bg-gray-800 transition">
+                          Copiar
+                        </button>
+                      </CopyToClipboard>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </>
+            )}
             <form
               className=" col-span-2 grid grid-cols-2 gap-2"
               onSubmit={handleSubmitVerify(onSubmitVerify)}
               autoComplete="off"
             >
-              <div className="">
-                <h1 className="text-gray-300 text-xl mb-2">
-                  Texto para comparar <strong>antes</strong>:
-                </h1>
-                <textarea
-                  {...registerVerify("firstPon")}
-                  id="firstPon"
-                  className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
-                ></textarea>
-              </div>
-              <div className="">
+              {!verify && (
+                <div className={``}>
+                  <h1 className="text-gray-300 text-xl mb-2">
+                    Texto para comparar <strong>antes</strong>:
+                  </h1>
+                  <textarea
+                    {...registerVerify("firstPon")}
+                    id="firstPon"
+                    className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
+                  ></textarea>
+                </div>
+              )}
+
+              <MotionContent
+                id={verify.toString()}
+                className={verify ? "col-span-2" : ""}
+              >
                 <h1 className="text-gray-300 text-xl mb-2">
                   Texto para comparar <strong>depois</strong>:
                 </h1>
@@ -180,41 +193,50 @@ const VerifyCTO = ({ olt }: any) => {
                   id="secondPon"
                   className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
                 ></textarea>
-              </div>
-              <div className=" col-span-2">
-                <h1 className="text-gray-300 text-xl mb-2">
-                  Todos os MAC da PON:
-                </h1>
-                <textarea
-                  {...registerVerify("mac")}
-                  className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
-                ></textarea>
-              </div>
-              {olts == "DATACOM" && (
-                <div className=" col-span-2">
+              </MotionContent>
+              {!verify && (
+                <MotionContent
+                  id="macServicePort"
+                  className={verify ? "col-span-2" : ""}
+                >
                   <h1 className="text-gray-300 text-xl mb-2">
-                    Todos os service-port da PON:
+                    Todos os MAC da PON:
                   </h1>
                   <textarea
-                    {...registerVerify("servicePort")}
-                    className="w-full bg-gray-900 outline-nonerounded-md h-60 text-gray-300 p-2"
+                    {...registerVerify("mac")}
+                    className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
                   ></textarea>
-                </div>
+                  {olts == "DATACOM" && (
+                    <>
+                      <h1 className="text-gray-300 text-xl mb-2">
+                        Todos os service-port da PON:
+                      </h1>
+                      <textarea
+                        {...registerVerify("servicePort")}
+                        className="w-full bg-gray-900 outline-nonerounded-md h-60 text-gray-300 p-2"
+                      ></textarea>
+                    </>
+                  )}
+                </MotionContent>
               )}
-              <div className="flex gap-4">
+              <MotionContent
+                id={verify.toString()}
+                className="flex gap-4 col-span-2"
+              >
                 <button
-                  onClick={() => setVerify(!verify)}
-                  className="bg-gray-900 rounded-md p-2 text-gray-300 w-full col-span-2 hover:bg-gray-800 transition"
+                  onClick={() => setVerify(false)}
+                  className={`bg-gray-900 rounded-md p-2  text-gray-300 w-full col-span-2 hover:bg-gray-800 transition`}
                 >
                   Editar
                 </button>
                 <button
+                  onClick={() => setVerify(true)}
                   type="submit"
                   className="bg-gray-900 outline-none rounded-md p-2 text-gray-300 w-full col-span-2 hover:bg-gray-800 transition"
                 >
                   Verificar
                 </button>
-              </div>
+              </MotionContent>
             </form>
           </div>
         </MotionContent>
