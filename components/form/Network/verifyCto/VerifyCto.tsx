@@ -105,8 +105,12 @@ const VerifyCTO = ({ olt }: any) => {
     }
   };
 
-  const onSubmitVerify = (value: any) => {
-    console.log(value);
+  const onSubmitVerify = ({ firstPon, secondPon, mac, servicePort }: any) => {
+    setVerify(true);
+    const arrayFirstPon = firstPon.split("\n");
+    const arrayecondPon = secondPon.split("\n");
+    const arrayMac = mac.split("\n");
+    const arrayervicePort = servicePort.split("\n");
   };
 
   return (
@@ -169,7 +173,7 @@ const VerifyCTO = ({ olt }: any) => {
               autoComplete="off"
             >
               {!verify && (
-                <div className={``}>
+                <MotionContent id="before" className={``}>
                   <h1 className="text-gray-300 text-xl mb-2">
                     Texto para comparar <strong>antes</strong>:
                   </h1>
@@ -178,7 +182,7 @@ const VerifyCTO = ({ olt }: any) => {
                     id="firstPon"
                     className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
                   ></textarea>
-                </div>
+                </MotionContent>
               )}
 
               <MotionContent
@@ -195,10 +199,7 @@ const VerifyCTO = ({ olt }: any) => {
                 ></textarea>
               </MotionContent>
               {!verify && (
-                <MotionContent
-                  id="macServicePort"
-                  className={verify ? "col-span-2" : ""}
-                >
+                <MotionContent id="macServicePort" className={`col-span-2`}>
                   <h1 className="text-gray-300 text-xl mb-2">
                     Todos os MAC da PON:
                   </h1>
@@ -213,7 +214,7 @@ const VerifyCTO = ({ olt }: any) => {
                       </h1>
                       <textarea
                         {...registerVerify("servicePort")}
-                        className="w-full bg-gray-900 outline-nonerounded-md h-60 text-gray-300 p-2"
+                        className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
                       ></textarea>
                     </>
                   )}
@@ -223,14 +224,15 @@ const VerifyCTO = ({ olt }: any) => {
                 id={verify.toString()}
                 className="flex gap-4 col-span-2"
               >
+                {verify && (
+                  <button
+                    onClick={() => setVerify(false)}
+                    className={`bg-gray-900 rounded-md p-2  text-gray-300 w-full col-span-2 hover:bg-gray-800 transition`}
+                  >
+                    Editar
+                  </button>
+                )}
                 <button
-                  onClick={() => setVerify(false)}
-                  className={`bg-gray-900 rounded-md p-2  text-gray-300 w-full col-span-2 hover:bg-gray-800 transition`}
-                >
-                  Editar
-                </button>
-                <button
-                  onClick={() => setVerify(true)}
                   type="submit"
                   className="bg-gray-900 outline-none rounded-md p-2 text-gray-300 w-full col-span-2 hover:bg-gray-800 transition"
                 >
