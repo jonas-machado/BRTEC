@@ -58,11 +58,11 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
     });
   };
 
-  useEffect(() => {
-    if (session?.status == "unauthenticated") {
-      router.push("/");
-    }
-  }, [session?.status, router]);
+  // useEffect(() => {
+  //   if (session?.status == "unauthenticated") {
+  //     router.push("/");
+  //   }
+  // }, [session?.status, router]);
 
   //selections
   const [selectedRadio, setSelectedRadio] = useState(plans[0]);

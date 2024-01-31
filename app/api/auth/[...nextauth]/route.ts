@@ -48,10 +48,17 @@ export const authOptions: AuthOptions = {
   ],
   pages: { signIn: "/" },
   debug: process.env.NODE_ENV === "development",
-  events: {
-    async signOut({ token }) {},
-  },
+
   callbacks: {
+    async session({ session, token }) {
+      session.user.id = token.id;
+      session.user.backgroundImage = token.backgroundImage;
+      session.user.image = token.picture;
+      session.user.role = token.role;
+      session.user.sector = token.sector;
+
+      return session;
+    },
     async jwt({ token, trigger, account, user, session }) {
       if (account) {
         token.accessToken = account.access_token;
@@ -75,15 +82,6 @@ export const authOptions: AuthOptions = {
         token.sector = session.user.sector;
       }
       return token;
-    },
-    async session({ session, token }) {
-      session.user.id = token.id;
-      session.user.backgroundImage = token.backgroundImage;
-      session.user.image = token.picture;
-      session.user.role = token.role;
-      session.user.sector = token.sector;
-
-      return session;
     },
   },
   session: {

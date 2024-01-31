@@ -1,5 +1,12 @@
 export { default } from "next-auth/middleware";
 
 export const config = {
-  matcher: ["/monitoring/:path*", "/public/:path"],
+  matcher: [
+    "/config/manual",
+    // "/monitoring/:path",
+    // "/network/:path",
+    // "/script/:path",
+    // "/solutionBank/:path",
+    "/public/:path",
+  ],
 };
