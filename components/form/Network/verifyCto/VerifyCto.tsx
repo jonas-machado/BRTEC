@@ -14,9 +14,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import Config from "./config";
 import Verify from "./verify";
 import { AnimatePresence } from "framer-motion";
-import MotionComponent from "@/lib/framerMotion/motionComponent";
 import MotionContent from "@/lib/framerMotion/motionContent";
-import { on } from "events";
 
 const oltBrand = [
   { name: "ZTE" },

@@ -10,6 +10,7 @@ import Image from "next/image";
 import Nav from "@/components/navLink/Nav";
 import { getMaps } from "@/lib/actions/getMaps";
 import { SocketProvider } from "@/lib/socket";
+import ProtectedRoute from "@/components/ProtectedRoute";
 export default async function RootLayout({
   children,
 }: {
@@ -21,39 +22,41 @@ export default async function RootLayout({
   const maps = await getMaps();
   return (
     <SocketProvider>
-      <PageWrapper>
-        <MotionPage>
-          <div className=" absolute shadow-[inset_0_-20px_20px_0px] w-[110%] -left-6 h-screen -z-40"></div>
-          <Image
-            src={
-              currentUser?.user.backgroundImage
-                ? currentUser?.user.backgroundImage!
-                : `/images/backgroundConfig.gif`
-            }
-            alt="bg"
-            fill
-            className="-z-50 bg-no-repeat"
-            blurDataURL={
-              currentUser?.user.backgroundImage
-                ? currentUser?.user.backgroundImage!
-                : `/images/backgroundConfig.gif`
-            }
-          />
-          <Navbar
-            currentUser={currentUser}
-            neutralNetwork={neutralNetwork}
-            firmware={firmware}
-            maps={maps}
-          />
-          <NextTopLoader
-            color="#000000"
-            shadow="0 40px 50px #ffffff,0 40px 50px #ffffff"
-            showSpinner={false}
-          />
-          {children}
-          <Nav classname="" />
-        </MotionPage>
-      </PageWrapper>
+      <ProtectedRoute>
+        <PageWrapper>
+          <MotionPage>
+            <div className=" absolute shadow-[inset_0_-20px_20px_0px] w-[110%] -left-6 h-screen -z-40"></div>
+            <Image
+              src={
+                currentUser?.user.backgroundImage
+                  ? currentUser?.user.backgroundImage!
+                  : `/images/backgroundConfig.gif`
+              }
+              alt="bg"
+              fill
+              className="-z-50 bg-no-repeat"
+              blurDataURL={
+                currentUser?.user.backgroundImage
+                  ? currentUser?.user.backgroundImage!
+                  : `/images/backgroundConfig.gif`
+              }
+            />
+            <Navbar
+              currentUser={currentUser}
+              neutralNetwork={neutralNetwork}
+              firmware={firmware}
+              maps={maps}
+            />
+            <NextTopLoader
+              color="#000000"
+              shadow="0 40px 50px #ffffff,0 40px 50px #ffffff"
+              showSpinner={false}
+            />
+            {children}
+            <Nav classname="" />
+          </MotionPage>
+        </PageWrapper>
+      </ProtectedRoute>
     </SocketProvider>
   );
 }
