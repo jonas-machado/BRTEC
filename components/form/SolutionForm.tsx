@@ -64,8 +64,8 @@ const SolutionForm = ({ post, currentUser }: any) => {
 
   return (
     <div className="">
-      <div className="relative mx-auto w-11/12 rounded-2xl bg-black bg-opacity-95 p-3 flex flex-col gap-2">
-        <div className="flex p-2 w-full items-center justify-between flex-col md:flex-row gap-2">
+      <div className="relative mx-auto w-11/12 rounded-2xl bg-black bg-opacity-95 p-3 flex flex-col gap-2  ">
+        <div className="flex p-2 w-full items-center justify-between flex-col md:flex-row gap-2 ">
           <h1 className="text-2xl whitespace-nowrap text-gray-300 ">
             Banco de soluções
           </h1>

@@ -10,12 +10,10 @@ const SolutionBank = async () => {
   const currentUser = await getCurrentUser();
 
   return (
-    <MotionContent>
-      <div className="w-full px-4 pt-16">
-        <Providers>
-          <SolutionForm post={post} currentUser={currentUser} />
-        </Providers>
-      </div>
+    <MotionContent className="w-full px-4 pt-16 ">
+      <Providers>
+        <SolutionForm post={post} currentUser={currentUser} />
+      </Providers>
     </MotionContent>
   );
 };
