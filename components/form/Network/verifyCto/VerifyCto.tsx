@@ -24,7 +24,7 @@ const oltBrand = [
 ];
 const VerifyCTO = ({ olt }: any) => {
   const [verify, setVerify] = useState<boolean>(false);
-  const [filtered, setFiltered] = useState<string[]>();
+  const [filtered, setFiltered] = useState<string[]>([]);
 
   const [command, setCommand] = useState<string[]>();
 
@@ -74,7 +74,7 @@ const VerifyCTO = ({ olt }: any) => {
       pauseOnHover: false,
     });
   };
-  console.log(errorsVerify);
+  console.log(filtered);
 
   const onSubmit = ({ olts, pon }: FieldValues) => {
     console.log(olts, pon);
@@ -106,15 +106,21 @@ const VerifyCTO = ({ olt }: any) => {
   const onSubmitVerify = ({ firstPon, secondPon, mac, servicePort }: any) => {
     setVerify(true);
     const arrayFirstPon = firstPon.split("\n");
-    const arrayecondPon = secondPon.split("\n");
+    const arraySecondPon = secondPon.split("\n");
     const arrayMac = mac.split("\n");
-    const arrayervicePort = servicePort.split("\n");
+    const arrayervicePort = servicePort?.split("\n");
+
+    for (let i = 0; i < arrayFirstPon.length; i++) {
+      if (arrayFirstPon[i] != arraySecondPon[i]) {
+        setFiltered((prev) => [...prev, arraySecondPon[i]]);
+      }
+    }
   };
 
   return (
     <>
-      <div className=" w-full bg-black bg-opacity-80 backdrop-blur-md p-4 gap-4 h-full">
-        <MotionContent id="config">
+      <div className=" w-full bg-black bg-opacity-80 backdrop-blur-md transition-all p-4 gap-4 h-full">
+        <MotionContent id="config" className=" transition-all">
           <div className="grid lg:grid-cols-2 w-full gap-4 h-full">
             {!verify && (
               <>

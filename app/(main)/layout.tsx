@@ -24,7 +24,7 @@ export default async function RootLayout({
     <SocketProvider>
       <ProtectedRoute>
         <PageWrapper>
-          <MotionPage>
+          <MotionPage className="">
             <div className=" absolute shadow-[inset_0_-20px_20px_0px] w-[110%] -left-6 h-screen -z-40 "></div>
             <Image
               src={
@@ -52,7 +52,7 @@ export default async function RootLayout({
               shadow="0 40px 50px #ffffff,0 40px 50px #ffffff"
               showSpinner={false}
             />
-            <div className="h-full w-full">{children}</div>
+            <div className="w-full">{children}</div>
             <Nav classname="" />
           </MotionPage>
         </PageWrapper>
