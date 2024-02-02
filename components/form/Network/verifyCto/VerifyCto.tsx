@@ -25,7 +25,7 @@ const oltBrand = [
 ];
 const VerifyCTO = ({ olt }: any) => {
   const [verify, setVerify] = useState<boolean>(false);
-  const [filtered, setFiltered] = useState<string[]>([]);
+  const [filtered, setFiltered] = useState<any>([]);
 
   const [command, setCommand] = useState<string[]>();
 
@@ -114,13 +114,35 @@ const VerifyCTO = ({ olt }: any) => {
     const filterArray = arraySecondPon.filter((item: any, i: number) => {
       return item != arrayFirstPon[i];
     });
+
+    let arrayDown = [];
+
+    for (let i = 0; i < arrayFirstPon.length; i++) {
+      if (arraySecondPon[i] != arrayFirstPon[i]) {
+        const macDown = arrayMac.filter((item: any) => {
+          return item.includes(arraySecondPon[i].split(" ")[0] + " ");
+        });
+        const getMac = macDown.split(" ")[0];
+        const changeMac = macDown.fill(
+          getMac.replace(/[^.](.{1})/g, "$&:").replace(/\./g, ""),
+          0,
+          1
+        );
+        arrayDown.push({
+          state: arraySecondPon[i],
+          mac: macDown.spl,
+        });
+      }
+    }
+    console.log(arrayDown);
+
     const macAddress = "d877.8b41.4f7f";
     const macfilter = macAddress
       .replace(/[^.](.{1})/g, "$&:")
       .replace(/\./g, "");
 
     console.log(macfilter);
-    setFiltered(filterArray);
+    setFiltered(arrayDown);
   };
 
   return (
@@ -188,7 +210,7 @@ const VerifyCTO = ({ olt }: any) => {
                 <textarea
                   {...registerVerify("firstPon")}
                   id="firstPon"
-                  className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
+                  className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2 scrollbar-corner-transparent resize-none scrollbar-w-3 scrollbar-thumb-rounded-lg scrollbar-thumb-gray-800 scrollbar-thin scrollbar-track-transparent scrollbar-track-rounded-md"
                 ></textarea>
               </MotionContent>
             )}
@@ -203,7 +225,7 @@ const VerifyCTO = ({ olt }: any) => {
               <textarea
                 {...registerVerify("secondPon")}
                 id="secondPon"
-                className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
+                className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2 scrollbar-corner-transparent resize-none scrollbar-w-3 scrollbar-thumb-rounded-lg scrollbar-thumb-gray-800 scrollbar-thin scrollbar-track-transparent scrollbar-track-rounded-md"
               ></textarea>
             </MotionContent>
             {!verify && (
@@ -213,7 +235,7 @@ const VerifyCTO = ({ olt }: any) => {
                 </h1>
                 <textarea
                   {...registerVerify("mac")}
-                  className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
+                  className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2 scrollbar-corner-transparent resize-none scrollbar-w-3 scrollbar-thumb-rounded-lg scrollbar-thumb-gray-800 scrollbar-thin scrollbar-track-transparent scrollbar-track-rounded-md"
                 ></textarea>
                 {olts == "DATACOM" && (
                   <>
@@ -222,7 +244,7 @@ const VerifyCTO = ({ olt }: any) => {
                     </h1>
                     <textarea
                       {...registerVerify("servicePort")}
-                      className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
+                      className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2 scrollbar-corner-transparent resize-none scrollbar-w-3 scrollbar-thumb-rounded-lg scrollbar-thumb-gray-800 scrollbar-thin scrollbar-track-transparent scrollbar-track-rounded-md"
                     ></textarea>
                   </>
                 )}
@@ -251,9 +273,10 @@ const VerifyCTO = ({ olt }: any) => {
         </div>
       </div>
       <div className="bg-black bg-opacity-70 backdrop-blur-md rounded-md divide-y-2 p-4">
-        {filtered.map((item) => (
-          <div key={item} className="flex justify-center p-4">
-            <p className="text-gray-300">{item}</p>
+        {filtered.map((item: any) => (
+          <div key={item.state} className=" p-4">
+            <p className="text-gray-300">{item.state}</p>
+            <p className="text-gray-300">{item.mac.join("\n")}</p>
           </div>
         ))}
       </div>
