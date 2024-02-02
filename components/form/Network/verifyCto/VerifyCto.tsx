@@ -15,6 +15,7 @@ import Config from "./config";
 import Verify from "./verify";
 import { AnimatePresence } from "framer-motion";
 import MotionContent from "@/lib/framerMotion/motionContent";
+import MotionComponent from "@/lib/framerMotion/motionComponent";
 
 const oltBrand = [
   { name: "ZTE" },
@@ -110,20 +111,25 @@ const VerifyCTO = ({ olt }: any) => {
     const arrayMac = mac.split("\n");
     const arrayervicePort = servicePort?.split("\n");
 
-    for (let i = 0; i < arrayFirstPon.length; i++) {
-      if (arrayFirstPon[i] != arraySecondPon[i]) {
-        setFiltered((prev) => [...prev, arraySecondPon[i]]);
-      }
-    }
+    const filterArray = arraySecondPon.filter((item: any, i: number) => {
+      return item != arrayFirstPon[i];
+    });
+    const macAddress = "d877.8b41.4f7f";
+    const macfilter = macAddress
+      .replace(/[^.](.{1})/g, "$&:")
+      .replace(/\./g, "");
+
+    console.log(macfilter);
+    setFiltered(filterArray);
   };
 
   return (
     <>
       <div className=" w-full bg-black bg-opacity-80 backdrop-blur-md transition-all p-4 gap-4 h-full">
-        <MotionContent id="config" className=" transition-all">
-          <div className="grid lg:grid-cols-2 w-full gap-4 h-full">
-            {!verify && (
-              <>
+        <div className="grid lg:grid-cols-2 w-full gap-4 h-full">
+          {!verify && (
+            <>
+              <MotionContent id="config" className={``}>
                 <form
                   className="flex flex-col space-y-1 gap-1"
                   onSubmit={handleSubmit(onSubmit)}
@@ -153,102 +159,103 @@ const VerifyCTO = ({ olt }: any) => {
                     </button>
                   </div>
                 </form>
-
-                <div className="">
-                  <h1 className="text-gray-300 text-2xl font-bold">
-                    Comandos:
-                  </h1>
-                  {command?.map((item) => (
-                    <div className="flex gap-2 my-2">
-                      <span className="text-gray-300">{item}</span>
-                      <CopyToClipboard text={item}>
-                        <button className="text-gray-300 bg-gray-900 rounded-md px-1 focus:bg-gray-800 transition">
-                          Copiar
-                        </button>
-                      </CopyToClipboard>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-            <form
-              className=" col-span-2 grid grid-cols-2 gap-2"
-              onSubmit={handleSubmitVerify(onSubmitVerify)}
-              autoComplete="off"
-            >
-              {!verify && (
-                <MotionContent id="before" className={``}>
-                  <h1 className="text-gray-300 text-xl mb-2">
-                    Texto para comparar <strong>antes</strong>:
-                  </h1>
-                  <textarea
-                    {...registerVerify("firstPon")}
-                    id="firstPon"
-                    className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
-                  ></textarea>
-                </MotionContent>
-              )}
-
-              <MotionContent
-                id={verify.toString()}
-                className={verify ? "col-span-2" : ""}
-              >
+              </MotionContent>
+              <MotionContent id="config" className={``}>
+                <h1 className="text-gray-300 text-2xl font-bold">Comandos:</h1>
+                {command?.map((item) => (
+                  <div className="flex gap-2 my-2">
+                    <span className="text-gray-300">{item}</span>
+                    <CopyToClipboard text={item}>
+                      <button className="text-gray-300 bg-gray-900 rounded-md px-1 focus:bg-gray-800 transition">
+                        Copiar
+                      </button>
+                    </CopyToClipboard>
+                  </div>
+                ))}
+              </MotionContent>
+            </>
+          )}
+          <form
+            className=" col-span-2 grid grid-cols-2 gap-2"
+            onSubmit={handleSubmitVerify(onSubmitVerify)}
+            autoComplete="off"
+          >
+            {!verify && (
+              <MotionContent id="before" className={``}>
                 <h1 className="text-gray-300 text-xl mb-2">
-                  Texto para comparar <strong>depois</strong>:
+                  Texto para comparar <strong>antes</strong>:
                 </h1>
                 <textarea
-                  {...registerVerify("secondPon")}
-                  id="secondPon"
+                  {...registerVerify("firstPon")}
+                  id="firstPon"
                   className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
                 ></textarea>
               </MotionContent>
-              {!verify && (
-                <MotionContent id="macServicePort" className={`col-span-2`}>
-                  <h1 className="text-gray-300 text-xl mb-2">
-                    Todos os MAC da PON:
-                  </h1>
-                  <textarea
-                    {...registerVerify("mac")}
-                    className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
-                  ></textarea>
-                  {olts == "DATACOM" && (
-                    <>
-                      <h1 className="text-gray-300 text-xl mb-2">
-                        Todos os service-port da PON:
-                      </h1>
-                      <textarea
-                        {...registerVerify("servicePort")}
-                        className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
-                      ></textarea>
-                    </>
-                  )}
-                </MotionContent>
-              )}
-              <MotionContent
-                id={verify.toString()}
-                className="flex gap-4 col-span-2"
-              >
-                {verify && (
-                  <button
-                    onClick={() => setVerify(false)}
-                    className={`bg-gray-900 rounded-md p-2  text-gray-300 w-full col-span-2 hover:bg-gray-800 transition`}
-                  >
-                    Editar
-                  </button>
+            )}
+
+            <MotionContent
+              id={verify.toString()}
+              className={verify ? "col-span-2" : ""}
+            >
+              <h1 className="text-gray-300 text-xl mb-2">
+                Texto para comparar <strong>depois</strong>:
+              </h1>
+              <textarea
+                {...registerVerify("secondPon")}
+                id="secondPon"
+                className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
+              ></textarea>
+            </MotionContent>
+            {!verify && (
+              <MotionContent id="macServicePort" className={`col-span-2`}>
+                <h1 className="text-gray-300 text-xl mb-2">
+                  Todos os MAC da PON:
+                </h1>
+                <textarea
+                  {...registerVerify("mac")}
+                  className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
+                ></textarea>
+                {olts == "DATACOM" && (
+                  <>
+                    <h1 className="text-gray-300 text-xl mb-2">
+                      Todos os service-port da PON:
+                    </h1>
+                    <textarea
+                      {...registerVerify("servicePort")}
+                      className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2"
+                    ></textarea>
+                  </>
                 )}
-                <button
-                  type="submit"
-                  className="bg-gray-900 outline-none rounded-md p-2 text-gray-300 w-full col-span-2 hover:bg-gray-800 transition"
-                >
-                  Verificar
-                </button>
               </MotionContent>
-            </form>
-          </div>
-        </MotionContent>
+            )}
+            <MotionContent
+              id={verify.toString()}
+              className="flex gap-4 col-span-2"
+            >
+              {verify && (
+                <button
+                  onClick={() => setVerify(false)}
+                  className={`bg-gray-900 rounded-md p-2  text-gray-300 w-full col-span-2 hover:bg-gray-800 transition`}
+                >
+                  Editar
+                </button>
+              )}
+              <button
+                type="submit"
+                className="bg-gray-900 outline-none rounded-md p-2 text-gray-300 w-full col-span-2 hover:bg-gray-800 transition"
+              >
+                Verificar
+              </button>
+            </MotionContent>
+          </form>
+        </div>
       </div>
-      <div className="bg-black bg-opacity-70 backdrop-blur-md rounded-md">
-        {filtered}
+      <div className="bg-black bg-opacity-70 backdrop-blur-md rounded-md divide-y-2 p-4">
+        {filtered.map((item) => (
+          <div key={item} className="flex justify-center p-4">
+            <p className="text-gray-300">{item}</p>
+          </div>
+        ))}
       </div>
     </>
   );

@@ -19,9 +19,9 @@ export default function MotionContent({
       <motion.div
         key={id}
         className={className}
-        initial={{ x: 300, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={{ x: 300, opacity: 0 }}
+        initial={{ x: 300 }}
+        animate={{ x: 0 }}
+        exit={{ x: 300 }}
         transition={{
           type: "spring",
           stiffness: 260,
