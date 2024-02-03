@@ -73,7 +73,7 @@ export default function Sidebar({ currentUser }: any) {
 
   return (
     <>
-      <section className="flex gap-6">
+      <section className="flex gap-6 z-30">
         <div
           className={`bg-black opacity-80 backdrop-blur-md min-h-screen ${
             open ? "w-60" : "w-[4.3rem]"

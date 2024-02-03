@@ -122,24 +122,25 @@ const VerifyCTO = ({ olt }: any) => {
         const macDown = arrayMac.filter((item: any) => {
           return item.includes(arraySecondPon[i].split(" ")[0] + " ");
         });
-        const getMac = macDown.split(" ")[0];
-        const changeMac = macDown.fill(
-          getMac.replace(/[^.](.{1})/g, "$&:").replace(/\./g, ""),
-          0,
-          1
-        );
+        const hexMac = macDown.map((item: any) => {
+          const newMac = item
+            .split(" ")[0]
+            .replace(/\./g, "")
+            .match(/.{2}/g)
+            ?.join(":");
+          return item.replace(item.split(" ")[0], newMac);
+        });
+        console.log(hexMac);
         arrayDown.push({
           state: arraySecondPon[i],
-          mac: macDown.spl,
+          mac: hexMac,
         });
       }
     }
     console.log(arrayDown);
 
     const macAddress = "d877.8b41.4f7f";
-    const macfilter = macAddress
-      .replace(/[^.](.{1})/g, "$&:")
-      .replace(/\./g, "");
+    const macfilter = macAddress.replace(/\./g, "").match(/.{2}/g)?.join(":");
 
     console.log(macfilter);
     setFiltered(arrayDown);
@@ -210,7 +211,7 @@ const VerifyCTO = ({ olt }: any) => {
                 <textarea
                   {...registerVerify("firstPon")}
                   id="firstPon"
-                  className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2 scrollbar-corner-transparent resize-none scrollbar-w-3 scrollbar-thumb-rounded-lg scrollbar-thumb-gray-800 scrollbar-thin scrollbar-track-transparent scrollbar-track-rounded-md"
+                  className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2 scrollbar-corner-transparent scrollbar-w-3 scrollbar-thumb-rounded-lg scrollbar-thumb-gray-800 scrollbar-thin scrollbar-track-transparent scrollbar-track-rounded-md"
                 ></textarea>
               </MotionContent>
             )}
@@ -225,7 +226,7 @@ const VerifyCTO = ({ olt }: any) => {
               <textarea
                 {...registerVerify("secondPon")}
                 id="secondPon"
-                className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2 scrollbar-corner-transparent resize-none scrollbar-w-3 scrollbar-thumb-rounded-lg scrollbar-thumb-gray-800 scrollbar-thin scrollbar-track-transparent scrollbar-track-rounded-md"
+                className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2 scrollbar-corner-transparent scrollbar-w-3 scrollbar-thumb-rounded-lg scrollbar-thumb-gray-800 scrollbar-thin scrollbar-track-transparent scrollbar-track-rounded-md"
               ></textarea>
             </MotionContent>
             {!verify && (
@@ -235,7 +236,7 @@ const VerifyCTO = ({ olt }: any) => {
                 </h1>
                 <textarea
                   {...registerVerify("mac")}
-                  className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2 scrollbar-corner-transparent resize-none scrollbar-w-3 scrollbar-thumb-rounded-lg scrollbar-thumb-gray-800 scrollbar-thin scrollbar-track-transparent scrollbar-track-rounded-md"
+                  className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2 scrollbar-corner-transparent scrollbar-w-3 scrollbar-thumb-rounded-lg scrollbar-thumb-gray-800 scrollbar-thin scrollbar-track-transparent scrollbar-track-rounded-md"
                 ></textarea>
                 {olts == "DATACOM" && (
                   <>
@@ -244,7 +245,7 @@ const VerifyCTO = ({ olt }: any) => {
                     </h1>
                     <textarea
                       {...registerVerify("servicePort")}
-                      className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2 scrollbar-corner-transparent resize-none scrollbar-w-3 scrollbar-thumb-rounded-lg scrollbar-thumb-gray-800 scrollbar-thin scrollbar-track-transparent scrollbar-track-rounded-md"
+                      className="w-full bg-gray-900 outline-none rounded-md h-60 text-gray-300 p-2 scrollbar-corner-transparent scrollbar-w-3 scrollbar-thumb-rounded-lg scrollbar-thumb-gray-800 scrollbar-thin scrollbar-track-transparent scrollbar-track-rounded-md"
                     ></textarea>
                   </>
                 )}
@@ -276,7 +277,9 @@ const VerifyCTO = ({ olt }: any) => {
         {filtered.map((item: any) => (
           <div key={item.state} className=" p-4">
             <p className="text-gray-300">{item.state}</p>
-            <p className="text-gray-300">{item.mac.join("\n")}</p>
+            {item.mac.map((mac: any) => (
+              <p className="text-gray-300">{mac}</p>
+            ))}
           </div>
         ))}
       </div>

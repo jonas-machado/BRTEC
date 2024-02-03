@@ -23,7 +23,7 @@ export default function MotionComponent({
         className={className}
         initial={{ y: 100 }}
         animate={{ y: 0 }}
-        exit={{ y: -100 }}
+        exit={{ y: -70 }}
         style={style}
       >
         {children}

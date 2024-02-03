@@ -56,9 +56,9 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
 
   return (
     <>
-      <header>
+      <header className="">
         <nav>
-          <Popover className="relative bg-black bg-opacity-75 shadow-black shadow-lg ">
+          <Popover className="relative bg-black bg-opacity-75 shadow-black shadow-lg z-50">
             <div className="flex items-center justify-between border-black border-b-2 py-4 mx-auto max-w-7xl px-8 ">
               <div className="flex lg:flex-1">
                 <Link href={"/config/manual"}>

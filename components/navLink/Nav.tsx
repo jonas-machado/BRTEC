@@ -7,6 +7,10 @@ import {
   ClipboardDocumentListIcon,
   TableCellsIcon,
 } from "@heroicons/react/20/solid";
+import {
+  ExclamationTriangleIcon,
+  WrenchIcon,
+} from "@heroicons/react/24/outline";
 import Link from "next/link";
 
 const home = {
@@ -29,6 +33,16 @@ const links = [
     name: "Banco de soluções",
     link: "/solutionBank",
     icon: LightBulbIcon,
+  },
+  {
+    name: "Monitoramento",
+    link: "/monitoring",
+    icon: ExclamationTriangleIcon,
+  },
+  {
+    name: "Configuração",
+    link: "/config/manual",
+    icon: WrenchIcon,
   },
 ];
 

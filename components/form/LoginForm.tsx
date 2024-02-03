@@ -51,7 +51,7 @@ export default function LoginForm() {
       email: email,
       password: password,
       redirect: false,
-      callbackUrl: "/config/manual",
+      callbackUrl: "/monitoring",
     })
       .then((callback) => {
         if (callback?.error) {
@@ -65,7 +65,7 @@ export default function LoginForm() {
       .catch((err) => console.log(err));
   };
   if (status == "authenticated") {
-    router.push("/config/manual");
+    router.push("/monitoring");
   }
 
   if (status == "loading") {
