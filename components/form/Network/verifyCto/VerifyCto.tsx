@@ -65,8 +65,6 @@ const VerifyCTO = ({ olt }: any) => {
     formState: { errors: errorsVerify },
   } = useForm({ resolver: zodResolver(schemaVerify) });
 
-  const { mac } = watchVerify();
-
   const notify = (text: any) => {
     toast.error(text, {
       theme: "dark",
@@ -74,7 +72,7 @@ const VerifyCTO = ({ olt }: any) => {
       pauseOnHover: false,
     });
   };
-  console.log(filtered);
+  console.log(olts);
 
   const onSubmit = ({ olts, pon }: FieldValues) => {
     console.log(olts, pon);
@@ -90,8 +88,8 @@ const VerifyCTO = ({ olt }: any) => {
       case "DATACOM":
         const commandDatacom = [
           `do show interface gpon ${pon} onu`,
-          `show service-port gpon ${pon}`,
           `do show mac-address-table vlan 10${pon.split("/").slice(-1)}`,
+          `show service-port gpon ${pon}`,
         ];
 
         setCommand(commandDatacom);
@@ -108,41 +106,63 @@ const VerifyCTO = ({ olt }: any) => {
     const arrayFirstPon = firstPon.split("\n");
     const arraySecondPon = secondPon.split("\n");
     const arrayMac = mac.split("\n");
-    const arrayervicePort = servicePort?.split("\n");
+    const arrayServicePort = servicePort?.split("!");
 
     const filterArray = arraySecondPon.filter((item: any, i: number) => {
       return item != arrayFirstPon[i];
     });
+    if (olts == "ZTE") {
+      let arrayDown = [];
 
-    let arrayDown = [];
-
-    for (let i = 0; i < arrayFirstPon.length; i++) {
-      if (arraySecondPon[i] != arrayFirstPon[i]) {
-        const macDown = arrayMac.filter((item: any) => {
-          return item.includes(arraySecondPon[i].split(" ")[0] + " ");
-        });
-        const hexMac = macDown.map((item: any) => {
-          const newMac = item
-            .split(" ")[0]
-            .replace(/\./g, "")
-            .match(/.{2}/g)
-            ?.join(":");
-          return item.replace(item.split(" ")[0], newMac);
-        });
-        console.log(hexMac);
-        arrayDown.push({
-          state: arraySecondPon[i],
-          mac: hexMac,
-        });
+      for (let i = 0; i < arrayFirstPon.length; i++) {
+        if (arraySecondPon[i] != arrayFirstPon[i]) {
+          const macDown = arrayMac.filter((item: any) => {
+            return item.includes(arraySecondPon[i].split(" ")[0] + " ");
+          });
+          const hexMac = macDown.map((item: any) => {
+            const newMac = item
+              .split(" ")[0]
+              .replace(/\./g, "")
+              .match(/.{2}/g)
+              ?.join(":");
+            return item.replace(item.split(" ")[0], newMac);
+          });
+          console.log(hexMac);
+          arrayDown.push({
+            state: arraySecondPon[i],
+            mac: hexMac,
+          });
+        }
       }
+      setFiltered(arrayDown);
     }
-    console.log(arrayDown);
+    if (olts == "DATACOM") {
+      let arrayDown = [];
 
-    const macAddress = "d877.8b41.4f7f";
-    const macfilter = macAddress.replace(/\./g, "").match(/.{2}/g)?.join(":");
+      for (let i = 0; i < arrayFirstPon.length; i++) {
+        if (arraySecondPon[i] != arrayFirstPon[i]) {
+          const servicePortDown = arrayServicePort.filter((item: any) => {
+            const pon = arraySecondPon[i].split(" ").filter((item: any) => {
+              return item != "";
+            });
+            console.log(pon);
+            return item.includes(`gpon ${pon[0]} onu ${pon[1]} `);
+          });
+          console.log(servicePortDown);
 
-    console.log(macfilter);
-    setFiltered(arrayDown);
+          const macDown = arrayMac.filter((item: any) => {
+            const servicePort = servicePortDown.split("\n")[0].split(" ")[1];
+            console.log(servicePort);
+          });
+
+          arrayDown.push({
+            state: arraySecondPon[i],
+            mac: macDown,
+          });
+        }
+      }
+      setFiltered(arrayDown);
+    }
   };
 
   return (
