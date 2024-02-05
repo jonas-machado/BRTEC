@@ -152,7 +152,7 @@ export default function Provision({ provisioned }: any) {
             {data?.pages.map((group: any, i: number) => (
               <React.Fragment key={i}>
                 {group.map((item: any, i: number) => (
-                  <MotionDelay index={i}>
+                  <MotionDelay key={item} index={i}>
                     <li
                       key={i}
                       className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md hover:bg-gray-800 cursor-pointer"

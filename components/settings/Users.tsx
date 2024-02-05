@@ -114,9 +114,8 @@ export default function Users({ users }: any) {
           </div>
           <ul role="list" className="flex flex-col px-6 gap-2">
             {filtered.map((person: any, i: number) => (
-              <MotionDelay index={i}>
+              <MotionDelay key={person.email} index={i}>
                 <li
-                  key={person.email}
                   className={`flex justify-between gap-x-6 p-5 bg-gray-900 opacity-80 rounded-md shadow-black shadow-[inset_0_0px_100px_0px] border-2 border-gray-900`}
                   style={{
                     backgroundImage: `url(${person.backgroundImage})`,

@@ -11,8 +11,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ControlledInput from "@/components/inputs/controlledInput";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import Config from "./config";
-import Verify from "./verify";
+
 import { AnimatePresence } from "framer-motion";
 import MotionContent from "@/lib/framerMotion/motionContent";
 import MotionComponent from "@/lib/framerMotion/motionComponent";
@@ -186,7 +185,7 @@ const VerifyCTO = ({ olt }: any) => {
               <MotionContent id="config" className={``}>
                 <h1 className="text-gray-300 text-2xl font-bold">Comandos:</h1>
                 {command?.map((item) => (
-                  <div className="flex gap-2 my-2">
+                  <div key={item} className="flex gap-2 my-2">
                     <span className="text-gray-300">{item}</span>
                     <CopyToClipboard text={item}>
                       <button className="text-gray-300 bg-gray-900 rounded-md px-1 focus:bg-gray-800 transition">
@@ -278,7 +277,9 @@ const VerifyCTO = ({ olt }: any) => {
           <div key={item.state} className=" p-4">
             <p className="text-gray-300">{item.state}</p>
             {item.mac.map((mac: any) => (
-              <p className="text-gray-300">{mac}</p>
+              <p key={mac} className="text-gray-300">
+                {mac}
+              </p>
             ))}
           </div>
         ))}

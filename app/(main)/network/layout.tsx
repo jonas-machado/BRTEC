@@ -1,7 +1,7 @@
 import { SocketProvider } from "@/lib/socket";
 import SectorPage from "@/components/SectorPage";
-import PonVerificationForm from "@/components/form/Network/NetworkHead";
 import { getOlt } from "@/lib/actions/getOlt";
+import NetworkHead from "@/components/form/Network/NetworkHead";
 export default async function NetworkLayout({
   children,
 }: {
@@ -11,7 +11,7 @@ export default async function NetworkLayout({
   return (
     <SectorPage sector="N2">
       <div className="mt-14 z-0 w-11/12 mx-auto">
-        <PonVerificationForm olt={olt} />
+        <NetworkHead />
         {children}
       </div>
     </SectorPage>
