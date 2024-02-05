@@ -145,10 +145,8 @@ const VerifyCTO = ({ olt }: any) => {
             const pon = arraySecondPon[i].split(" ").filter((item: any) => {
               return item != "";
             });
-            console.log(pon);
             return item.includes(`gpon ${pon[0]} onu ${pon[1]} `);
           });
-          console.log(servicePortDown);
 
           const macDown = arrayMac.filter((item: any) => {
             const servicePort = servicePortDown.split("\n")[0].split(" ")[1];
