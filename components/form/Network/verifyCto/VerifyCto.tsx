@@ -106,7 +106,7 @@ const VerifyCTO = ({ olt }: any) => {
     const arrayFirstPon = firstPon.split("\n");
     const arraySecondPon = secondPon.split("\n");
     const arrayMac = mac.split("\n");
-    const arrayServicePort = servicePort?.split("!");
+    const arrayServicePort = servicePort?.split("!\n");
 
     const filterArray = arraySecondPon.filter((item: any, i: number) => {
       return item != arrayFirstPon[i];
@@ -141,16 +141,19 @@ const VerifyCTO = ({ olt }: any) => {
 
       for (let i = 0; i < arrayFirstPon.length; i++) {
         if (arraySecondPon[i] != arrayFirstPon[i]) {
-          const servicePortDown = arrayServicePort.filter((item: any) => {
+          const [servicePortDown] = arrayServicePort.filter((item: any) => {
             const pon = arraySecondPon[i].split(" ").filter((item: any) => {
               return item != "";
             });
             return item.includes(`gpon ${pon[0]} onu ${pon[1]} `);
           });
-
+          console.log(servicePortDown);
           const macDown = arrayMac.filter((item: any) => {
             const servicePort = servicePortDown.split("\n")[0].split(" ")[1];
+            console.log(item);
             console.log(servicePort);
+
+            return item.includes(`service-port-${servicePort} `);
           });
 
           arrayDown.push({
