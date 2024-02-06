@@ -26,7 +26,7 @@ export default function ProtectedRoute({ children }: LayoutProps) {
     }
 
     function onSignOutUser(value: any) {
-      console.log(session);
+      console.log(session.data?.user.email);
       console.log(value);
     }
 

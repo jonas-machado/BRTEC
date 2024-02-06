@@ -78,6 +78,7 @@ export default function Users({ users }: any) {
 
   const signOutUser = (user: any) => {
     console.log(user.email);
+    socket.emit("signOutUsers", { email: user.email });
   };
 
   const deleteUser = async (user: any, index: number) => {
