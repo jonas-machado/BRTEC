@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useContext } from "react";
 //import io from "socket.io-client";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -8,22 +8,24 @@ import { useSession } from "next-auth/react";
 //toast
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import RegisterForm from "../form/RegisterForm";
+import RegisterForm from "../../form/RegisterForm";
 import Image from "next/image";
-import Search from "../inputs/search";
+import Search from "../../inputs/search";
 import useRegisterModal from "@/lib/zustand/useRegisterModal";
-import Modal from "../modals/Modal";
+import Modal from "../../modals/Modal";
 
 //Constants
 import useEditUserModal from "@/lib/zustand/useEditUser";
-import EditUserForm from "../form/EditUserForm";
+import EditUserForm from "./EditUserForm";
 import axios from "axios";
 import MotionComponent from "@/lib/framerMotion/motionComponent";
 import MotionDelay from "@/lib/framerMotion/motionDelay";
+import { SocketContext } from "@/lib/socket";
 
 export default function Users({ users }: any) {
   const { data: session, update, status } = useSession();
   const router = useRouter();
+  const socket = useContext(SocketContext);
 
   const notify = (text: any) => {
     toast.error(text, {
@@ -73,6 +75,11 @@ export default function Users({ users }: any) {
     setSelectedUser(user);
     editOnOpen();
   };
+
+  const signOutUser = (user: any) => {
+    console.log(user.email);
+  };
+
   const deleteUser = async (user: any, index: number) => {
     setDeleteLoading({ state: true, index: index });
 
@@ -127,7 +134,7 @@ export default function Users({ users }: any) {
                     <Image
                       width={50}
                       height={40}
-                      className="rounded-full w-auto h-[6rem] bg-gray-800"
+                      className="rounded-full w-[7rem] h-[7rem] bg-gray-800"
                       src={
                         person?.image ? person.image : "/images/defaultUser.png"
                       }
@@ -152,13 +159,19 @@ export default function Users({ users }: any) {
                     <div className="hidden shrink-0 sm:flex flex-col items-center  "></div>
                     <div className="hidden shrink-0 sm:flex flex-col items-center gap-2 w-20">
                       <button
-                        className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
+                        className="bg-gray-800 text-gray-300 p-1 rounded-md w-full hover:bg-gray-700 transition"
                         onClick={() => editUser(person)}
                       >
                         Editar
                       </button>
                       <button
-                        className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
+                        className="bg-gray-800 text-gray-300 p-1 rounded-md w-full hover:bg-gray-700 transition"
+                        onClick={() => signOutUser(person)}
+                      >
+                        Deslogar
+                      </button>
+                      <button
+                        className="bg-gray-800 text-gray-300 p-1 rounded-md w-full hover:bg-gray-700 transition"
                         onClick={() => deleteUser(person, i)}
                       >
                         {deleteLoading?.state && deleteLoading?.index == i ? (

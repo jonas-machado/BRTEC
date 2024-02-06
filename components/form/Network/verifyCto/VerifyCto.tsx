@@ -141,17 +141,16 @@ const VerifyCTO = ({ olt }: any) => {
 
       for (let i = 0; i < arrayFirstPon.length; i++) {
         if (arraySecondPon[i] != arrayFirstPon[i]) {
-          const [servicePortDown] = arrayServicePort.filter((item: any) => {
-            const pon = arraySecondPon[i].split(" ").filter((item: any) => {
-              return item != "";
-            });
-            return item.includes(`gpon ${pon[0]} onu ${pon[1]} `);
-          });
-          console.log(servicePortDown);
+          const [servicePortDown]: any = arrayServicePort.filter(
+            (item: any) => {
+              const pon = arraySecondPon[i].split(" ").filter((item: any) => {
+                return item != "";
+              });
+              return item.includes(`gpon ${pon[0]} onu ${pon[1]} `);
+            }
+          );
           const macDown = arrayMac.filter((item: any) => {
             const servicePort = servicePortDown.split("\n")[0].split(" ")[1];
-            console.log(item);
-            console.log(servicePort);
 
             return item.includes(`service-port-${servicePort} `);
           });

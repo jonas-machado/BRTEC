@@ -11,7 +11,7 @@ import Image from "next/image";
 import Nav from "@/components/navLink/Nav";
 import { useRef } from "react";
 import Sidebar from "@/components/settings/Sidebar";
-import Users from "@/components/settings/Users";
+import Users from "@/components/settings/user/Users";
 import getUsers from "@/lib/actions/getUsers";
 
 export default async function UsersPage() {
