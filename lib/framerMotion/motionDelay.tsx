@@ -8,9 +8,11 @@ export default function MotionDelay({
   className,
   children,
   index,
+  style,
 }: {
   id?: string;
   className?: string;
+  style?: any;
   children: React.ReactNode;
   index: number;
 }) {
@@ -20,6 +22,7 @@ export default function MotionDelay({
     <>
       <motion.div
         key={id}
+        style={style}
         className={className}
         initial={{ x: 300, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}

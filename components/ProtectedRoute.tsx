@@ -13,6 +13,7 @@ export default function ProtectedRoute({ children }: LayoutProps) {
   const socket = useContext(SocketContext);
   const session = useSession();
   const router = useRouter();
+  console.log(session.data);
 
   useEffect(() => {
     // Handle connection event
@@ -25,9 +26,16 @@ export default function ProtectedRoute({ children }: LayoutProps) {
       });
     }
 
-    function onSignOutUser(value: any) {
+    function onSignOutUser({ email }: any) {
+      console.log("working");
+
+      if (email == session.data?.user.email) {
+        signOut({
+          callbackUrl: "/",
+        });
+      }
       console.log(session.data?.user.email);
-      console.log(value);
+      console.log(email);
     }
 
     socket.on("signOutAll", onSignOutAll);
@@ -37,7 +45,7 @@ export default function ProtectedRoute({ children }: LayoutProps) {
       socket.off("signOutAll", onSignOutAll);
       socket.off("signOutUser", onSignOutUser);
     };
-  }, []);
+  }, [session]);
 
   useEffect(() => {
     if (session?.status == "unauthenticated") {

@@ -10,6 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import MotionComponent from "@/lib/framerMotion/motionComponent";
 import { useRouter } from "next/navigation";
 import { SocketContext } from "@/lib/socket";
+import MotionDelay from "@/lib/framerMotion/motionDelay";
 
 const basesObj = [
   {
@@ -81,8 +82,9 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
       </div>
       <AnimatePresence>
         {monitor?.map((item: any, i: number) => (
-          <MotionComponent
+          <MotionDelay
             key={item.id}
+            index={i}
             style={{
               zIndex: 30 - i,
             }}
@@ -95,7 +97,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
               text={item.text}
               isUp={item.isUp}
             />
-          </MotionComponent>
+          </MotionDelay>
         ))}
       </AnimatePresence>
     </div>

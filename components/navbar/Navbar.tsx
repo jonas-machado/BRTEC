@@ -40,19 +40,26 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
   const onClose: () => void = usePerfilModal((state) => state.onClose);
   const socket = useContext(SocketContext);
   const [newAlert, setNewAlert] = useState(false);
-  const [alert, setAlert] = useState<string[]>([]);
+  const [alert, setAlert] = useState<any>([]);
+  console.log(alert);
   useEffect(() => {
     const audio = new Audio("sounds/alert.mp3");
-    socket?.on("alertUsers", ({ message }) => {
+    const date = new Date();
+    socket?.on("alertUsers", ({ message, time }) => {
       audio.play();
       setNewAlert(true);
-      setAlert((prev) => [...prev, message]);
+      setAlert((prev: any) => [
+        ...prev,
+        {
+          message,
+          time: date.getHours() + ":" + ("0" + date.getMinutes()).slice(-2),
+        },
+      ]);
     });
-
     return () => {
       socket.off("alertUsers");
     };
-  }, []);
+  }, [alert]);
 
   return (
     <>
@@ -284,8 +291,8 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute z-50 right-0 mt-2 w-auto origin-top-right divide-gray-100 rounded-md bg-black bg-opacity-70 backdrop-blur-md p-4 shadow-lg ring-1 ring-black/5 focus:outline-none">
-                      {alert.length > 0 ? (
-                        alert?.map((item, i) => (
+                      {alert?.length > 0 ? (
+                        alert?.map((item: any, i: number) => (
                           <Menu.Item key={item}>
                             {({ active }) => (
                               <button
@@ -293,9 +300,11 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
                                   active
                                     ? "bg-gray-900 text-gray-300"
                                     : "text-gray-300"
-                                } group  flex w-full items-center rounded-md p-2 text-lg`}
+                                } group whitespace-nowrap flex gap-2 w-full items-center rounded-md p-2 text-lg`}
                               >
-                                {item}
+                                <i>{item.time}</i>
+
+                                <strong>{item.message}</strong>
                               </button>
                             )}
                           </Menu.Item>
