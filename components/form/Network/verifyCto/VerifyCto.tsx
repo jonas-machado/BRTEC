@@ -171,13 +171,14 @@ const VerifyCTO = ({ olt }: any) => {
         <div className="grid lg:grid-cols-2 w-full gap-4 h-full">
           {!verify && (
             <>
-              <MotionContent id="config" className={``}>
+              <MotionContent id="config" className={`col-span-2 lg:col-span-1`}>
                 <form
                   className="flex flex-col space-y-1 gap-1"
                   onSubmit={handleSubmit(onSubmit)}
                   autoComplete="off"
                 >
                   <ControlledInput
+                    className="flex-col md:flex-row"
                     array={oltBrand}
                     name={"olts"}
                     control={control}
@@ -202,7 +203,7 @@ const VerifyCTO = ({ olt }: any) => {
                   </div>
                 </form>
               </MotionContent>
-              <MotionContent id="config" className={``}>
+              <MotionContent id="config" className={`col-span-2 lg:col-span-1`}>
                 <h1 className="text-gray-300 text-2xl font-bold">Comandos:</h1>
                 {command?.map((item) => (
                   <div key={item} className="flex gap-2 my-2">

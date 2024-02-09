@@ -10,6 +10,7 @@ interface input {
   array: any;
   defaultValue?: string;
   error?: any;
+  className?: string;
 }
 const ControlledInput = ({
   name,
@@ -17,6 +18,7 @@ const ControlledInput = ({
   array,
   defaultValue,
   error,
+  className,
 }: input) => {
   return (
     <>
@@ -31,7 +33,9 @@ const ControlledInput = ({
               onChange={(value) => field.onChange(value)}
               value={field.value}
             >
-              <div className="flex w-full h-full items-center justify-between gap-2">
+              <div
+                className={`flex w-full h-full items-center justify-between gap-2 ${className}`}
+              >
                 {array.map((arr: any) => (
                   <RadioGroup.Option
                     key={arr.name}

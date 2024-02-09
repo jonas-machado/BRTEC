@@ -23,6 +23,7 @@ import Perfil from "../modals/Perfil";
 
 import usePerfilModal from "@/lib/zustand/usePerfilModal";
 import { SocketContext } from "@/lib/socket";
+import { links, linksBlank } from "@/constants/links";
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
@@ -447,36 +448,24 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
                     </div>
                     <div className="mt-6">
                       <nav className="grid gap-y-8 border-b-2 border-gray-900 pb-6">
-                        <Link
-                          href="/solutionBank"
-                          className="px-2 text-base font-medium text-gray-300 hover:text-white"
-                        >
-                          Banco de soluções
-                        </Link>
-                        <Link
-                          href="/script"
-                          className="px-2 text-base font-medium text-gray-300 hover:text-white"
-                        >
-                          Scripts
-                        </Link>
-                        <Link
-                          href="/ponVerification"
-                          className="px-2 text-base font-medium text-gray-300 hover:text-white"
-                        >
-                          Aferir pon
-                        </Link>
-                        <Link
-                          href="https://docs.google.com/spreadsheets/d/1aiSO7e_fERVePE9VhMXfA4sHHpbLwxpdAr__ei7k0y4/edit#gid=0"
-                          className="px-2 text-base font-medium text-gray-300 hover:text-white"
-                        >
-                          CNPJ/COND
-                        </Link>
-                        <Link
-                          href="http://131.255.132.6:8887/doku.php"
-                          className="px-2 text-base font-medium text-gray-300 hover:text-white"
-                        >
-                          Wiki
-                        </Link>
+                        {links.map((item: any) => (
+                          <Link
+                            key={item.name}
+                            href={item.link}
+                            className="px-2 text-base font-medium text-gray-300 hover:text-white"
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                        {linksBlank.map((item: any) => (
+                          <Link
+                            key={item.link}
+                            href={item.link}
+                            className="px-2 text-base font-medium text-gray-300 hover:text-white"
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
 
                         <Disclosure>
                           {({ open }) => (
@@ -501,21 +490,16 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
                               >
                                 <Disclosure.Panel className="text-gray-200 bg-gray-900 px-2 rounded-md mr-2 ">
                                   {maps.map((item: any) => (
-                                    <a
+                                    <Link
                                       key={item.name}
                                       href={item.link}
                                       className="-m-3 flex items-center rounded-md p-3 hover:bg-gray-700"
                                       target="_blank"
-                                      rel="noreferrer"
                                     >
-                                      <item.icon
-                                        className="h-6 w-6 flex-shrink-0 text-white"
-                                        aria-hidden="true"
-                                      />
                                       <span className="ml-3 text-base font-medium text-gray-200">
                                         {item.name}
                                       </span>
-                                    </a>
+                                    </Link>
                                   ))}
                                 </Disclosure.Panel>
                               </Transition>
@@ -546,23 +530,19 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
                               >
                                 <Disclosure.Panel className="text-gray-200 bg-gray-900 px-2 rounded-md mr-2 ">
                                   {neutralNetwork.map((item: any) => (
-                                    <a
+                                    <Link
                                       key={item.id}
                                       href={item.link}
                                       className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-900 overflow-hidden "
                                       target="_blank"
                                       rel="noreferrer"
                                     >
-                                      <TableCellsIcon
-                                        className="h-6 w-6 flex-shrink-0 text-indigo-200"
-                                        aria-hidden="true"
-                                      />
                                       <div className="ml-4">
                                         <p className="text-base font-medium text-gray-200 whitespace-nowrap">
                                           {item.company}
                                         </p>
                                       </div>
-                                    </a>
+                                    </Link>
                                   ))}
                                 </Disclosure.Panel>
                               </Transition>
@@ -592,17 +572,13 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
                               >
                                 <Disclosure.Panel className="text-gray-200 bg-gray-900 px-2 rounded-md mr-2 ">
                                   {firmware.map((item: any) => (
-                                    <a
+                                    <Link
                                       key={item.id}
                                       href={item.link}
                                       className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-900"
                                       target="_blank"
                                       rel="noreferrer"
                                     >
-                                      <ArrowDownTrayIcon
-                                        className="h-6 w-6 flex-shrink-0 text-indigo-200"
-                                        aria-hidden="true"
-                                      />
                                       <div className="ml-4">
                                         <p className="text-base font-medium text-white whitespace-nowrap">
                                           {item.company +
@@ -612,7 +588,7 @@ function Navbar({ currentUser, neutralNetwork, firmware, maps }: NavbarProps) {
                                             item.version}
                                         </p>
                                       </div>
-                                    </a>
+                                    </Link>
                                   ))}
                                 </Disclosure.Panel>
                               </Transition>
