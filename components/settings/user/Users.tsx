@@ -114,7 +114,7 @@ export default function Users({ users }: any) {
               />
             </div>
             <button
-              className="bg-gray-800 rounded-md p-2 text-gray-300"
+              className="bg-gray-800 rounded-md min-w-[10px] p-2 text-gray-300 overflow-hidden overflow-ellipsis whitespace-nowrap"
               onClick={() => onOpen()}
             >
               Adicionar usuário
@@ -124,7 +124,7 @@ export default function Users({ users }: any) {
             {filtered.map((person: any, i: number) => (
               <MotionDelay key={person.email} index={i}>
                 <li
-                  className={`flex justify-between gap-x-6 p-5 bg-gray-900 opacity-80 rounded-md shadow-black shadow-[inset_0_0px_100px_0px] border-2 border-gray-900`}
+                  className={`flex justify-between flex-col sm:flex-row gap-x-6 p-5 bg-gray-900 opacity-80 rounded-md shadow-black shadow-[inset_0_0px_100px_0px] border-2 border-gray-900`}
                   style={{
                     backgroundImage: `url(${person.backgroundImage})`,
                     backgroundRepeat: "no-repeat",
@@ -135,44 +135,43 @@ export default function Users({ users }: any) {
                     <Image
                       width={50}
                       height={40}
-                      className="rounded-full w-[7rem] h-[7rem] bg-gray-800"
+                      className="rounded-full w-12 h-12 sm:w-[5.5rem] sm:h-[5.5rem] bg-gray-800"
                       src={
                         person?.image ? person.image : "/images/defaultUser.png"
                       }
                       alt=""
                     />
                     <div className="min-w-0 flex-auto">
-                      <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
+                      <p className="text-xs sm:text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap overflow-hidden overflow-ellipsis">
                         {person.name}
                       </p>
                       <p className="mt-1 truncate text-xs leading-5 text-gray-300">
                         {person.email}
                       </p>
-                      <p className="text-sm leading-6 text-gray-300">
+                      <p className="text-xs sm:text-sm leading-6 text-gray-300">
                         {person.role}
                       </p>
-                      <p className="text-sm leading-6 text-gray-300 ">
+                      <p className="text-xs sm:text-sm leading-6 text-gray-300 ">
                         {person.sector}
                       </p>
                     </div>
                   </div>
-                  <div className="flex gap-2">
-                    <div className="hidden shrink-0 sm:flex flex-col items-center  "></div>
-                    <div className="hidden shrink-0 sm:flex flex-col items-center gap-2 w-20">
+                  <div className="flex gap-2 justify-center sm:justify-end w-full">
+                    <div className=" shrink-0 flex sm:flex-col items-center gap-0.5 lg:gap-2 w-full sm:w-20">
                       <button
-                        className="bg-gray-800 text-gray-300 p-1 rounded-md w-full hover:bg-gray-700 transition"
+                        className="bg-gray-800 text-gray-300 p-0.5 sm:p-1 text-xs sm:text-sm rounded-md w-full hover:bg-gray-700 transition"
                         onClick={() => editUser(person)}
                       >
                         Editar
                       </button>
                       <button
-                        className="bg-gray-800 text-gray-300 p-1 rounded-md w-full hover:bg-gray-700 transition"
+                        className="bg-gray-800 text-gray-300 p-0.5 sm:p-1 text-xs sm:text-sm rounded-md w-full hover:bg-gray-700 transition"
                         onClick={() => signOutUser(person)}
                       >
                         Deslogar
                       </button>
                       <button
-                        className="bg-gray-800 text-gray-300 p-1 rounded-md w-full hover:bg-gray-700 transition"
+                        className="bg-gray-800 text-gray-300 p-0.5 sm:p-1 text-xs sm:text-sm rounded-md w-full hover:bg-gray-700 transition"
                         onClick={() => deleteUser(person, i)}
                       >
                         {deleteLoading?.state && deleteLoading?.index == i ? (

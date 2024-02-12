@@ -76,13 +76,13 @@ export default function Sidebar({ currentUser }: any) {
       <section className="flex gap-6 z-30">
         <div
           className={`bg-black opacity-80 backdrop-blur-md min-h-screen ${
-            open ? "w-60" : "w-[4.3rem]"
-          } duration-500 text-gray-100 px-4`}
+            open ? "w-[4.3rem] lg:w-60" : "lg:w-[4.3rem] w-60 "
+          }  duration-500 text-gray-100 px-4`}
         >
           <div className={`flex justify-between mt-4`}>
             <div
               className={`flex gap-2 py-3 duration-500 ${
-                !open && "translate-y-8"
+                !open ? "lg:translate-y-8" : "translate-y-8 lg:translate-y-0"
               } h-full`}
             >
               <Image
@@ -106,7 +106,9 @@ export default function Sidebar({ currentUser }: any) {
                   transitionDelay: `200ms`,
                 }}
                 className={`whitespace-pre duration-500 ${
-                  !open && "opacity-0 translate-x-28 overflow-hidden "
+                  !open
+                    ? "lg:opacity-0 lg:translate-x-28 lg:overflow-hidden "
+                    : "opacity-0 translate-x-28 overflow-hidden lg:translate-x-0 lg:opacity-100"
                 } flex items-center`}
               >
                 {currentUser?.user.name.split(" ")[0]}
@@ -117,7 +119,9 @@ export default function Sidebar({ currentUser }: any) {
                 transitionDelay: `200ms`,
               }}
               className={`whitespace-pre duration-500 ${
-                !open && " -translate-x-11 -translate-y-3 flex items-center"
+                !open
+                  ? " lg:-translate-x-11 lg:-translate-y-3 lg:flex lg:items-center"
+                  : " -translate-x-11 -translate-y-3 flex items-center lg:-translate-x-0 lg:-translate-y-0"
               } py-3 flex justify-end`}
             >
               <HiMenuAlt3
@@ -130,7 +134,7 @@ export default function Sidebar({ currentUser }: any) {
 
           <div
             className={`mt-4 flex flex-col gap-4 relative duration-500 ${
-              !open && "translate-y-6"
+              !open ? "lg:translate-y-6" : "translate-y-6 lg:translate-y-0"
             }`}
           >
             {sidebar?.map((menu, i) => (
@@ -149,14 +153,16 @@ export default function Sidebar({ currentUser }: any) {
                     transitionDelay: `${i + 3}00ms`,
                   }}
                   className={`whitespace-pre duration-500 ${
-                    !open && "opacity-0 translate-x-28 overflow-hidden"
+                    !open
+                      ? "lg:opacity-0 lg:translate-x-28 lg:overflow-hidden"
+                      : "opacity-0 translate-x-28 overflow-hidden lg:opacity-100 lg:translate-x-0"
                   }`}
                 >
                   {menu?.name}
                 </h2>
                 <h2
                   className={`${
-                    open && "hidden"
+                    open ? "hidden" : "hidden"
                   } absolute left-48 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit  `}
                 >
                   {menu?.name}
