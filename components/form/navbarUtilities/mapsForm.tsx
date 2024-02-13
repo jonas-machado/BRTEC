@@ -114,7 +114,7 @@ export default function MapsForm({ id }: { id?: string }) {
       >
         <form
           onSubmit={handleSubmit(handleClickUpdate)}
-          className="grid gap-4 w-[30rem]"
+          className="grid gap-4 w-full"
         >
           <InputUseForm
             id="title"

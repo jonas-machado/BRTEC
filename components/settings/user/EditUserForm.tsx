@@ -117,14 +117,20 @@ export default function EditUserForm({ selectedUser }: any) {
             name="sector"
             control={control}
             array={sectorArray}
-            direction="row"
+            className="flex-col sm:flex-row"
             defaultValue={selectedUser.sector}
           />
+          <p className="text-gray-300 text-xs sm:text-sm font-bold border-2 border-gray-800 rounded-md p-2 bg-gray-900">
+            {selectedUser.name}
+          </p>
+          <p className="text-gray-300 text-xs sm:text-sm font-bold border-2 border-gray-800 rounded-md p-2 bg-gray-900">
+            {selectedUser.email}
+          </p>
           <ControlledInputArray
             name="role"
             control={control}
             array={role}
-            direction="row"
+            className="flex-row"
             defaultValue={selectedUser.role}
           />
           <button

@@ -114,7 +114,7 @@ export default function Firmware({ firmware }: any) {
               />
             </div>
             <button
-              className="bg-gray-800 rounded-md p-2 text-gray-300 hover:bg-gray-700"
+              className="bg-gray-800 truncate rounded-md p-2 text-gray-300 hover:bg-gray-700"
               onClick={() => {
                 onOpen();
               }}
@@ -126,9 +126,9 @@ export default function Firmware({ firmware }: any) {
             {filtered.map((item: any, i: number) => (
               <li
                 key={i}
-                className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md"
+                className="flex justify-between flex-col sm:flex-row gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md"
               >
-                <div className="flex min-w-0 gap-x-4">
+                <div className="flex  min-w-0 gap-x-4">
                   <ArrowDownTrayIcon className=" w-auto h-[3rem] text-gray-300" />
                   <div className="min-w-0 flex-auto">
                     <p className="text-base font-extrabold text-white whitespace-nowrap">
@@ -139,15 +139,13 @@ export default function Firmware({ firmware }: any) {
                     </p>
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <div className="hidden shrink-0 sm:flex items-center gap-2 w-full">
-                    <button
-                      className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
-                      onClick={() => onDelete(item)}
-                    >
-                      Excluir
-                    </button>
-                  </div>
+                <div className="flex items-center gap-2 w-full">
+                  <button
+                    className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
+                    onClick={() => onDelete(item)}
+                  >
+                    Excluir
+                  </button>
                 </div>
               </li>
             ))}

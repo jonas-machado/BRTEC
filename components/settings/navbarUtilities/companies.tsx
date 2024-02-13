@@ -100,7 +100,7 @@ export default function Companies({ companies }: any) {
               />
             </div>
             <button
-              className="bg-gray-800 rounded-md p-2 text-gray-300 hover:bg-gray-700"
+              className="bg-gray-800 rounded-md truncate p-2 text-gray-300 hover:bg-gray-700"
               onClick={() => {
                 setSelected(undefined);
                 onOpen();
@@ -113,7 +113,7 @@ export default function Companies({ companies }: any) {
             {filtered.map((item: any, i: number) => (
               <li
                 key={i}
-                className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md w-full"
+                className="flex justify-between flex-col sm:flex-row gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md w-full"
               >
                 <div className="flex min-w-0 gap-x-4">
                   <TableCellsIcon className=" w-auto h-[3rem] text-gray-300" />
@@ -127,7 +127,7 @@ export default function Companies({ companies }: any) {
                   </div>
                 </div>
                 <div className="flex gap-2 ">
-                  <div className="hidden shrink-0 sm:flex items-center gap-2 w-full">
+                  <div className="flex items-center gap-2 w-full">
                     <button
                       className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
                       onClick={() => {

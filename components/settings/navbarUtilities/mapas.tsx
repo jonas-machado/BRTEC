@@ -90,7 +90,7 @@ export default function Maps({ maps }: any) {
   return (
     <>
       <MotionComponent id="mapas">
-        <div className="flex flex-col m-2 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80 pb-4">
+        <div className="flex flex-col m-2 p-6 w-full pt-4 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
           <div className="flex m-6 justify-end gap-2">
             <div className=" max-w-xs">
               <Search
@@ -99,7 +99,7 @@ export default function Maps({ maps }: any) {
               />
             </div>
             <button
-              className="bg-gray-800 rounded-md p-2 text-gray-300 hover:bg-gray-700 min-w-min overflow-hidden overflow-ellipsis"
+              className="bg-gray-800 rounded-md p-2 text-gray-300 hover:bg-gray-700 min-w-[0.1rem] overflow-hidden overflow-ellipsis whitespace-nowrap"
               onClick={() => {
                 setSelected(undefined);
                 onOpen();
@@ -108,55 +108,53 @@ export default function Maps({ maps }: any) {
               Adicionar mapa
             </button>
           </div>
-          <ul role="list" className="flex flex-col px-6 gap-2">
+          <ul role="list" className="flex flex-col gap-2">
             {filtered.map((item: any, i: number) => (
               <li
                 key={i}
-                className="flex justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md"
+                className="flex justify-between flex-col sm:flex-row gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md"
               >
                 <div className="flex min-w-0 gap-x-4">
-                  <MapIcon className=" w-auto h-[3rem] text-gray-300" />
-                  <div className="min-w-0 flex-auto">
+                  <MapIcon className=" h-[3rem] text-gray-300" />
+                  <div className="min-w-0">
                     <p className="text-sm font-extrabold leading-6 text-gray-300 whitespace-nowrap">
                       {item.name}
                     </p>
-                    <p className=" text-xs  max-w-sm truncate leading-6 text-gray-300 ">
+                    <p className=" text-xs min-w-0 max-w-sm truncate leading-6 text-gray-300 ">
                       {item.link}
                     </p>
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <div className="hidden shrink-0 sm:flex items-center gap-2 w-full">
-                    <button
-                      className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
-                      type="button"
-                      onClick={() => {
-                        setSelected(item.id);
-                        onOpen();
-                      }}
-                    >
-                      Editar
-                    </button>
-                    <button
-                      className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
-                      onClick={() => {
-                        deleteItem(item, i);
-                      }}
-                    >
-                      {deleteLoading?.state && deleteLoading?.index == i ? (
-                        <div
-                          className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                          role="status"
-                        >
-                          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                            Loading...
-                          </span>
-                        </div>
-                      ) : (
-                        "Excluir"
-                      )}
-                    </button>
-                  </div>
+                <div className="flex items-center justify-end gap-2 sm:w-20 ml-8">
+                  <button
+                    className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
+                    type="button"
+                    onClick={() => {
+                      setSelected(item.id);
+                      onOpen();
+                    }}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="bg-gray-800 text-gray-300 p-2 rounded-md w-full hover:bg-gray-700 transition"
+                    onClick={() => {
+                      deleteItem(item, i);
+                    }}
+                  >
+                    {deleteLoading?.state && deleteLoading?.index == i ? (
+                      <div
+                        className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                        role="status"
+                      >
+                        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                          Loading...
+                        </span>
+                      </div>
+                    ) : (
+                      "Excluir"
+                    )}
+                  </button>
                 </div>
               </li>
             ))}

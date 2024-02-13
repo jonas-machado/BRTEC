@@ -8,15 +8,15 @@ interface input {
   name: string;
   control: any;
   array: any;
-  direction: string;
   defaultValue?: any;
+  className?: string;
 }
 const ControlledInputArray = ({
   name,
   control,
   array,
-  direction,
   defaultValue,
+  className,
 }: input) => {
   return (
     <>
@@ -32,7 +32,7 @@ const ControlledInputArray = ({
               value={field.value}
             >
               <div
-                className={`flex w-full h-full items-center justify-between gap-2 flex-${direction}`}
+                className={`flex w-full h-full items-center justify-between gap-2 ${className}`}
               >
                 {array.map((arr: any) => (
                   <RadioGroup.Option
