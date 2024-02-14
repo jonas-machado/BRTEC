@@ -217,11 +217,13 @@ Chamado aberto: ${value.base} ${filtered[0].maintenance}
               GERAR
             </button>
           </form>
-          <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            className="m-4 ml-0 overflow-hidden min-h-[20rem] bg-gray-900 bg-opacity-80 outline-none p-4 rounded-md text-gray-300"
-          />
+          <div className="p-4 lg:pl-0 w-full h-full">
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              className="sm:ml-0 w-full h-full overflow-hidden min-h-[20rem] bg-gray-900 bg-opacity-80 outline-none p-4 rounded-md text-gray-300"
+            />
+          </div>
         </div>
       </div>
       <ToastContainer />
