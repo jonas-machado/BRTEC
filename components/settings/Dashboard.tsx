@@ -40,7 +40,7 @@ export default function Dashboard({ users }: any) {
     <div className="flex w-full gap-4 m-4 flex-col">
       <Card className="bg-opacity-80 backdrop-blur-md row-auto">
         <Title>ONU configurada por mês</Title>
-        <div className="p-6">
+        <div className="p-2 sm:p-6">
           <AreaChart
             className="h-72 mt-4"
             data={chartData}

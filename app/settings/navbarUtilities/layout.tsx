@@ -27,7 +27,7 @@ export default async function RootLayout({
   const users = await getUsers();
 
   return (
-    <PageWrapper classname="w-full h-full">
+    <PageWrapper classname="w-full">
       <NavbarUtilities />
       {children}
     </PageWrapper>

@@ -161,35 +161,35 @@ export default function Provision({ provisioned }: any) {
                         setScript(item.script);
                       }}
                     >
-                      <div className="flex min-w-0 gap-x-4 justify-between w-full">
+                      <div className="flex min-w-0 gap-x-4 justify-between w-full flex-col sm:flex-row">
                         <div className="min-w-0">
-                          <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
+                          <p className=" font-semibold truncate text-xs sm:text-sm leading-6 text-gray-300 whitespace-nowrap">
                             Serial: {item.serial}
                           </p>
-                          <p className="mt-1 truncate text-gray-300">
+                          <p className="mt-1 truncate text-gray-300 text-xs sm:text-sm">
                             OLT:{" "}
                             {item?.olt?.olt
                               ? item?.olt?.olt + " (" + item?.olt?.ip + ")"
                               : "Erro"}
                           </p>
-                          <p className="text-sm leading-6 text-gray-300">
+                          <p className="truncate leading-6 text-gray-300 text-xs sm:text-sm">
                             PON: {item.pon}
                           </p>
-                          <p className="text-sm leading-6 text-gray-300 ">
+                          <p className="truncate leading-6 text-gray-300 text-xs sm:text-sm">
                             ID: {item.idLivre}
                           </p>
-                          <p className="text-sm leading-6 text-gray-300 ">
+                          <p className="truncate leading-6 text-gray-300 text-xs sm:text-sm">
                             Cliente: {item.cliente}
                           </p>
                         </div>
                         <div className="min-w-0 w-60">
-                          <p className="text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
+                          <p className=" text-xs sm:text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap">
                             Data:{" "}
                             {item.updatedAt.toLocaleDateString() +
                               " " +
                               item.updatedAt.toLocaleTimeString()}
                           </p>
-                          <p className="mt-1 truncate text-gray-300">
+                          <p className=" text-xs sm:text-sm mt-1 truncate text-gray-300">
                             Por: {item?.user?.name ?? "Desconhecido"}
                           </p>
                         </div>

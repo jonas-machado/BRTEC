@@ -90,7 +90,7 @@ export default function Maps({ maps }: any) {
   return (
     <>
       <MotionComponent id="mapas">
-        <div className="flex flex-col m-2 p-6 w-full pt-4 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
+        <div className="flex flex-col m-2 p-6 pt-4 bg-black backdrop-blur-sm shadow-xl shadow-black rounded-md bg-opacity-80">
           <div className="flex m-6 justify-end gap-2">
             <div className=" max-w-xs">
               <Search
@@ -108,7 +108,7 @@ export default function Maps({ maps }: any) {
               Adicionar mapa
             </button>
           </div>
-          <ul role="list" className="flex flex-col gap-2">
+          <ul role="list" className="flex flex-col gap-2 w-full">
             {filtered.map((item: any, i: number) => (
               <li
                 key={i}
@@ -120,7 +120,7 @@ export default function Maps({ maps }: any) {
                     <p className="text-sm font-extrabold leading-6 text-gray-300 whitespace-nowrap">
                       {item.name}
                     </p>
-                    <p className=" text-xs min-w-0 max-w-sm truncate leading-6 text-gray-300 ">
+                    <p className=" text-xs min-w-0 truncate leading-6 text-gray-300 ">
                       {item.link}
                     </p>
                   </div>
