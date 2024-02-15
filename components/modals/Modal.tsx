@@ -18,11 +18,11 @@ const Modal = ({ isOpen, currentUser, make, cancel, children }: ModalProp) => {
   const cancelButtonRef = useRef(null);
 
   return (
-    <div className=" ">
+    <div className="">
       <Transition.Root show={isOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="relative z-30 "
+          className="relative z-50 "
           initialFocus={cancelButtonRef}
           onClose={setOpen}
         >

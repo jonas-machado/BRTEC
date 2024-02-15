@@ -166,7 +166,7 @@ function Perfil({ currentUser }: { currentUser?: Session | null }) {
       });
   };
   return (
-    <div className="flex flex-col gap-4 p-2 ">
+    <div className="flex flex-col gap-4 p-2 z-40">
       <div className="px-4 sm:px-0">
         <h1 className="text-2xl font-semibold leading-7 text-gray-300">
           Perfil

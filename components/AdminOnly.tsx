@@ -8,5 +8,7 @@ interface Admin {
 
 export default function AdminOnly({ children }: Admin) {
   const { data, status } = useSession();
-  return <>{data?.user.role === "ADMIN" && children}</>;
+  if (data?.user.role === "ADMIN") {
+    return <>{children}</>;
+  }
 }
