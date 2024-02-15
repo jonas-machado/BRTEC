@@ -9,13 +9,10 @@ interface Admin {
 }
 
 export default function AdminOnly({ children }: Admin) {
-  const { data, status } = useSession();
-  const [role, setRole] = useState<string>();
-  useEffect(() => {
-    setRole(data?.user.role);
-  }, [data]);
-
-  if (role === "ADMIN") {
+  const session = useSession();
+  useEffect(() => {}, [session]);
+  console.log(session.data);
+  if (session.data?.user.role === "ADMIN") {
     return <>{children}</>;
   }
 }
