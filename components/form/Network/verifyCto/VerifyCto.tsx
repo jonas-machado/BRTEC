@@ -154,10 +154,11 @@ const VerifyCTO = ({ olt }: any) => {
 
             return item.includes(`service-port-${servicePort} `);
           });
-
+          console.log(servicePortDown);
           arrayDown.push({
             state: arraySecondPon[i],
             mac: macDown,
+            servicePort: servicePortDown.split("\n")[0],
           });
         }
       }
@@ -240,6 +241,19 @@ const VerifyCTO = ({ olt }: any) => {
               id={verify.toString()}
               className={verify ? "col-span-2" : ""}
             >
+              {verify && command && (
+                <>
+                  <h1 className="text-lg font-bold text-gray-300">Comando:</h1>
+                  <div key={command![0]} className="flex gap-2">
+                    <span className="text-gray-300">{command![0]}</span>
+                    <CopyToClipboard text={command![0]}>
+                      <button className="text-gray-300 bg-gray-900 rounded-md px-1 focus:bg-gray-800 transition">
+                        Copiar
+                      </button>
+                    </CopyToClipboard>
+                  </div>
+                </>
+              )}
               <h1 className="text-gray-300 text-xl mb-2">
                 Texto para comparar <strong>depois</strong>:
               </h1>
@@ -296,6 +310,8 @@ const VerifyCTO = ({ olt }: any) => {
       <div className="bg-black bg-opacity-70 backdrop-blur-md rounded-md divide-y-2 p-4">
         {filtered.map((item: any) => (
           <div key={item.state} className=" p-4">
+            <p className="text-gray-300">{item.servicePort}</p>
+
             <p className="text-gray-300">{item.state}</p>
             {item.mac.map((mac: any) => (
               <p key={mac} className="text-gray-300">

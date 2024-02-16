@@ -74,7 +74,7 @@ const SolutionForm = ({ post, currentUser }: any) => {
               value={query}
               onChange={(e: any) => setQuery(e.target.value)}
             />
-            <AdminOnly>
+            <AdminOnly user={currentUser.user}>
               <button
                 type="button"
                 className="bg-gray-900 text-sm p-2 text-gray-300 hover:text-white border-2 border-gray-950 focus:outline-none font-bold rounded-lg text-center"
@@ -103,7 +103,7 @@ const SolutionForm = ({ post, currentUser }: any) => {
         {filtered.map((post: any, index: number) => (
           <DisclosureBank key={post.id} title={post.title}>
             <EditorOutput content={post.content} index={index} />
-            <AdminOnly>
+            <AdminOnly user={currentUser.user}>
               <div className="flex justify-end mx-8 mb-3 border-t-2 pt-6 gap-4">
                 <button
                   className="bg-gray-950 rounded-md p-2 px-4 text-lg"

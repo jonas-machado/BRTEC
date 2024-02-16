@@ -146,7 +146,7 @@ export default function RegisterForm({ isVisible }: any) {
               control={control}
               name="sector"
               array={sectorArray}
-              direction="row"
+              className="flex-col sm:flex-row"
             />
           </div>
           <div className="col-span-3 sm:col-span-2">
