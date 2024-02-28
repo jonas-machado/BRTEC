@@ -135,7 +135,7 @@ export default function FirmwareForm({ id }: { id?: string }) {
       >
         <form
           onSubmit={handleSubmit(handleClickUpdate)}
-          className="grid gap-2 w-[30rem]"
+          className="grid gap-2 "
         >
           <InputUseForm
             id="company"

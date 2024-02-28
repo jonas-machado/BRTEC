@@ -82,7 +82,7 @@ export default function Sidebar({ currentUser }: any) {
           <div className={`flex justify-between mt-4`}>
             <div
               className={`flex gap-2 py-3 duration-500 ${
-                !open ? "lg:translate-y-8" : "translate-y-8 lg:translate-y-0"
+                !open ? "lg:translate-y-8" : "lg:translate-y-0"
               } h-full`}
             >
               <Image
@@ -114,6 +114,7 @@ export default function Sidebar({ currentUser }: any) {
                 {currentUser?.user.name.split(" ")[0]}
               </p>
             </div>
+
             <div
               style={{
                 transitionDelay: `200ms`,
@@ -122,7 +123,7 @@ export default function Sidebar({ currentUser }: any) {
                 !open
                   ? " lg:-translate-x-11 lg:-translate-y-3 lg:flex lg:items-center"
                   : " -translate-x-11 -translate-y-3 flex items-center lg:-translate-x-0 lg:-translate-y-0"
-              } py-3 flex justify-end`}
+              } py-3 lg:flex justify-end hidden`}
             >
               <HiMenuAlt3
                 size={26}
@@ -134,7 +135,7 @@ export default function Sidebar({ currentUser }: any) {
 
           <div
             className={`mt-4 flex flex-col gap-4 relative duration-500 ${
-              !open ? "lg:translate-y-6" : "translate-y-6 lg:translate-y-0"
+              !open ? "lg:translate-y-6" : "lg:translate-y-0"
             }`}
           >
             {sidebar?.map((menu, i) => (

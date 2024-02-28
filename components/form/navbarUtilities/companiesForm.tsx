@@ -112,10 +112,7 @@ export default function CompaniesForm({ id }: { id?: string }) {
         }}
         exit={{ opacity: 0 }}
       >
-        <form
-          onSubmit={handleSubmit(handleClickUpdate)}
-          className="grid gap-4 w-[30rem]"
-        >
+        <form onSubmit={handleSubmit(handleClickUpdate)} className="grid gap-4">
           <InputUseForm
             id="company"
             label="Empresa"

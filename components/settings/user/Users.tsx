@@ -141,22 +141,22 @@ export default function Users({ users }: any) {
                       }
                       alt=""
                     />
-                    <div className="min-w-0 flex-auto">
-                      <p className="text-xs sm:text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap overflow-hidden overflow-ellipsis">
+                    <div className="flex flex-col gap-1 min-w-0 flex-auto">
+                      <p className="text-xs sm:text-sm font-semibold leading-6 text-gray-300 whitespace-nowrap overflow-hidden overflow-ellipsis bg-gray-900 rounded-md bg-opacity-50 px-2">
                         {person.name}
                       </p>
-                      <p className="mt-1 truncate text-xs leading-5 text-gray-300">
+                      <p className="mt-1 truncate text-xs leading-5 text-gray-300 bg-gray-900 rounded-md bg-opacity-50 px-2">
                         {person.email}
                       </p>
-                      <p className="text-xs sm:text-sm leading-6 text-gray-300">
+                      <p className="text-xs sm:text-sm leading-6 text-gray-300 bg-gray-900 rounded-md bg-opacity-50 px-2">
                         {person.role}
                       </p>
-                      <p className="text-xs sm:text-sm leading-6 text-gray-300 ">
+                      <p className="text-xs sm:text-sm leading-6 text-gray-300 bg-gray-900 rounded-md bg-opacity-50 px-2">
                         {person.sector}
                       </p>
                     </div>
                   </div>
-                  <div className="flex gap-2 justify-center sm:justify-end w-full">
+                  <div className="flex gap-2 justify-center sm:justify-end w-full mt-1 sm:mt-0">
                     <div className=" shrink-0 flex sm:flex-col items-center gap-0.5 lg:gap-2 w-full sm:w-20">
                       <button
                         className="bg-gray-800 text-gray-300 p-0.5 sm:p-1 text-xs sm:text-sm rounded-md w-full hover:bg-gray-700 transition"

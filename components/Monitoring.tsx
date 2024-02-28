@@ -61,11 +61,14 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
   };
   return (
     <div className="flex w-full justify-center flex-col gap-2">
-      <div className=" flex z-40 justify-between gap-2 bg-black bg-opacity-80 backdrop-blur-md rounded-md p-2">
-        <p className="text-gray-300 flex items-center font-bold ml-4 text-2xl gap-4">
-          MONITORAMENTO
-        </p>
-        <div className=" flex gap-2 p-2">
+      <div className=" flex sm:flex-row flex-col z-40 md:justify-between justify-center gap-2 bg-black bg-opacity-80 backdrop-blur-md rounded-md p-2">
+        <div className="flex justify-center">
+          <p className="text-gray-300 flex items-center font-bold text-2xl gap-4 ">
+            MONITORAMENTO
+          </p>
+        </div>
+
+        <div className=" flex  gap-2 p-2 justify-center">
           <button
             onClick={alert}
             className="bg-gray-900 rounded-md text-gray-300 p-1 px-2"

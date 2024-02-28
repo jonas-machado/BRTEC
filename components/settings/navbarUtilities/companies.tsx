@@ -113,12 +113,12 @@ export default function Companies({ companies }: any) {
             {filtered.map((item: any, i: number) => (
               <li
                 key={i}
-                className="flex justify-between flex-col sm:flex-row gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md w-full"
+                className="grid grid-cols-1 sm:grid-cols-[70%_20%] justify-between gap-x-6 p-5 bg-gray-900 bg-opacity-80 rounded-md w-full"
               >
                 <div className="flex min-w-0 gap-x-4">
                   <TableCellsIcon className=" w-auto h-[3rem] text-gray-300" />
                   <div className="min-w-0 flex-auto">
-                    <p className="text-sm font-extrabold leading-6 text-gray-300 whitespace-nowrap">
+                    <p className="text-sm font-extrabold leading-6 text-gray-300 whitespace-nowrap truncate">
                       {item.company}
                     </p>
                     <p className="text-xs max-w-sm truncate leading-6 text-gray-300 ">
