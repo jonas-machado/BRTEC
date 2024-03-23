@@ -423,8 +423,12 @@ function ConfigForm({ currentUser, olt }: ConfigProps) {
         cliente: name,
         script: provision(),
       })
+      .then((res) => {
+        //throw new Error("teste");
+      })
       .catch((err) => {
         console.log(err);
+        toastError("Erro banco de dados");
       });
   };
   return (
