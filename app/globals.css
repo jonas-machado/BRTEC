@@ -107,12 +107,18 @@ svg.icon--unlink {
   background: gray;
 }
 
+.ce-block--selected {
+  display: flex;
+}
+
 .ce-block--selected .cdx-block {
   color: black;
+  display: flex;
 }
 
 .ce-block--selected .ce-block__content * {
   color: black;
+  display: flex;
 }
 
 .ce-popover {
