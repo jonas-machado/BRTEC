@@ -149,6 +149,8 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
     const Underline = (await import("@editorjs/underline")).default;
     //@ts-ignore
     const Hyperlink = (await import("editorjs-hyperlink")).default;
+    //@ts-ignore
+    const Paragraph = (await import("@editorjs/paragraph")).default;
 
     if (!ref.current) {
       const editor = new EditorJS({
@@ -257,6 +259,13 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
             class: LinkTool,
             config: {
               endpoint: "/api/link",
+            },
+          },
+          paragraph: {
+            class: Paragraph,
+            inlineToolbar: true,
+            config: {
+              preserveBlank: true,
             },
           },
           list: List,
@@ -380,7 +389,6 @@ const Editor = ({ postId, postContent, postTitle }: postProps) => {
           </button>
         </div>
       </form>
-      <ToastContainer />
     </div>
   );
 };

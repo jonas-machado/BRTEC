@@ -39,6 +39,8 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
     const Underline = (await import("@editorjs/underline")).default;
     //@ts-ignore
     const Hyperlink = (await import("editorjs-hyperlink")).default;
+    //@ts-ignore
+    const Paragraph = (await import("@editorjs/paragraph")).default;
 
     if (!ref.current) {
       const editor = new EditorJS({
@@ -141,6 +143,13 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
             class: LinkTool,
             config: {
               endpoint: "/api/link",
+            },
+          },
+          paragraph: {
+            class: Paragraph,
+            inlineToolbar: true,
+            config: {
+              preserveBlank: true,
             },
           },
           list: List,
