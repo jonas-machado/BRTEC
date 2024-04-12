@@ -7,4 +7,8 @@ export const tabScript = [
     name: "Padrão manutenção",
     id: "padraoManutencao",
   },
+  {
+    name: "Chamado CPF",
+    id: "padraoCpf",
+  },
 ];

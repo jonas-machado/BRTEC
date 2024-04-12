@@ -25,6 +25,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ScriptEmail from "./ScriptEmail";
 import ScriptMaintenance from "./ScriptMaintenance";
+import ScriptCpf from "./ScriptCpf";
 
 const ScriptForm = ({ currentUser }: { currentUser?: User | null }) => {
   const [openTab, setOpenTab] = useState("padraoEmail");
@@ -207,6 +208,14 @@ Chamado aberto: ${value.base} ${filtered[0].maintenance}
                   fields={fields}
                   append={append}
                   remove={remove}
+                />
+              )}
+              {openTab == "padraoCpf" && (
+                <ScriptCpf
+                  currentUser={currentUser}
+                  control={control}
+                  errors={errors}
+                  register={register}
                 />
               )}
             </AnimatePresence>
