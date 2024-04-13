@@ -44,6 +44,10 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
 
     if (!ref.current) {
       const editor = new EditorJS({
+        onChange: (api, event) => {
+          console.log(api);
+          console.log(event);
+        },
         readOnly: true,
         holder: `editor${index}`,
         onReady() {
@@ -148,6 +152,7 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
           paragraph: {
             class: Paragraph,
             inlineToolbar: true,
+
             config: {
               preserveBlank: true,
             },
@@ -168,6 +173,7 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
         .catch((reason) => {
           console.log(`Editor.js initialization failed because of ${reason}`);
         });
+
       ref.current = editor;
     }
   }, []);
