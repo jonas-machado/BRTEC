@@ -44,10 +44,6 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
 
     if (!ref.current) {
       const editor = new EditorJS({
-        onChange: (api, event) => {
-          console.log(api);
-          console.log(event);
-        },
         readOnly: true,
         holder: `editor${index}`,
         onReady() {
