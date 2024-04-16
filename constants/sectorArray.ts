@@ -1,6 +1,6 @@
 export const sectorArray = [
-  "N1",
-  "N2",
+  "ATENDIMENTO",
+  "SUPORTE",
   "CONTROLE",
   "RETENÇÃO",
   "COMERCIAL",

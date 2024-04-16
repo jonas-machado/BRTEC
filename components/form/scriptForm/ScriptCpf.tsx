@@ -33,14 +33,6 @@ const ScriptCpf = ({
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -100 }}
       >
-        <div>
-          <ControlledInput
-            name="base"
-            array={bases}
-            control={control}
-            error={errors}
-          />
-        </div>
         <TextAreaUseForm
           rows={3}
           label="MOTIVO"
@@ -63,6 +55,14 @@ const ScriptCpf = ({
           label="ENDEREÇO"
           placeholder="Endereço"
           id="address"
+          error={errors}
+          register={register}
+          required
+        />
+        <TextAreaUseForm
+          label="COMPLEMENTO"
+          placeholder="Complemento"
+          id="complement"
           error={errors}
           register={register}
           required

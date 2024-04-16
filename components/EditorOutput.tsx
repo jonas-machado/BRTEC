@@ -162,36 +162,6 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
         },
       });
 
-      const toggleBlockSelection = () => {
-        const blocks = editor.blocks; // Get all blocks in the editor
-        console.log(blocks);
-        const blockCount = editor.blocks.getBlocksCount();
-
-        // Loop through each block and do something
-        for (let i = 0; i < blockCount; i++) {
-          const block = editor.blocks.getBlockByIndex(i);
-          console.log(block);
-          const blockElement = block!.holder;
-          // Do something with the block, for example:
-          blockElement.classList.remove("ce-block--selected"); // Remove selected class
-          //         blockElement.style.pointerEvents = 'none'; // Disable pointer events
-          if (block!.isEmpty) {
-            // Do something with empty blocks
-          }
-        }
-        // Iterate through each block and toggle selection based on read-only mode
-        // blocks.forEach((block: any )=> {
-        //     const blockElement = block.holder; // Assuming holder is the block's DOM element
-
-        //     // Enable or disable block selection based on read-only mode
-        //     if (readOnly) {
-        //         blockElement.classList.remove('ce-block--selected'); // Remove selected class
-        //         blockElement.style.pointerEvents = 'none'; // Disable pointer events
-        //     } else {
-        //         blockElement.style.pointerEvents = 'auto'; // Enable pointer events
-        //     }
-        // });
-      };
       editor.isReady
         .then(() => {
           console.log("Editor.js is ready to work!");
@@ -201,8 +171,15 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
           for (let i = 0; i < blockCount; i++) {
             const block = editor.blocks.getBlockByIndex(i);
             const blockElement = block!.holder;
-            blockElement.classList.add("ce-block-output");
-
+            console.log(block);
+            if (
+              block!.name == "paragraph" ||
+              block!.name == "header" ||
+              block!.name == "list" ||
+              block!.name == "table"
+            ) {
+              blockElement.classList.add("ce-block-output");
+            }
             // Do something with the block, for example:
 
             if (block!.isEmpty) {

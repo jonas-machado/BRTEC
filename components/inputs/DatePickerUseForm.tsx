@@ -39,12 +39,14 @@ export default function DatePickerUseForm({
       </span>
       <div className="flex justify-center w-full">
         <Controller
+          defaultValue={dayjs().add(daysAfter, "day")}
           name={name}
           control={control}
           render={({ field }) => (
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 {...field}
+                defaultValue={field.value}
                 className=" !p-2"
                 format="DD/MM/YY"
                 views={["month", "day"]}

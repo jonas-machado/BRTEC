@@ -108,9 +108,7 @@ const ScriptForm = ({ currentUser }: { currentUser?: User | null }) => {
         .trim()
         .min(2, { message: "O endereço não pode estar vazio" })
         .toUpperCase(),
-      base: z.string({ required_error: "Selecione a base" }).min(1, {
-        message: "Selecione a base",
-      }),
+      complement: z.string().trim().toUpperCase(),
       client: z
         .string()
         .trim()
@@ -136,10 +134,6 @@ const ScriptForm = ({ currentUser }: { currentUser?: User | null }) => {
     }),
   };
 
-  const defaultDate: any = {
-    padraoCpf: { dateCall: dayjs() },
-  };
-
   const {
     register,
     handleSubmit,
@@ -149,7 +143,6 @@ const ScriptForm = ({ currentUser }: { currentUser?: User | null }) => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema[openTab]),
-    defaultValues: defaultDate[openTab],
   });
 
   useEffect(() => {
@@ -209,13 +202,18 @@ Chamado aberto: ${value.base} ${filtered[0].maintenance}
     if (openTab == "padraoCpf") {
       console.log(value);
       setText(`\
-Data para contato: ${value.dateCall.format("DD/MM")}
+Data para contato: ${value.dateCall.format("DD/MM")} - ${value.periodCall}
 
 Motivo: ${value.reason}
 Cliente: ${value.client}
 Endereço: ${value.address}
+Complemento: ${value.complement}
 Responsável pelo atendimento: ${value.name} // ${value.tel}
-      `);
+
+Datas para o chamado
+${value.dateTec1.format("DD/MM")} - ${value.periodTec1}
+${value.dateTec2.format("DD/MM")} - ${value.periodTec2}
+${value.dateTec3.format("DD/MM")} - ${value.periodTec3}`);
     }
   };
   return (
