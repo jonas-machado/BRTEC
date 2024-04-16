@@ -46,7 +46,7 @@ export default function DatePickerUseForm({
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 {...field}
-                defaultValue={field.value}
+                value={field.value}
                 className=" !p-2"
                 format="DD/MM/YY"
                 views={["month", "day"]}

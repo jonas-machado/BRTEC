@@ -19,6 +19,8 @@ import { Socket, io } from "socket.io-client";
 import axios from "axios";
 import { SocketContext } from "@/lib/socket";
 import { useRouter } from "next/navigation";
+import ControlledInput from "./inputs/controlledInput";
+import AutoComplete from "./inputs/AutoComplete";
 
 const array = [
   {
@@ -34,6 +36,14 @@ const array = [
     class: "text-gray-400 bg-gray-600 bg-opacity-20",
   },
 ];
+const arrayTecnology = [
+  {
+    name: "FIBRA",
+  },
+  {
+    name: "RADIO",
+  },
+];
 
 interface InlineEditorProps {
   index: number;
@@ -42,6 +52,7 @@ interface InlineEditorProps {
   bases: string[];
   text: string;
   isUp: boolean;
+  tecnology: string;
 }
 
 export default function InlineEditor({
@@ -51,6 +62,7 @@ export default function InlineEditor({
   bases,
   text,
   isUp,
+  tecnology,
 }: InlineEditorProps) {
   const socket = useContext(SocketContext);
   const router = useRouter();
@@ -58,6 +70,7 @@ export default function InlineEditor({
   const [isUpNow, setIsUpNow] = useState(isUp);
   const [currentText, setCurrentText] = useState(text);
   const [currentTime, setCurrentTime] = useState(date);
+  const [currentTecnology, setCurrentTecnology] = useState(tecnology);
 
   useEffect(() => {
     socket?.on(
@@ -158,7 +171,7 @@ export default function InlineEditor({
             value={currentText ?? "Escreva aqui"}
           />
 
-          <div className="mr-4 flex items-center flex-col sm:flex-row">
+          <div className="mr-4 flex items-center flex-col sm:flex-row w-full">
             <div className="">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
@@ -246,6 +259,16 @@ export default function InlineEditor({
                   </Transition>
                 </div>
               </Listbox>
+            </div>
+            <div>
+              <AutoComplete
+                label="Técnologia"
+                options={arrayTecnology}
+                placeHolder="Técnologia"
+                id="tecnology"
+                selectedItem={currentTecnology}
+                setSelectedItem={setCurrentTecnology}
+              />
             </div>
           </div>
         </div>

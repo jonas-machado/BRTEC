@@ -135,12 +135,18 @@ model Post {
   author    User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
 }
 
+enum Tecnology {
+  RADIO
+  FIBRA
+}
+
 model Monitoring {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  tecnology Tecnology
   text      String?
   isUp      Boolean
   dateDown  DateTime
   bases     String[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
