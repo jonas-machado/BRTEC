@@ -46,7 +46,6 @@ export default function DatePickerUseForm({
               <DatePicker
                 {...field}
                 className=" !p-2"
-                value={dayjs().add(daysAfter!, "day")}
                 format="DD/MM/YY"
                 views={["month", "day"]}
               />
