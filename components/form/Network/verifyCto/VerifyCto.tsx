@@ -75,8 +75,10 @@ const VerifyCTO = ({ olt }: any) => {
   console.log(olts);
 
   const onSubmit = ({ olts, pon }: FieldValues) => {
-    console.log(olts, pon);
-
+    const vlanDatacom =
+      pon.split("/").slice(-1)[0].length < 2
+        ? 10 + pon.split("/").slice(-1)
+        : 1 + pon.split("/").slice(-1);
     switch (olts) {
       case "ZTE":
         const commandZte = [
@@ -88,7 +90,7 @@ const VerifyCTO = ({ olt }: any) => {
       case "DATACOM":
         const commandDatacom = [
           `do show interface gpon ${pon} onu`,
-          `do show mac-address-table vlan 10${pon.split("/").slice(-1)}`,
+          `do show mac-address-table vlan ${vlanDatacom}`,
           `show service-port gpon ${pon}`,
         ];
 

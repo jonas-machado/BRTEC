@@ -9,15 +9,9 @@ import { User } from "@prisma/client";
 import { bases } from "@/constants/bases";
 import { sla } from "@/constants/sla";
 import { motion } from "framer-motion";
-import {
-  DatePicker,
-  DateTimePicker,
-  LocalizationProvider,
-  renderTimeViewClock,
-} from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useState } from "react";
-import dayjs from "dayjs";
+import DatePickerUseForm from "@/components/inputs/DatePickerUseForm";
+
+const period = [{ name: "Manhã" }, { name: "Tarde" }, { name: "Dia todo" }];
 
 const ScriptCpf = ({
   currentUser,
@@ -30,8 +24,6 @@ const ScriptCpf = ({
   errors: any;
   register: any;
 }) => {
-  const [currentTime, setCurrentTime] = useState();
-
   return (
     <>
       <motion.div
@@ -49,6 +41,15 @@ const ScriptCpf = ({
             error={errors}
           />
         </div>
+        <TextAreaUseForm
+          rows={3}
+          label="MOTIVO"
+          placeholder="Insira o motivo do chamado"
+          id="reason"
+          error={errors}
+          register={register}
+          required
+        />
         <Input
           label="CLIENTE"
           placeholder="Nome e código"
@@ -58,30 +59,14 @@ const ScriptCpf = ({
           required
         />
 
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            className=""
-            //defaultValue={}
-            format="DD/MM/YY HH:mm"
-            views={["month", "day"]}
-          />
-        </LocalizationProvider>
         <TextAreaUseForm
           label="ENDEREÇO"
           placeholder="Endereço"
-          id="addres"
+          id="address"
           error={errors}
           register={register}
           required
         />
-        <div>
-          <ControlledInput
-            name="sla"
-            array={sla}
-            error={errors}
-            control={control}
-          />
-        </div>
         <Input
           label="RESPONSÁVEL"
           placeholder="Nome"
@@ -98,6 +83,69 @@ const ScriptCpf = ({
           register={register}
           required
         />
+        <DatePickerUseForm
+          name="dateCall"
+          id="dateCall"
+          label="DATA PARA O CONTATO"
+          control={control}
+          error={errors}
+        />
+        <div>
+          <ControlledInput
+            name="periodCall"
+            array={period}
+            control={control}
+            error={errors}
+          />
+        </div>
+        <DatePickerUseForm
+          name="dateTec1"
+          id="dateTec1"
+          label="DATA PARA O CHAMADO"
+          daysAfter={1}
+          control={control}
+          error={errors}
+        />
+        <div>
+          <ControlledInput
+            name="periodTec1"
+            array={period}
+            control={control}
+            error={errors}
+          />
+        </div>
+        <DatePickerUseForm
+          name="dateTec2"
+          id="dateTec2"
+          label="DATA PARA O CHAMADO"
+          daysAfter={2}
+          control={control}
+          error={errors}
+        />
+        <div>
+          <ControlledInput
+            name="periodTec2"
+            array={period}
+            control={control}
+            error={errors}
+          />
+        </div>
+        <DatePickerUseForm
+          name="dateTec3"
+          id="dateTec3"
+          label="DATA PARA O CHAMADO"
+          daysAfter={3}
+          control={control}
+          error={errors}
+        />
+        <div>
+          <ControlledInput
+            name="periodTec3"
+            array={period}
+            control={control}
+            error={errors}
+          />
+        </div>
       </motion.div>
     </>
   );

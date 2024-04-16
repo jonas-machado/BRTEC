@@ -26,6 +26,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ScriptEmail from "./ScriptEmail";
 import ScriptMaintenance from "./ScriptMaintenance";
 import ScriptCpf from "./ScriptCpf";
+import dayjs from "dayjs";
 
 const ScriptForm = ({ currentUser }: { currentUser?: User | null }) => {
   const [openTab, setOpenTab] = useState("padraoEmail");
@@ -101,6 +102,42 @@ const ScriptForm = ({ currentUser }: { currentUser?: User | null }) => {
         .min(1, { message: "O campo cliente não pode estar vazio" }),
       protocol: z.string().trim().optional(),
     }),
+    padraoCpf: z.object({
+      address: z
+        .string()
+        .trim()
+        .min(2, { message: "O endereço não pode estar vazio" })
+        .toUpperCase(),
+      base: z.string({ required_error: "Selecione a base" }).min(1, {
+        message: "Selecione a base",
+      }),
+      client: z
+        .string()
+        .trim()
+        .min(1, { message: "O campo cliente não pode estar vazio" }),
+      name: z
+        .string()
+        .trim()
+        .min(1, { message: "O campo nome não pode estar vazio" }),
+      dateCall: z.any(),
+      reason: z.string(),
+      periodCall: z.string(),
+      dateTec1: z.any(),
+      dateTec2: z.any(),
+      dateTec3: z.any(),
+      periodTec1: z.string(),
+      periodTec2: z.string(),
+      periodTec3: z.string(),
+
+      tel: z
+        .string()
+        .trim()
+        .min(1, { message: "O telefone não pode estar vazio" }),
+    }),
+  };
+
+  const defaultDate: any = {
+    padraoCpf: { dateCall: dayjs() },
   };
 
   const {
@@ -112,6 +149,7 @@ const ScriptForm = ({ currentUser }: { currentUser?: User | null }) => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema[openTab]),
+    defaultValues: defaultDate[openTab],
   });
 
   useEffect(() => {
@@ -166,6 +204,17 @@ Motivo: ${value.description}
 Cliente afetado: ${value.clientLost}
 ${value.inputs?.map((input: any) => `${input.cda}\n${input.loc}`).join("\n")}
 Chamado aberto: ${value.base} ${filtered[0].maintenance}
+      `);
+    }
+    if (openTab == "padraoCpf") {
+      console.log(value);
+      setText(`\
+Data para contato: ${value.dateCall.format("DD/MM")}
+
+Motivo: ${value.reason}
+Cliente: ${value.client}
+Endereço: ${value.address}
+Responsável pelo atendimento: ${value.name} // ${value.tel}
       `);
     }
   };

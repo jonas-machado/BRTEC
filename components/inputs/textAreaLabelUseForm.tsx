@@ -6,6 +6,7 @@ interface input {
   label: string;
   placeholder?: string;
   id: string;
+  rows?: number;
   name?: string;
   onChange?: any;
   required: boolean;
@@ -15,6 +16,7 @@ interface input {
 const TextAreaUseForm = ({
   label,
   id,
+  rows,
   name,
   onChange,
   register,
@@ -36,7 +38,7 @@ const TextAreaUseForm = ({
         className=" items-center overflow-hidden caret-gray-200 outline-none w-full p-2 rounded-none rounded-r-md bg-gray-900 bg-opacity-60 pl-3 text-gray-200 border-gray-900 sm:text-sm autofill:shadow-[inset_0_0_0px_1000px_rgb(17,24,39,0.7)] border-b-[1px] border-t-[1px]"
         placeholder={placeholder}
         spellCheck="false"
-        rows={1}
+        rows={rows ?? 1}
         {...register(id, { required })}
       />
     </div>
