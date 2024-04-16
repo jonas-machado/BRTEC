@@ -44,7 +44,7 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
 
     if (!ref.current) {
       const editor = new EditorJS({
-        readOnly: false,
+        readOnly: true,
         holder: `editor${index}`,
         onReady() {
           console.log("Editor.js is ready to work!");
@@ -192,10 +192,23 @@ const EditorOutput = ({ content, index }: EditorOutput) => {
         //     }
         // });
       };
-
       editor.isReady
         .then(() => {
           console.log("Editor.js is ready to work!");
+          const blockCount = editor.blocks.getBlocksCount();
+
+          // Loop through each block and do something
+          for (let i = 0; i < blockCount; i++) {
+            const block = editor.blocks.getBlockByIndex(i);
+            const blockElement = block!.holder;
+            blockElement.classList.add("ce-block-output");
+
+            // Do something with the block, for example:
+
+            if (block!.isEmpty) {
+              // Do something with empty blocks
+            }
+          }
           /** Do anything you need after editor initialization */
         })
         .catch((reason) => {

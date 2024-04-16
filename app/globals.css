@@ -115,9 +115,9 @@ svg.icon--unlink {
   color: black;
 }
 
-/* .ce-block {
+.ce-block-output {
   pointer-events: none;
-} */
+}
 
 .ce-popover {
   background-color: rgb(17 24 39);
