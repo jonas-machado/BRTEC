@@ -38,10 +38,14 @@ const array = [
 ];
 const arrayTecnology = [
   {
+    id: 1,
     name: "FIBRA",
+    unavailable: false,
   },
   {
-    name: "RADIO",
+    id: 1,
+    name: "RÁDIO",
+    unavailable: false,
   },
 ];
 
@@ -260,9 +264,8 @@ export default function InlineEditor({
                 </div>
               </Listbox>
             </div>
-            <div>
+            <div className="w-full h-full">
               <AutoComplete
-                label="Técnologia"
                 options={arrayTecnology}
                 placeHolder="Técnologia"
                 id="tecnology"

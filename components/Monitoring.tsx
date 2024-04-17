@@ -99,6 +99,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
               bases={item.bases}
               text={item.text}
               isUp={item.isUp}
+              tecnology={item.tecnology}
             />
           </MotionDelay>
         ))}
