@@ -3,16 +3,19 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const body = await request.json();
+  console.log(body);
   const {
     text,
     isUp,
     dateDown,
     bases,
+    tecnology,
   }: {
     text: string;
     isUp: boolean;
     dateDown: Date;
     bases: string[];
+    tecnology: string;
   } = body;
 
   // Include only defined fields in the updateData object:
@@ -23,6 +26,7 @@ export async function POST(request: Request) {
       isUp,
       dateDown,
       bases,
+      tecnology,
     },
   });
 

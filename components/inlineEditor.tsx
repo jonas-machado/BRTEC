@@ -20,7 +20,8 @@ import axios from "axios";
 import { SocketContext } from "@/lib/socket";
 import { useRouter } from "next/navigation";
 import ControlledInput from "./inputs/controlledInput";
-import AutoComplete from "./inputs/AutoComplete";
+import AutoComplete from "./inputs/Select";
+import Select from "./inputs/Select";
 
 const array = [
   {
@@ -74,7 +75,9 @@ export default function InlineEditor({
   const [isUpNow, setIsUpNow] = useState(isUp);
   const [currentText, setCurrentText] = useState(text);
   const [currentTime, setCurrentTime] = useState(date);
-  const [currentTecnology, setCurrentTecnology] = useState(tecnology);
+  const [currentTecnology, setCurrentTecnology] = useState<string | null>(
+    tecnology
+  );
 
   useEffect(() => {
     socket?.on(
@@ -91,6 +94,15 @@ export default function InlineEditor({
       async ({ isUp, itemId }: { isUp: boolean; itemId: string }) => {
         if (itemId == id) {
           setIsUpNow(isUp);
+        }
+      }
+    );
+
+    socket?.on(
+      "attTecnology",
+      async ({ tecnology, itemId }: { tecnology: string; itemId: string }) => {
+        if (itemId == id) {
+          setCurrentTecnology(tecnology);
         }
       }
     );
@@ -143,6 +155,10 @@ export default function InlineEditor({
 
   const basesFn = (value: any) => {
     socket?.emit("bases", { currentBases: value, id });
+  };
+
+  const tecnologyFn = (value: any) => {
+    socket?.emit("tecnology", { tecnology: value.name, id });
   };
 
   const deleteItem = async () => {
@@ -227,12 +243,12 @@ export default function InlineEditor({
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                   >
-                    <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-900 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                    <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-900 border-2 border-black bg-opacity-70 backdrop-blur-sm py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
                       {array.map((item: any, itemIdx: number) => (
                         <Listbox.Option
                           key={itemIdx}
                           className={({ active }) =>
-                            `relative cursor-default select-none py-2 px-4 ${
+                            `relative cursor-default select-none py-2 px-2 ${
                               active ? "bg-gray-800" : "text-gray-900"
                             }`
                           }
@@ -241,7 +257,7 @@ export default function InlineEditor({
                           {({ selected }) => (
                             <>
                               <span
-                                className={`block truncate p-2 rounded-md text-sm sm:text-lg ${
+                                className={`block truncate px-2 rounded-md text-sm sm:text-lg ${
                                   item.class
                                 } ${selected ? "font-medium" : "font-normal"}`}
                               >
@@ -264,13 +280,14 @@ export default function InlineEditor({
                 </div>
               </Listbox>
             </div>
-            <div className="w-full h-full">
-              <AutoComplete
+            <div className="w-full h-full ml-2">
+              <Select
                 options={arrayTecnology}
-                placeHolder="Técnologia"
+                placeHolder="Selecione"
                 id="tecnology"
                 selectedItem={currentTecnology}
                 setSelectedItem={setCurrentTecnology}
+                onChange={tecnologyFn}
               />
             </div>
           </div>

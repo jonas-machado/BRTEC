@@ -9,12 +9,14 @@ export async function POST(request: Request) {
     isUp,
     dateDown,
     bases,
+    tecnology,
   }: {
     id: string;
     text?: string;
     isUp?: boolean;
     dateDown?: Date;
     bases?: string[];
+    tecnology: string;
   } = body;
 
   const updateData: any = {};
@@ -31,6 +33,9 @@ export async function POST(request: Request) {
   }
   if (text !== undefined) {
     updateData.text = text;
+  }
+  if (tecnology !== undefined) {
+    updateData.tecnology = tecnology;
   }
 
   const monitoring = await prisma.monitoring.update({
