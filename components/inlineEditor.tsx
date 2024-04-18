@@ -130,11 +130,17 @@ export default function InlineEditor({
         }
       }
     );
+
+    socket?.on("error", (err) => {
+      console.log("Connection error:", err.message);
+    });
+
     return () => {
       socket.off("attMessage");
       socket.off("attStatus");
       socket.off("attDate");
       socket.off("attBases");
+      socket.off("error");
     };
   }, [socket]);
 
