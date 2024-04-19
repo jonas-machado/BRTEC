@@ -9,7 +9,7 @@ export default async function NetworkLayout({
 }) {
   const olt = await getOlt();
   return (
-    <SectorPage sector="N2">
+    <SectorPage sector="SUPORTE">
       <div className="mt-14 z-0 w-11/12 mx-auto">
         <NetworkHead />
         {children}
