@@ -29,9 +29,7 @@ export default function Select({
   const setSelected = (value: any) => {
     setSelectedItem(value);
     onChange(value);
-    console.log(value);
   };
-  console.log(options);
   //shadow-[0px_0px_4px_0_rgb(147_51_234/1)] shadow-black
   return (
     <>

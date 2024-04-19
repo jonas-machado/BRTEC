@@ -38,14 +38,13 @@ export async function POST(request: Request) {
     updateData.tecnology = tecnology;
   }
 
-  const monitoring = await prisma.monitoring.update({
-    where: {
-      id,
-    },
-    data: updateData,
-  });
-
-  console.log(monitoring);
-
+  const monitoring = await prisma.monitoring
+    .update({
+      where: {
+        id,
+      },
+      data: updateData,
+    })
+    .catch((err: any) => console.log(err));
   return NextResponse.json(monitoring);
 }

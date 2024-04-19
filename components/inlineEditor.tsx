@@ -44,7 +44,7 @@ const arrayTecnology = [
     unavailable: false,
   },
   {
-    id: 1,
+    id: 2,
     name: "RÁDIO",
     unavailable: false,
   },
