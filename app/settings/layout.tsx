@@ -13,6 +13,8 @@ import { useRef } from "react";
 import Sidebar from "@/components/settings/Sidebar";
 import AdminOnly from "@/components/AdminOnly";
 import AdminPage from "@/components/AdminPage";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { SocketProvider } from "@/lib/socket";
 
 export default async function RootLayout({
   children,
@@ -24,36 +26,40 @@ export default async function RootLayout({
   const firmware = await getFirmware();
 
   return (
-    <PageWrapper>
-      <MotionPage>
-        <div className=" absolute shadow-[inset_0_-20px_20px_0px] w-[110%] -left-6 h-screen -z-40"></div>
-        <Image
-          src={
-            currentUser?.user.backgroundImage
-              ? currentUser?.user.backgroundImage!
-              : `/images/backgroundConfig.gif`
-          }
-          alt="bg"
-          fill
-          className="-z-50 bg-no-repeat"
-          blurDataURL={
-            currentUser?.user.backgroundImage
-              ? currentUser?.user.backgroundImage!
-              : `/images/backgroundConfig.gif`
-          }
-        />
-        <NextTopLoader
-          color="#000000"
-          shadow="0 40px 50px #ffffff,0 40px 50px #ffffff"
-          showSpinner={false}
-        />
-        <AdminPage>
-          <div className="flex w-full h-full">
-            <Sidebar currentUser={currentUser} />
-            {children}
-          </div>
-        </AdminPage>
-      </MotionPage>
-    </PageWrapper>
+    <SocketProvider>
+      <ProtectedRoute>
+        <PageWrapper>
+          <MotionPage>
+            <div className=" absolute shadow-[inset_0_-20px_20px_0px] w-[110%] -left-6 h-screen -z-40"></div>
+            <Image
+              src={
+                currentUser?.user.backgroundImage
+                  ? currentUser?.user.backgroundImage!
+                  : `/images/backgroundConfig.gif`
+              }
+              alt="bg"
+              fill
+              className="-z-50 bg-no-repeat"
+              blurDataURL={
+                currentUser?.user.backgroundImage
+                  ? currentUser?.user.backgroundImage!
+                  : `/images/backgroundConfig.gif`
+              }
+            />
+            <NextTopLoader
+              color="#000000"
+              shadow="0 40px 50px #ffffff,0 40px 50px #ffffff"
+              showSpinner={false}
+            />
+            <AdminPage>
+              <div className="flex w-full h-full">
+                <Sidebar currentUser={currentUser} />
+                {children}
+              </div>
+            </AdminPage>
+          </MotionPage>
+        </PageWrapper>
+      </ProtectedRoute>
+    </SocketProvider>
   );
 }
