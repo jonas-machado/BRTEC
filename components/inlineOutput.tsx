@@ -26,27 +26,15 @@ import Select from "./inputs/Select";
 const array = [
   {
     name: "VOU",
-    class: "text-orange-600 bg-orange-600 bg-opacity-20",
+    class: "text-orange-300 bg-orange-600 bg-opacity-20 ",
   },
   {
     name: "ATELE",
-    class: "text-green-600 bg-green-600 bg-opacity-20",
+    class: "text-green-300 bg-green-600 bg-opacity-20",
   },
   {
     name: "XTELE",
-    class: "text-gray-400 bg-gray-600 bg-opacity-20",
-  },
-];
-const arrayTecnology = [
-  {
-    id: 1,
-    name: "FIBRA",
-    unavailable: false,
-  },
-  {
-    id: 2,
-    name: "RÁDIO",
-    unavailable: false,
+    class: "text-gray-300 bg-gray-600 bg-opacity-20",
   },
 ];
 
@@ -60,140 +48,143 @@ interface InlineEditorProps {
   dateDown: any;
 }
 
-export default function InlineEditor({
+export default function InlineOutput({
+  id,
   tecnology,
   text,
   isUp,
   dateDown,
+  bases,
 }: InlineEditorProps) {
   const socket = useContext(SocketContext);
+  console.log(tecnology, text, isUp, dateDown, bases);
+
+  const [currentBase, setCurrentBase] = useState(bases);
+  const [isUpNow, setIsUpNow] = useState(isUp);
+  const [currentText, setCurrentText] = useState(text);
+  const [currentTime, setCurrentTime] = useState(dateDown);
+  const [currentTecnology, setCurrentTecnology] = useState<string | null>(
+    tecnology
+  );
+
+  useEffect(() => {
+    socket?.on(
+      "attMessage",
+      async ({ message, textId }: { message: string; textId: string }) => {
+        if (textId == id) {
+          setCurrentText(message);
+        }
+      }
+    );
+
+    socket?.on(
+      "attStatus",
+      async ({ isUp, itemId }: { isUp: boolean; itemId: string }) => {
+        if (itemId == id) {
+          setIsUpNow(isUp);
+        }
+      }
+    );
+
+    socket?.on(
+      "attTecnology",
+      async ({ tecnology, itemId }: { tecnology: string; itemId: string }) => {
+        if (itemId == id) {
+          setCurrentTecnology(tecnology);
+        }
+      }
+    );
+
+    socket?.on(
+      "attDate",
+      async ({ currentDate, itemId }: { currentDate: any; itemId: string }) => {
+        if (itemId == id) {
+          setCurrentTime(currentDate);
+        }
+      }
+    );
+
+    socket?.on(
+      "attBases",
+      async ({
+        currentBases,
+        itemId,
+      }: {
+        currentBases: string[];
+        itemId: string;
+      }) => {
+        if (itemId == id) {
+          setCurrentBase(currentBases);
+        }
+      }
+    );
+
+    socket?.on("error", (err) => {
+      console.log("Connection error:", err.message);
+    });
+
+    return () => {
+      socket.off("attMessage");
+      socket.off("attStatus");
+      socket.off("attDate");
+      socket.off("attBases");
+      socket.off("error");
+    };
+  }, [socket]);
+  const currentDatetime = new Date(currentTime);
+  console.log(currentDatetime);
+  // Get year, month (0-indexed), day, hours, minutes, seconds
+  const year = currentDatetime?.getFullYear();
+  const month = currentDatetime?.getMonth() + 1; // Months are zero-indexed
+  const day = currentDatetime?.getDate();
+  const hours = currentDatetime?.getHours();
+  const minutes = currentDatetime?.getMinutes();
+
+  const formattedDate = `${day.toString().padStart(2, "0")}/${month
+    .toString()
+    .padStart(2, "0")}/${year}`;
+  const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")}`;
 
   return (
     <>
       <div
         className={`bg-black relative z-0 p-2 backdrop-blur-md flex flex-row w-full transition h-full rounded-md items-center gap-4 bg-opacity-20 ${
-          isUp ? "bg-green-400" : "bg-red-600"
+          isUpNow ? "bg-green-400" : "bg-red-600"
         }`}
       >
         <button
           className={`text-black rounded-md text-sm sm:text-lg py-2 font-bold min-w-[55px] sm:min-w-[70px] ${
-            isUp ? "bg-green-400" : "bg-red-600"
+            isUpNow ? "bg-green-400" : "bg-red-600"
           }`}
+          disabled
         >
-          {isUp ? "UP" : "DOWN"}
+          {isUpNow ? "UP" : "DOWN"}
         </button>
-        <div className="flex gap-2 flex-col w-full">
-          <TextareaAutosize
-            onChange={(e) => message(e.target.value)}
-            className="w-full bg-transparent resize-none text-gray-300 sm:text-2xl outline-none text-lg"
-            value={currentText ?? "Escreva aqui"}
-          />
+        <div className="flex flex-col w-full">
+          <p className="w-full bg-transparent resize-none text-gray-300 sm:text-2xl outline-none text-lg">
+            {currentText}
+          </p>
 
-          <div className="mr-4 flex items-center flex-col sm:flex-row w-full">
+          <div className="mr-4 flex items-center flex-col sm:flex-row w-full gap-2">
+            <div className=" font-bold text-gray-300 text-lg">
+              {`${formattedDate} ${formattedTime}`}
+            </div>
             <div className="">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateTimePicker
-                  onChange={(e) => dateDownFn(e?.toDate())}
-                  className=""
-                  ampm={false}
-                  value={dayjs(currentTime)}
-                  defaultValue={dayjs()}
-                  format="DD/MM/YY HH:mm"
-                  viewRenderers={{
-                    hours: renderTimeViewClock,
-                    minutes: renderTimeViewClock,
-                    seconds: renderTimeViewClock,
-                  }}
-                />
-              </LocalizationProvider>
-            </div>
-            <div className="relative shadow-[0px_0px_4px_0_rgb(147_51_234/1)] shadow-black z-0 min-w-[130px] rounded-lg transition">
-              <Listbox
-                value={currentBase}
-                onChange={(e) => {
-                  setCurrentBase(e);
-                  basesFn(e);
-                }}
-                multiple
-              >
-                <div className="relative h-full items-center w-full">
-                  <Listbox.Button className="relative flex items-center w-full h-9 cursor-pointer rounded-lg bg-transparent transition pr-10 text-left">
-                    {currentBase.map((item: any) => (
-                      <span
-                        key={item}
-                        className={` truncate ${
-                          array.find((base: any) => base.name == item)?.class
-                        } rounded-full px-2 text-sm sm:text-lg font-bold `}
-                      >
-                        {item}
-                      </span>
-                    ))}
-                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center ">
-                      <ChevronUpDownIcon
-                        className="h-8 w-8 text-gray-400"
-                        aria-hidden="true"
-                      />
-                    </span>
-                  </Listbox.Button>
-                  <Transition
-                    as={Fragment}
-                    leave="transition ease-in duration-100"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
+              {currentBase.map((item) => (
+                <>
+                  <span
+                    className={` truncate ${
+                      array.find((base: any) => base.name == item)?.class
+                    } rounded-full px-2 text-lg sm:text-lg font-bold `}
                   >
-                    <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-900 border-2 border-black bg-opacity-70 backdrop-blur-sm py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                      {array.map((item: any, itemIdx: number) => (
-                        <Listbox.Option
-                          key={itemIdx}
-                          className={({ active }) =>
-                            `relative cursor-default select-none py-2 px-2 ${
-                              active ? "bg-gray-800" : "text-gray-900"
-                            }`
-                          }
-                          value={item.name}
-                        >
-                          {({ selected }) => (
-                            <>
-                              <span
-                                className={`block truncate px-2 rounded-md text-sm sm:text-lg ${
-                                  item.class
-                                } ${selected ? "font-medium" : "font-normal"}`}
-                              >
-                                {item.name}
-                              </span>
-                              {selected ? (
-                                <span className="absolute inset-y-0 right-0 flex items-center pr-6 text-purple-600">
-                                  <CheckIcon
-                                    className="h-5 w-5"
-                                    aria-hidden="true"
-                                  />
-                                </span>
-                              ) : null}
-                            </>
-                          )}
-                        </Listbox.Option>
-                      ))}
-                    </Listbox.Options>
-                  </Transition>
-                </div>
-              </Listbox>
-            </div>
-            <div className="w-full h-full ml-2">
-              <Select
-                options={arrayTecnology}
-                placeHolder="Selecione"
-                id="tecnology"
-                selectedItem={currentTecnology}
-                setSelectedItem={setCurrentTecnology}
-                onChange={tecnologyFn}
-              />
+                    {item}
+                  </span>
+                </>
+              ))}
             </div>
           </div>
-        </div>
-        <div className="flex justify-end w-full">
-          <button onClick={deleteItem}>
-            <XMarkIcon className="w-10 h-10 font-bold absolute top-0 right-0 sm:relative" />
-          </button>
         </div>
       </div>
     </>
