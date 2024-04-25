@@ -28,33 +28,85 @@ const basesObj = [
 ];
 
 export default function Monitoring({ monitoring }: { monitoring: any }) {
-  const [monitor, setMonitor] = useState<any>();
+  const [monitor, setMonitor] = useState<any>(monitoring);
   const router = useRouter();
   const date = new Date();
   const socket = useContext(SocketContext);
-  console.log(monitoring);
+  console.log(monitor);
 
   useEffect(() => {
     socket?.on("routerRefresh", async () => {
       router.refresh();
+      console.log("refreshed");
     });
 
     socket?.on(
       "attTecnology",
       async ({ tecnology, itemId }: { tecnology: string; itemId: string }) => {
         router.refresh();
+        console.log("refreshed");
       }
     );
+
+    socket?.on("attMessage", (message: string, textId: string) => {
+      if (monitoring) {
+        const updatedMonitoring = monitoring.map((item: any) => {
+          if (item.id === textId) {
+            return { ...item, message };
+          }
+        });
+        console.log(updatedMonitoring);
+        setMonitor(updatedMonitoring);
+      }
+    });
+
+    socket?.on("attStatus", (isUp: boolean, itemId: string) => {
+      if (monitoring) {
+        const updatedMonitoring = monitoring.map((item: any) => {
+          if (item.id === itemId) {
+            return { ...item, isUp };
+          }
+        });
+        setMonitor(updatedMonitoring);
+      }
+    });
+
+    socket?.on("attDate", (currentDate: any, itemId: string) => {
+      if (monitoring) {
+        const updatedMonitoring = monitoring.map((item: any) => {
+          if (item.id === itemId) {
+            return { ...item, dateDown: currentDate };
+          }
+        });
+        setMonitor(updatedMonitoring);
+      }
+    });
+
+    socket?.on("attBases", (currentBases: string[], itemId: string) => {
+      if (monitoring) {
+        const updatedMonitoring = monitoring.map((item: any) => {
+          if (item.id === itemId) {
+            return { ...item, bases: currentBases };
+          }
+        });
+        setMonitor(updatedMonitoring);
+      }
+    });
+
+    socket?.on("error", (err: any) => {
+      console.log("Connection error:", err.message);
+    });
 
     return () => {
       socket.off("routerRefresh");
       socket.off("attTecnology");
+      socket.off("attMessage");
+      socket.off("attStatus");
+      socket.off("attDate");
+      socket.off("attBases");
+      socket.off("error");
     };
   }, [socket, router, monitoring]);
-
-  useEffect(() => {
-    setMonitor(monitoring);
-  }, [monitoring]);
 
   const add = async () => {
     await axios.post("/api/monitoring/create", {
@@ -69,6 +121,10 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
       message: "Novo alerta no monitoramento!",
     });
   };
+  console.log(socket);
+  console.log(router);
+  console.log(monitor);
+
   return (
     <div className="flex w-full justify-center flex-col gap-2">
       <div className=" flex sm:flex-row flex-col z-40 md:justify-between justify-center gap-2 bg-black bg-opacity-80 backdrop-blur-md rounded-md p-2">
@@ -94,7 +150,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
         </div>
       </div>
       <AnimatePresence>
-        {monitor?.map((item: any, i: number) => (
+        {monitoring?.map((item: any, i: number) => (
           <MotionDelay
             key={item.id}
             index={i}

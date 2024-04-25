@@ -20,7 +20,7 @@ export async function POST(request: Request) {
   } = body;
 
   const updateData: any = {};
-
+  console.log(tecnology);
   // Include only defined fields in the updateData object:
   if (isUp !== undefined) {
     updateData.isUp = isUp;
@@ -48,6 +48,6 @@ export async function POST(request: Request) {
       return res;
     })
     .catch((err: any) => console.log(err));
-
+  console.log(monitoring);
   return NextResponse.json(monitoring);
 }

@@ -10,6 +10,7 @@ import MonitoringOutput from "@/components/MonitoringOutput";
 export default async function monitoring() {
   const currentUser = await getCurrentUser();
   const monitoring = await getMonitoring();
+  console.log(monitoring);
 
   return (
     <>

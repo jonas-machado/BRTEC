@@ -44,16 +44,73 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
       "attTecnology",
       async ({ tecnology, itemId }: { tecnology: string; itemId: string }) => {
         router.refresh();
-
         console.log("refreshed");
       }
     );
 
+    socket?.on("attMessage", (message: string, textId: string) => {
+      console.log("working");
+      if (monitoring) {
+        const updatedMonitoring = monitoring.map((item: any) => {
+          if (item.id === textId) {
+            return { ...item, text: message };
+          }
+          return item;
+        });
+        setMonitor(updatedMonitoring);
+      }
+    });
+
+    socket?.on("attStatus", (isUp: boolean, itemId: string) => {
+      if (monitoring) {
+        const updatedMonitoring = monitoring.map((item: any) => {
+          if (item.id === itemId) {
+            return { ...item, isUp };
+          }
+          return item;
+        });
+        setMonitor(updatedMonitoring);
+      }
+    });
+
+    socket?.on("attDate", (currentDate: any, itemId: string) => {
+      if (monitoring) {
+        const updatedMonitoring = monitoring.map((item: any) => {
+          if (item.id === itemId) {
+            return { ...item, dateDown: currentDate };
+          }
+          return item;
+        });
+        setMonitor(updatedMonitoring);
+      }
+    });
+
+    socket?.on("attBases", (currentBases: string[], itemId: string) => {
+      if (monitoring) {
+        const updatedMonitoring = monitoring.map((item: any) => {
+          if (item.id === itemId) {
+            return { ...item, bases: currentBases };
+          }
+          return item;
+        });
+        setMonitor(updatedMonitoring);
+      }
+    });
+
+    socket?.on("error", (err: any) => {
+      console.log("Connection error:", err.message);
+    });
+
     return () => {
       socket.off("routerRefresh");
       socket.off("attTecnology");
+      socket.off("attMessage");
+      socket.off("attStatus");
+      socket.off("attDate");
+      socket.off("attBases");
+      socket.off("error");
     };
-  }, [socket, router, monitoring]);
+  }, [socket, router]);
 
   useEffect(() => {
     setMonitor(monitoring);

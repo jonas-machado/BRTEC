@@ -67,78 +67,8 @@ export default function InlineEditor({
   const [currentTecnology, setCurrentTecnology] = useState<string | null>(
     tecnology
   );
-  console.log(tecnology);
-  console.log(currentTecnology);
-
-  useEffect(() => {
-    socket?.on(
-      "attMessage",
-      async ({ message, textId }: { message: string; textId: string }) => {
-        console.log(message);
-        if (textId == id) {
-          console.log(textId, id);
-          setCurrentText(message);
-        }
-      }
-    );
-
-    socket?.on(
-      "attStatus",
-      async ({ isUp, itemId }: { isUp: boolean; itemId: string }) => {
-        if (itemId == id) {
-          setIsUpNow(isUp);
-        }
-      }
-    );
-
-    socket?.on(
-      "attTecnology",
-      async ({ tecnology, itemId }: { tecnology: string; itemId: string }) => {
-        if (itemId == id) {
-          setCurrentTecnology(tecnology);
-        }
-      }
-    );
-
-    socket?.on(
-      "attDate",
-      async ({ currentDate, itemId }: { currentDate: any; itemId: string }) => {
-        if (itemId == id) {
-          setCurrentTime(currentDate);
-        }
-      }
-    );
-
-    socket?.on(
-      "attBases",
-      async ({
-        currentBases,
-        itemId,
-      }: {
-        currentBases: string[];
-        itemId: string;
-      }) => {
-        if (itemId == id) {
-          setCurrentBase(currentBases);
-        }
-      }
-    );
-
-    socket?.on("error", (err) => {
-      console.log("Connection error:", err.message);
-    });
-
-    return () => {
-      socket.off("attMessage");
-      socket.off("attStatus");
-      socket.off("attDate");
-      socket.off("attBases");
-      socket.off("error");
-    };
-  }, [socket, router]);
 
   const message = (value: string) => {
-    console.log(value, id);
     setCurrentText(value);
     socket?.emit("message", { message: value, id });
   };

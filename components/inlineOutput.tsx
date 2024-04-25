@@ -61,80 +61,10 @@ export default function InlineOutput({
   router,
   socket,
 }: InlineEditorProps) {
-  const [currentBase, setCurrentBase] = useState(bases);
-  const [isUpNow, setIsUpNow] = useState(isUp);
-  const [currentText, setCurrentText] = useState(text);
-  const [currentTime, setCurrentTime] = useState(dateDown);
-  const [currentTecnology, setCurrentTecnology] = useState<string | null>(
-    tecnology
-  );
-  useEffect(() => {
-    console.log("iniciado");
-    socket?.on(
-      "attMessage",
-      async ({ message, textId }: { message: string; textId: string }) => {
-        if (textId == id) {
-          setCurrentText(message);
-        }
-      }
-    );
+  console.log(socket);
+  console.log(id, tecnology, text, isUp, dateDown, bases);
 
-    socket?.on(
-      "attStatus",
-      async ({ isUp, itemId }: { isUp: boolean; itemId: string }) => {
-        if (itemId == id) {
-          setIsUpNow(isUp);
-        }
-      }
-    );
-
-    socket?.on(
-      "attTecnology",
-      async ({ tecnology, itemId }: { tecnology: string; itemId: string }) => {
-        if (itemId == id) {
-          setCurrentTecnology(tecnology);
-        }
-      }
-    );
-
-    socket?.on(
-      "attDate",
-      async ({ currentDate, itemId }: { currentDate: any; itemId: string }) => {
-        if (itemId == id) {
-          setCurrentTime(currentDate);
-        }
-      }
-    );
-
-    socket?.on(
-      "attBases",
-      async ({
-        currentBases,
-        itemId,
-      }: {
-        currentBases: string[];
-        itemId: string;
-      }) => {
-        if (itemId == id) {
-          setCurrentBase(currentBases);
-        }
-      }
-    );
-
-    socket?.on("error", (err: any) => {
-      console.log("Connection error:", err.message);
-    });
-
-    return () => {
-      console.log("reiniciado");
-      socket.off("attMessage");
-      socket.off("attStatus");
-      socket.off("attDate");
-      socket.off("attBases");
-      socket.off("error");
-    };
-  }, [socket, router]);
-  const currentDatetime = new Date(currentTime);
+  const currentDatetime = new Date(dateDown);
   // Get year, month (0-indexed), day, hours, minutes, seconds
   const year = currentDatetime?.getFullYear();
   const month = currentDatetime?.getMonth() + 1; // Months are zero-indexed
@@ -153,20 +83,20 @@ export default function InlineOutput({
     <>
       <div
         className={`bg-black relative z-0 p-2 backdrop-blur-md flex flex-row w-full transition h-full rounded-md items-center gap-4 bg-opacity-20 ${
-          isUpNow ? "bg-green-400" : "bg-red-600"
+          isUp ? "bg-green-400" : "bg-red-600"
         }`}
       >
         <button
           className={`text-black rounded-md text-sm sm:text-lg py-2 font-bold min-w-[55px] sm:min-w-[70px] ${
-            isUpNow ? "bg-green-400" : "bg-red-600"
+            isUp ? "bg-green-400" : "bg-red-600"
           }`}
           disabled
         >
-          {isUpNow ? "UP" : "DOWN"}
+          {isUp ? "UP" : "DOWN"}
         </button>
         <div className="flex flex-col w-full">
           <p className="w-full bg-transparent resize-none text-gray-300 sm:text-2xl outline-none text-lg">
-            {currentText}
+            {text}
           </p>
 
           <div className="mr-4 flex items-center flex-col sm:flex-row w-full gap-2">
@@ -174,7 +104,7 @@ export default function InlineOutput({
               {`${formattedDate} ${formattedTime}`}
             </div>
             <div className="">
-              {currentBase.map((item) => (
+              {bases.map((item) => (
                 <span
                   key={item}
                   className={` truncate ${
