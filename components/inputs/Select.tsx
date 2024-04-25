@@ -30,6 +30,7 @@ export default function Select({
     setSelectedItem(value);
     onChange(value);
   };
+  console.log(selectedItem);
   //shadow-[0px_0px_4px_0_rgb(147_51_234/1)] shadow-black
   return (
     <>
@@ -42,7 +43,7 @@ export default function Select({
                 className="relative cursor-default w-[8rem] h-[2.1rem] rounded-md bg-transparent text-left text-gray-300 focus:outline-none text-xl sm:text-md shadow-[0px_0px_4px_0_rgb(147_51_234/1)] shadow-black"
               >
                 <span className="pointer-events-none w-full absolute inset-y-0 right-0 flex items-center pl-2 justify-between">
-                  {selectedItem?.name ?? placeHolder}
+                  {selectedItem ?? placeHolder}
                   <ChevronUpDownIcon
                     className="h-8 w-8 text-gray-400"
                     aria-hidden="true"
@@ -60,7 +61,7 @@ export default function Select({
                 <Listbox.Options className="absolute z-10 mt-1 max-h-56 w-[8rem] overflow-auto rounded-md bg-gray-900 border-2 bg-opacity-70 backdrop-blur-sm border-black py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                   {options.map((item) => (
                     <Listbox.Option
-                      key={item.id}
+                      key={item}
                       className={({ active }) =>
                         classNames(
                           active ? "bg-gray-800 text-white" : "text-gray-300",
@@ -80,7 +81,7 @@ export default function Select({
                                 " block truncate py-2"
                               )}
                             >
-                              {item.name}
+                              {item}
                             </span>
                           </div>
                         </>

@@ -34,7 +34,6 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
   const router = useRouter();
   const date = new Date();
   const socket = useContext(SocketContext);
-  console.log(monitoring);
   useEffect(() => {
     socket?.on("routerRefresh", async () => {
       router.refresh();
@@ -45,11 +44,14 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
       "attTecnology",
       async ({ tecnology, itemId }: { tecnology: string; itemId: string }) => {
         router.refresh();
+
+        console.log("refreshed");
       }
     );
 
     return () => {
       socket.off("routerRefresh");
+      socket.off("attTecnology");
     };
   }, [socket, router, monitoring]);
 
@@ -86,6 +88,8 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
                   }}
                 >
                   <InlineOutput
+                    socket={socket}
+                    router={router}
                     index={i}
                     id={item.id}
                     dateDown={item.dateDown}
@@ -118,6 +122,8 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
                   }}
                 >
                   <InlineOutput
+                    socket={socket}
+                    router={router}
                     index={i}
                     id={item.id}
                     dateDown={item.dateDown}
@@ -130,30 +136,6 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
               )
           )}
         </AnimatePresence>
-        <div className="hidden">
-          {monitor?.map(
-            (item: any, i: number) =>
-              item.tecnology == null && (
-                <MotionDelay
-                  key={item.id}
-                  index={i}
-                  style={{
-                    zIndex: 30 - i,
-                  }}
-                >
-                  <InlineOutput
-                    index={i}
-                    id={item.id}
-                    dateDown={item.dateDown}
-                    bases={item.bases}
-                    text={item.text}
-                    isUp={item.isUp}
-                    tecnology={item.tecnology}
-                  />
-                </MotionDelay>
-              )
-          )}
-        </div>
       </div>
     </>
   );

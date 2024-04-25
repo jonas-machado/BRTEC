@@ -32,13 +32,23 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
   const router = useRouter();
   const date = new Date();
   const socket = useContext(SocketContext);
+  console.log(monitoring);
+
   useEffect(() => {
     socket?.on("routerRefresh", async () => {
       router.refresh();
     });
 
+    socket?.on(
+      "attTecnology",
+      async ({ tecnology, itemId }: { tecnology: string; itemId: string }) => {
+        router.refresh();
+      }
+    );
+
     return () => {
       socket.off("routerRefresh");
+      socket.off("attTecnology");
     };
   }, [socket, router, monitoring]);
 

@@ -29,6 +29,6 @@ export async function POST(request: Request) {
       tecnology,
     },
   });
-
+  console.log(monitoring);
   return NextResponse.json(monitoring);
 }

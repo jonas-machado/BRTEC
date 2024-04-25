@@ -46,19 +46,21 @@ interface InlineEditorProps {
   isUp: boolean;
   tecnology: string;
   dateDown: any;
+  router: any;
+  socket: any;
 }
 
 export default function InlineOutput({
+  index,
   id,
   tecnology,
   text,
   isUp,
   dateDown,
   bases,
+  router,
+  socket,
 }: InlineEditorProps) {
-  const socket = useContext(SocketContext);
-  console.log(tecnology, text, isUp, dateDown, bases);
-
   const [currentBase, setCurrentBase] = useState(bases);
   const [isUpNow, setIsUpNow] = useState(isUp);
   const [currentText, setCurrentText] = useState(text);
@@ -66,8 +68,8 @@ export default function InlineOutput({
   const [currentTecnology, setCurrentTecnology] = useState<string | null>(
     tecnology
   );
-
   useEffect(() => {
+    console.log("iniciado");
     socket?.on(
       "attMessage",
       async ({ message, textId }: { message: string; textId: string }) => {
@@ -119,20 +121,20 @@ export default function InlineOutput({
       }
     );
 
-    socket?.on("error", (err) => {
+    socket?.on("error", (err: any) => {
       console.log("Connection error:", err.message);
     });
 
     return () => {
+      console.log("reiniciado");
       socket.off("attMessage");
       socket.off("attStatus");
       socket.off("attDate");
       socket.off("attBases");
       socket.off("error");
     };
-  }, [socket]);
+  }, [socket, router]);
   const currentDatetime = new Date(currentTime);
-  console.log(currentDatetime);
   // Get year, month (0-indexed), day, hours, minutes, seconds
   const year = currentDatetime?.getFullYear();
   const month = currentDatetime?.getMonth() + 1; // Months are zero-indexed
@@ -173,15 +175,14 @@ export default function InlineOutput({
             </div>
             <div className="">
               {currentBase.map((item) => (
-                <>
-                  <span
-                    className={` truncate ${
-                      array.find((base: any) => base.name == item)?.class
-                    } rounded-full px-2 text-lg sm:text-lg font-bold `}
-                  >
-                    {item}
-                  </span>
-                </>
+                <span
+                  key={item}
+                  className={` truncate ${
+                    array.find((base: any) => base.name == item)?.class
+                  } rounded-full px-2 text-lg sm:text-lg font-bold `}
+                >
+                  {item}
+                </span>
               ))}
             </div>
           </div>

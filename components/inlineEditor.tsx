@@ -37,18 +37,7 @@ const array = [
     class: "text-gray-400 bg-gray-600 bg-opacity-20",
   },
 ];
-const arrayTecnology = [
-  {
-    id: 1,
-    name: "FIBRA",
-    unavailable: false,
-  },
-  {
-    id: 2,
-    name: "RÁDIO",
-    unavailable: false,
-  },
-];
+const arrayTecnology = ["FIBRA", "RÁDIO"];
 
 interface InlineEditorProps {
   index: number;
@@ -78,12 +67,16 @@ export default function InlineEditor({
   const [currentTecnology, setCurrentTecnology] = useState<string | null>(
     tecnology
   );
+  console.log(tecnology);
+  console.log(currentTecnology);
 
   useEffect(() => {
     socket?.on(
       "attMessage",
       async ({ message, textId }: { message: string; textId: string }) => {
+        console.log(message);
         if (textId == id) {
+          console.log(textId, id);
           setCurrentText(message);
         }
       }
@@ -142,9 +135,10 @@ export default function InlineEditor({
       socket.off("attBases");
       socket.off("error");
     };
-  }, [socket]);
+  }, [socket, router]);
 
   const message = (value: string) => {
+    console.log(value, id);
     setCurrentText(value);
     socket?.emit("message", { message: value, id });
   };
@@ -164,7 +158,7 @@ export default function InlineEditor({
   };
 
   const tecnologyFn = (value: any) => {
-    socket?.emit("tecnology", { tecnology: value.name, id });
+    socket?.emit("tecnology", { tecnology: value, id });
   };
 
   const deleteItem = async () => {

@@ -37,7 +37,6 @@ export async function POST(request: Request) {
   if (tecnology !== undefined) {
     updateData.tecnology = tecnology;
   }
-
   const monitoring = await prisma.monitoring
     .update({
       where: {
@@ -45,6 +44,10 @@ export async function POST(request: Request) {
       },
       data: updateData,
     })
+    .then((res) => {
+      return res;
+    })
     .catch((err: any) => console.log(err));
+
   return NextResponse.json(monitoring);
 }
