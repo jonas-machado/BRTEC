@@ -35,6 +35,7 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
   const date = new Date();
   const socket = useContext(SocketContext);
   useEffect(() => {
+    console.log("iniciado");
     socket?.on("routerRefresh", async () => {
       router.refresh();
       console.log("refreshed");
@@ -109,6 +110,7 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
       socket.off("attDate");
       socket.off("attBases");
       socket.off("error");
+      console.log("finalizado");
     };
   }, [socket, router]);
 

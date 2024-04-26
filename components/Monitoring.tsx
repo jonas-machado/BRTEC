@@ -35,6 +35,8 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
   console.log(monitor);
 
   useEffect(() => {
+    console.log("iniciado");
+
     socket?.on("routerRefresh", async () => {
       router.refresh();
       console.log("refreshed");
@@ -43,54 +45,59 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
     socket?.on(
       "attTecnology",
       async ({ tecnology, itemId }: { tecnology: string; itemId: string }) => {
-        router.refresh();
-        console.log("refreshed");
-      }
-    );
-
-    socket?.on("attMessage", (message: string, textId: string) => {
-      if (monitoring) {
         const updatedMonitoring = monitoring.map((item: any) => {
-          if (item.id === textId) {
-            return { ...item, message };
+          if (item.id === itemId) {
+            return { ...item, tecnology };
           }
         });
         console.log(updatedMonitoring);
         setMonitor(updatedMonitoring);
-      }
-    });
 
-    socket?.on("attStatus", (isUp: boolean, itemId: string) => {
-      if (monitoring) {
+        router.refresh();
+      }
+    );
+
+    socket?.on(
+      "attMessage",
+      ({ message, id }: { message: string; id: string }) => {
         const updatedMonitoring = monitoring.map((item: any) => {
-          if (item.id === itemId) {
-            return { ...item, isUp };
+          console.log(item.id, id);
+          if (item.id === id) {
+            return { ...item, text: message };
           }
         });
+
+        console.log(updatedMonitoring);
+
         setMonitor(updatedMonitoring);
       }
+    );
+
+    socket?.on("attStatus", (isUp: boolean, itemId: string) => {
+      const updatedMonitoring = monitoring.map((item: any) => {
+        if (item.id === itemId) {
+          return { ...item, isUp };
+        }
+      });
+      setMonitor(updatedMonitoring);
     });
 
     socket?.on("attDate", (currentDate: any, itemId: string) => {
-      if (monitoring) {
-        const updatedMonitoring = monitoring.map((item: any) => {
-          if (item.id === itemId) {
-            return { ...item, dateDown: currentDate };
-          }
-        });
-        setMonitor(updatedMonitoring);
-      }
+      const updatedMonitoring = monitoring.map((item: any) => {
+        if (item.id === itemId) {
+          return { ...item, dateDown: currentDate };
+        }
+      });
+      setMonitor(updatedMonitoring);
     });
 
     socket?.on("attBases", (currentBases: string[], itemId: string) => {
-      if (monitoring) {
-        const updatedMonitoring = monitoring.map((item: any) => {
-          if (item.id === itemId) {
-            return { ...item, bases: currentBases };
-          }
-        });
-        setMonitor(updatedMonitoring);
-      }
+      const updatedMonitoring = monitoring.map((item: any) => {
+        if (item.id === itemId) {
+          return { ...item, bases: currentBases };
+        }
+      });
+      setMonitor(updatedMonitoring);
     });
 
     socket?.on("error", (err: any) => {
@@ -105,6 +112,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
       socket.off("attDate");
       socket.off("attBases");
       socket.off("error");
+      console.log("finalizado");
     };
   }, [socket, router, monitoring]);
 
@@ -150,7 +158,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
         </div>
       </div>
       <AnimatePresence>
-        {monitoring?.map((item: any, i: number) => (
+        {monitor?.map((item: any, i: number) => (
           <MotionDelay
             key={item.id}
             index={i}
