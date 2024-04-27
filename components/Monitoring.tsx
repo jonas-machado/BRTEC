@@ -35,10 +35,9 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
   console.log(monitor);
 
   useEffect(() => {
-    console.log("iniciado");
-
     socket?.on("routerRefresh", async () => {
       router.refresh();
+
       console.log("refreshed");
     });
 
@@ -49,26 +48,23 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
           if (item.id === itemId) {
             return { ...item, tecnology };
           }
+          return item;
         });
-        console.log(updatedMonitoring);
         setMonitor(updatedMonitoring);
-
-        router.refresh();
       }
     );
 
     socket?.on(
       "attMessage",
       ({ message, id }: { message: string; id: string }) => {
-        const updatedMonitoring = monitoring.map((item: any) => {
-          console.log(item.id, id);
+        const updatedMonitoring = monitor.map((item: any) => {
+          console.log(item);
           if (item.id === id) {
             return { ...item, text: message };
           }
+          return item;
         });
-
         console.log(updatedMonitoring);
-
         setMonitor(updatedMonitoring);
       }
     );
@@ -78,6 +74,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
         if (item.id === itemId) {
           return { ...item, isUp };
         }
+        return item;
       });
       setMonitor(updatedMonitoring);
     });
@@ -87,6 +84,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
         if (item.id === itemId) {
           return { ...item, dateDown: currentDate };
         }
+        return item;
       });
       setMonitor(updatedMonitoring);
     });
@@ -96,6 +94,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
         if (item.id === itemId) {
           return { ...item, bases: currentBases };
         }
+        return item;
       });
       setMonitor(updatedMonitoring);
     });
@@ -114,7 +113,11 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
       socket.off("error");
       console.log("finalizado");
     };
-  }, [socket, router, monitoring]);
+  }, [socket, router, monitor]);
+
+  useEffect(() => {
+    setMonitor(monitoring);
+  }, [monitoring]);
 
   const add = async () => {
     await axios.post("/api/monitoring/create", {

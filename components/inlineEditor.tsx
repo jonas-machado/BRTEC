@@ -68,6 +68,14 @@ export default function InlineEditor({
     tecnology
   );
   console.log(id, date, bases, text, isUp, tecnology);
+
+  useEffect(() => {
+    setCurrentBase(bases);
+    setIsUpNow(isUp);
+    setCurrentText(text);
+    setCurrentTime(date);
+    setCurrentTecnology(tecnology);
+  }, [id, date, bases, text, isUp, tecnology]);
   const message = (value: string) => {
     setCurrentText(value);
     socket?.emit("message", { message: value, id });
@@ -118,7 +126,7 @@ export default function InlineEditor({
           <TextareaAutosize
             onChange={(e) => message(e.target.value)}
             className="w-full bg-transparent resize-none text-gray-300 sm:text-2xl outline-none text-lg"
-            value={text ?? "Escreva aqui"}
+            value={currentText ?? "Escreva aqui"}
           />
 
           <div className="mr-4 flex items-center flex-col sm:flex-row w-full">
