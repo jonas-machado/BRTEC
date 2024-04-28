@@ -35,68 +35,76 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
   const date = new Date();
   const socket = useContext(SocketContext);
   useEffect(() => {
-    console.log("iniciado");
     socket?.on("routerRefresh", async () => {
       router.refresh();
+
       console.log("refreshed");
     });
 
     socket?.on(
       "attTecnology",
-      async ({ tecnology, itemId }: { tecnology: string; itemId: string }) => {
-        router.refresh();
-        console.log("refreshed");
+      async ({ tecnology, id }: { tecnology: string; id: string }) => {
+        const updatedMonitoring = monitor.map((item: any) => {
+          if (item.id === id) {
+            return { ...item, tecnology };
+          }
+          return item;
+        });
+        setMonitor(updatedMonitoring);
       }
     );
 
-    socket?.on("attMessage", (message: string, textId: string) => {
-      console.log("working");
-      if (monitoring) {
-        const updatedMonitoring = monitoring.map((item: any) => {
-          if (item.id === textId) {
+    socket?.on(
+      "attMessage",
+      ({ message, id }: { message: string; id: string }) => {
+        const updatedMonitoring = monitor.map((item: any) => {
+          console.log(item);
+          if (item.id === id) {
             return { ...item, text: message };
           }
           return item;
         });
         setMonitor(updatedMonitoring);
       }
+    );
+
+    socket?.on("attStatus", ({ isUp, id }: { isUp: boolean; id: string }) => {
+      const updatedMonitoring = monitor.map((item: any) => {
+        if (item.id === id) {
+          return { ...item, isUp };
+        }
+        return item;
+      });
+      setMonitor(updatedMonitoring);
     });
 
-    socket?.on("attStatus", (isUp: boolean, itemId: string) => {
-      if (monitoring) {
-        const updatedMonitoring = monitoring.map((item: any) => {
-          if (item.id === itemId) {
-            return { ...item, isUp };
-          }
-          return item;
-        });
-        setMonitor(updatedMonitoring);
-      }
-    });
-
-    socket?.on("attDate", (currentDate: any, itemId: string) => {
-      if (monitoring) {
-        const updatedMonitoring = monitoring.map((item: any) => {
-          if (item.id === itemId) {
+    socket?.on(
+      "attDate",
+      ({ currentDate, id }: { currentDate: any; id: string }) => {
+        const updatedMonitoring = monitor.map((item: any) => {
+          if (item.id === id) {
             return { ...item, dateDown: currentDate };
           }
           return item;
         });
         setMonitor(updatedMonitoring);
       }
-    });
+    );
 
-    socket?.on("attBases", (currentBases: string[], itemId: string) => {
-      if (monitoring) {
-        const updatedMonitoring = monitoring.map((item: any) => {
-          if (item.id === itemId) {
+    socket?.on(
+      "attBases",
+      ({ currentBases, id }: { currentBases: string[]; id: string }) => {
+        const updatedMonitoring = monitor.map((item: any) => {
+          if (item.id === id) {
             return { ...item, bases: currentBases };
           }
           return item;
         });
+        console.log(updatedMonitoring);
+
         setMonitor(updatedMonitoring);
       }
-    });
+    );
 
     socket?.on("error", (err: any) => {
       console.log("Connection error:", err.message);
@@ -110,9 +118,8 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
       socket.off("attDate");
       socket.off("attBases");
       socket.off("error");
-      console.log("finalizado");
     };
-  }, [socket, router]);
+  }, [socket, router, monitor]);
 
   useEffect(() => {
     setMonitor(monitoring);
@@ -124,8 +131,9 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
         src={`/images/deskBurn.gif`}
         alt="bg"
         fill
-        className="-z-50 bg-no-repeat"
+        className="-z-50 bg-no-repeat h-full"
         blurDataURL={`/images/deskBurn.gif`}
+        placeholder="blur"
       />
       <div className="flex flex-col w-full gap-2">
         <div className=" flex sm:flex-row flex-col z-40 md:justify-between justify-center gap-2 bg-black bg-opacity-60 backdrop-blur-md rounded-md p-2 px-4 mt-12">
@@ -147,11 +155,9 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
                   }}
                 >
                   <InlineOutput
-                    socket={socket}
-                    router={router}
                     index={i}
                     id={item.id}
-                    dateDown={item.dateDown}
+                    date={item.dateDown}
                     bases={item.bases}
                     text={item.text}
                     isUp={item.isUp}
@@ -181,11 +187,9 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
                   }}
                 >
                   <InlineOutput
-                    socket={socket}
-                    router={router}
                     index={i}
                     id={item.id}
-                    dateDown={item.dateDown}
+                    date={item.dateDown}
                     bases={item.bases}
                     text={item.text}
                     isUp={item.isUp}

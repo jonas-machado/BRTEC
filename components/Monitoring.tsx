@@ -32,7 +32,6 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
   const router = useRouter();
   const date = new Date();
   const socket = useContext(SocketContext);
-  console.log(monitor);
 
   useEffect(() => {
     socket?.on("routerRefresh", async () => {
@@ -43,9 +42,9 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
 
     socket?.on(
       "attTecnology",
-      async ({ tecnology, itemId }: { tecnology: string; itemId: string }) => {
-        const updatedMonitoring = monitoring.map((item: any) => {
-          if (item.id === itemId) {
+      async ({ tecnology, id }: { tecnology: string; id: string }) => {
+        const updatedMonitoring = monitor.map((item: any) => {
+          if (item.id === id) {
             return { ...item, tecnology };
           }
           return item;
@@ -64,14 +63,13 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
           }
           return item;
         });
-        console.log(updatedMonitoring);
         setMonitor(updatedMonitoring);
       }
     );
 
-    socket?.on("attStatus", (isUp: boolean, itemId: string) => {
-      const updatedMonitoring = monitoring.map((item: any) => {
-        if (item.id === itemId) {
+    socket?.on("attStatus", ({ isUp, id }: { isUp: boolean; id: string }) => {
+      const updatedMonitoring = monitor.map((item: any) => {
+        if (item.id === id) {
           return { ...item, isUp };
         }
         return item;
@@ -79,25 +77,33 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
       setMonitor(updatedMonitoring);
     });
 
-    socket?.on("attDate", (currentDate: any, itemId: string) => {
-      const updatedMonitoring = monitoring.map((item: any) => {
-        if (item.id === itemId) {
-          return { ...item, dateDown: currentDate };
-        }
-        return item;
-      });
-      setMonitor(updatedMonitoring);
-    });
+    socket?.on(
+      "attDate",
+      ({ currentDate, id }: { currentDate: any; id: string }) => {
+        const updatedMonitoring = monitor.map((item: any) => {
+          if (item.id === id) {
+            return { ...item, dateDown: currentDate };
+          }
+          return item;
+        });
+        setMonitor(updatedMonitoring);
+      }
+    );
 
-    socket?.on("attBases", (currentBases: string[], itemId: string) => {
-      const updatedMonitoring = monitoring.map((item: any) => {
-        if (item.id === itemId) {
-          return { ...item, bases: currentBases };
-        }
-        return item;
-      });
-      setMonitor(updatedMonitoring);
-    });
+    socket?.on(
+      "attBases",
+      ({ currentBases, id }: { currentBases: string[]; id: string }) => {
+        const updatedMonitoring = monitor.map((item: any) => {
+          if (item.id === id) {
+            return { ...item, bases: currentBases };
+          }
+          return item;
+        });
+        console.log(updatedMonitoring);
+
+        setMonitor(updatedMonitoring);
+      }
+    );
 
     socket?.on("error", (err: any) => {
       console.log("Connection error:", err.message);
@@ -111,7 +117,6 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
       socket.off("attDate");
       socket.off("attBases");
       socket.off("error");
-      console.log("finalizado");
     };
   }, [socket, router, monitor]);
 

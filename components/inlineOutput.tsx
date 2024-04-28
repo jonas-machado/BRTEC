@@ -41,30 +41,23 @@ const array = [
 interface InlineEditorProps {
   index: number;
   id: string;
+  date: Date;
   bases: string[];
   text: string;
   isUp: boolean;
   tecnology: string;
-  dateDown: any;
-  router: any;
-  socket: any;
 }
 
 export default function InlineOutput({
   index,
   id,
-  tecnology,
+  date,
+  bases,
   text,
   isUp,
-  dateDown,
-  bases,
-  router,
-  socket,
+  tecnology,
 }: InlineEditorProps) {
-  console.log(socket);
-  console.log(id, tecnology, text, isUp, dateDown, bases);
-
-  const currentDatetime = new Date(dateDown);
+  const currentDatetime = new Date(date);
   // Get year, month (0-indexed), day, hours, minutes, seconds
   const year = currentDatetime?.getFullYear();
   const month = currentDatetime?.getMonth() + 1; // Months are zero-indexed
