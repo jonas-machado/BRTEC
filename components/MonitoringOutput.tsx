@@ -147,6 +147,7 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
           (item: any, i: number) =>
             item.tecnology == "FIBRA" && (
               <InlineOutput
+                key={item.id}
                 index={i}
                 id={item.id}
                 date={item.dateDown}
