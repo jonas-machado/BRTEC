@@ -136,7 +136,7 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
         placeholder="blur"
       />
       <div className="flex flex-col w-full gap-2">
-        <div className=" flex sm:flex-row flex-col z-40 md:justify-between justify-center gap-2 bg-black bg-opacity-60 backdrop-blur-md rounded-md p-2 px-4 mt-12">
+        <div className=" flex sm:flex-row flex-col z-40 md:justify-between justify-center gap-2 bg-black bg-opacity-60 backdrop-blur-md rounded-md p-2 px-4">
           <div className="flex justify-center">
             <p className="text-gray-300 flex items-center font-bold text-2xl gap-4 ">
               FIBRA

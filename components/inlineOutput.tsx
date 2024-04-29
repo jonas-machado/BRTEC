@@ -75,8 +75,8 @@ export default function InlineOutput({
   return (
     <>
       <div
-        className={`bg-black p-2 backdrop-blur-md flex flex-row w-full transition h-full rounded-md items-center gap-4 bg-opacity-20 ${
-          isUp ? "bg-green-400" : "bg-red-600"
+        className={`bg-black p-2 backdrop-blur-md flex flex-row w-full transition h-full rounded-md items-center gap-4 bg-opacity-80 ${
+          isUp ? "bg-green-800" : "bg-red-800"
         }`}
       >
         <button
@@ -88,12 +88,12 @@ export default function InlineOutput({
           {isUp ? "UP" : "DOWN"}
         </button>
         <div className="flex flex-col w-full">
-          <p className="w-full font-bold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)] text-lg">
+          <p className="w-full font-extrabold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)] text-lg">
             {text}
           </p>
 
           <div className="mr-4 flex items-center flex-col sm:flex-row w-full gap-2">
-            <div className=" font-bold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)] text-lg">
+            <div className=" font-extrabold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)] text-lg">
               {`${formattedDate} ${formattedTime}`}
             </div>
             <div className=" ">

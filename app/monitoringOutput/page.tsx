@@ -15,7 +15,7 @@ export default async function monitoring() {
   return (
     <>
       <MotionContent>
-        <div className="mx-auto w-11/12">
+        <div className="m-4">
           <MonitoringOutput monitoring={monitoring} />
         </div>
       </MotionContent>
