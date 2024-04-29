@@ -75,7 +75,7 @@ export default function InlineOutput({
   return (
     <>
       <div
-        className={`bg-black relative z-0 p-2 backdrop-blur-md flex flex-row w-full transition h-full rounded-md items-center gap-4 bg-opacity-20 ${
+        className={`bg-black p-2 backdrop-blur-md flex flex-row w-full transition h-full rounded-md items-center gap-4 bg-opacity-20 ${
           isUp ? "bg-green-400" : "bg-red-600"
         }`}
       >
@@ -88,7 +88,7 @@ export default function InlineOutput({
           {isUp ? "UP" : "DOWN"}
         </button>
         <div className="flex flex-col w-full">
-          <p className="w-full font-bold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)]  text-lg">
+          <p className="w-full font-bold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)] text-lg">
             {text}
           </p>
 
