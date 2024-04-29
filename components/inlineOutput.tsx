@@ -100,7 +100,7 @@ export default function InlineOutput({
                   key={item}
                   className={` truncate ${
                     array.find((base: any) => base.name == item)?.class
-                  } rounded-full shadow-[0px_0px_50px_0_rgb(0_0_0/1)] px-2 text-lg sm:text-lg font-bold `}
+                  } rounded-full px-2 text-lg sm:text-lg font-bold `}
                 >
                   {item}
                 </span>
