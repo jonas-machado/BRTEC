@@ -143,30 +143,20 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
             </p>
           </div>
         </div>
-        <AnimatePresence>
-          {monitor?.map(
-            (item: any, i: number) =>
-              item.tecnology == "FIBRA" && (
-                <MotionDelay
-                  key={item.id}
-                  index={i}
-                  style={{
-                    zIndex: 30 - i,
-                  }}
-                >
-                  <InlineOutput
-                    index={i}
-                    id={item.id}
-                    date={item.dateDown}
-                    bases={item.bases}
-                    text={item.text}
-                    isUp={item.isUp}
-                    tecnology={item.tecnology}
-                  />
-                </MotionDelay>
-              )
-          )}
-        </AnimatePresence>
+        {monitor?.map(
+          (item: any, i: number) =>
+            item.tecnology == "FIBRA" && (
+              <InlineOutput
+                index={i}
+                id={item.id}
+                date={item.dateDown}
+                bases={item.bases}
+                text={item.text}
+                isUp={item.isUp}
+                tecnology={item.tecnology}
+              />
+            )
+        )}
 
         <div className=" flex sm:flex-row flex-col z-40 md:justify-between justify-center gap-2 bg-black bg-opacity-60 backdrop-blur-md rounded-md p-2 px-4">
           <div className="flex justify-center">
@@ -175,30 +165,20 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
             </p>
           </div>
         </div>
-        <AnimatePresence>
-          {monitor?.map(
-            (item: any, i: number) =>
-              item.tecnology == "RÁDIO" && (
-                <MotionDelay
-                  key={item.id}
-                  index={i}
-                  style={{
-                    zIndex: 30 - i,
-                  }}
-                >
-                  <InlineOutput
-                    index={i}
-                    id={item.id}
-                    date={item.dateDown}
-                    bases={item.bases}
-                    text={item.text}
-                    isUp={item.isUp}
-                    tecnology={item.tecnology}
-                  />
-                </MotionDelay>
-              )
-          )}
-        </AnimatePresence>
+        {monitor?.map(
+          (item: any, i: number) =>
+            item.tecnology == "RÁDIO" && (
+              <InlineOutput
+                index={i}
+                id={item.id}
+                date={item.dateDown}
+                bases={item.bases}
+                text={item.text}
+                isUp={item.isUp}
+                tecnology={item.tecnology}
+              />
+            )
+        )}
       </div>
     </>
   );
