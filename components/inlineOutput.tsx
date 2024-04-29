@@ -88,10 +88,12 @@ export default function InlineOutput({
           {isUp ? "UP" : "DOWN"}
         </button>
         <div className="flex flex-col w-full">
-          <p className="w-full font-bold text-gray-300 text-lg">{text}</p>
+          <p className="w-full font-bold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)] text-lg">
+            {text}
+          </p>
 
           <div className="mr-4 flex items-center flex-col sm:flex-row w-full gap-2">
-            <div className=" font-bold text-gray-300 text-lg">
+            <div className=" font-bold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)] text-lg">
               {`${formattedDate} ${formattedTime}`}
             </div>
             <div className=" ">
@@ -100,7 +102,7 @@ export default function InlineOutput({
                   key={item}
                   className={` truncate ${
                     array.find((base: any) => base.name == item)?.class
-                  } rounded-full px-2 text-lg sm:text-lg font-bold `}
+                  } rounded-full [text-shadow:_0_0px_10px_rgb(0_0_0_/1)] px-2 text-lg sm:text-lg font-bold `}
                 >
                   {item}
                 </span>
