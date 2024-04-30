@@ -84,6 +84,7 @@ export default function InlineEditor({
     setCurrentTime(date);
     setCurrentTecnology(tecnology);
   }, [id, date, bases, text, isUp, tecnology]);
+  console.log(id);
   const message = (value: string) => {
     setCurrentText(value);
     socket?.emit("message", { message: value, id });
