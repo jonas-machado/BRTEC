@@ -1,44 +1,20 @@
 "use client";
 
-import { ChevronUpIcon } from "@heroicons/react/20/solid";
-import InlineEditor from "@/components/inlineEditor";
 import { useContext, useEffect, useRef, useState } from "react";
-import axios from "axios";
-import { Socket, io } from "socket.io-client";
-import PageWrapper from "@/lib/framerMotion/pageWrapper";
 import { AnimatePresence } from "framer-motion";
-import MotionComponent from "@/lib/framerMotion/motionComponent";
 import { useRouter } from "next/navigation";
 import { SocketContext } from "@/lib/socket";
 import MotionDelay from "@/lib/framerMotion/motionDelay";
 import Image from "next/image";
 import InlineOutput from "./inlineOutput";
 
-const basesObj = [
-  {
-    name: "VOU",
-    class: "text-orange-600 bg-orange-600 bg-opacity-20",
-  },
-  {
-    name: "ATELE",
-    class: "text-green-600 bg-green-600 bg-opacity-20",
-  },
-  {
-    name: "XTELE",
-    class: "text-gray-400 bg-gray-600 bg-opacity-20",
-  },
-];
-
 export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
   const [monitor, setMonitor] = useState<any>();
   const router = useRouter();
-  const date = new Date();
   const socket = useContext(SocketContext);
   useEffect(() => {
     socket?.on("routerRefresh", async () => {
       router.refresh();
-
-      console.log("refreshed");
     });
 
     socket?.on(
@@ -100,8 +76,6 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
           }
           return item;
         });
-        console.log(updatedMonitoring);
-
         setMonitor(updatedMonitoring);
       }
     );

@@ -1,17 +1,14 @@
 "use client";
 
-import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import InlineEditor from "./inlineEditor";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { Socket, io } from "socket.io-client";
-import PageWrapper from "@/lib/framerMotion/pageWrapper";
 import { AnimatePresence } from "framer-motion";
-import MotionComponent from "@/lib/framerMotion/motionComponent";
 import { useRouter } from "next/navigation";
 import { SocketContext } from "@/lib/socket";
 import MotionDelay from "@/lib/framerMotion/motionDelay";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const basesObj = [
   {
     name: "VOU",
@@ -32,7 +29,6 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
   const router = useRouter();
   const date = new Date();
   const socket = useContext(SocketContext);
-  console.log(monitor);
 
   useEffect(() => {
     console.log("iniciado");
@@ -50,7 +46,6 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
             return { ...item, tecnology };
           }
         });
-        console.log(updatedMonitoring);
         setMonitor(updatedMonitoring);
 
         router.refresh();
@@ -66,8 +61,6 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
             return { ...item, text: message };
           }
         });
-
-        console.log(updatedMonitoring);
 
         setMonitor(updatedMonitoring);
       }
@@ -116,6 +109,10 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
     };
   }, [socket, router, monitoring]);
 
+  useEffect(() => {
+    setMonitor(monitoring);
+  }, [monitoring]);
+
   const add = async () => {
     await axios.post("/api/monitoring/create", {
       isUp: false,
@@ -129,13 +126,10 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
       message: "Novo alerta no monitoramento!",
     });
   };
-  console.log(socket);
-  console.log(router);
-  console.log(monitor);
 
   return (
     <div className="flex w-full justify-center flex-col gap-2">
-      <div className=" flex sm:flex-row flex-col z-40 md:justify-between justify-center gap-2 bg-black bg-opacity-80 backdrop-blur-md rounded-md p-2">
+      <div className=" flex sm:flex-row flex-col z-30 md:justify-between justify-center gap-2 bg-black bg-opacity-80 backdrop-blur-md rounded-md p-2">
         <div className="flex justify-center">
           <p className="text-gray-300 flex items-center font-bold text-2xl gap-4 ">
             MONITORAMENTO
@@ -178,6 +172,7 @@ export default function Monitoring({ monitoring }: { monitoring: any }) {
           </MotionDelay>
         ))}
       </AnimatePresence>
+      <ToastContainer />
     </div>
   );
 }

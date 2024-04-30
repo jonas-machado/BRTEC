@@ -1,6 +1,4 @@
 "use client";
-//@ts-ignore
-import EasyEdit, { Types } from "react-easy-edit";
 import {
   CheckIcon,
   ChevronUpDownIcon,
@@ -14,14 +12,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-import dynamic from "next/dynamic";
-import { Socket, io } from "socket.io-client";
 import axios from "axios";
 import { SocketContext } from "@/lib/socket";
 import { useRouter } from "next/navigation";
-import ControlledInput from "./inputs/controlledInput";
-import AutoComplete from "./inputs/Select";
 import Select from "./inputs/Select";
+import { toast } from "react-toastify";
 
 const array = [
   {
@@ -67,7 +62,20 @@ export default function InlineEditor({
   const [currentTecnology, setCurrentTecnology] = useState<string | null>(
     tecnology
   );
-  console.log(id, date, bases, text, isUp, tecnology);
+
+  const toastError = (msg: any) => {
+    console.log("called: " + msg);
+    return toast.error(msg, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
 
   useEffect(() => {
     setCurrentBase(bases);
@@ -100,7 +108,14 @@ export default function InlineEditor({
   };
 
   const deleteItem = async () => {
-    await axios.post("/api/monitoring/delete", { id });
+    await axios
+      .post("/api/monitoring/delete", { id })
+      .then((res) => {
+        if (res.data.error) {
+          toastError(res.data.error);
+        }
+      })
+      .catch((err) => console.log(err));
     socket?.emit("refresh");
   };
 
