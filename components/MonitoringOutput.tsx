@@ -109,13 +109,11 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
         blurDataURL={`/images/deskBurn.gif`}
         placeholder="blur"
       />
-      <div className="flex flex-col w-full gap-2">
-        <div className=" flex sm:flex-row flex-col z-40 md:justify-between justify-center gap-2 bg-black bg-opacity-60 backdrop-blur-md rounded-md p-2 px-4">
-          <div className="flex justify-center">
-            <p className="text-gray-300 flex items-center font-bold text-2xl gap-4 ">
-              FIBRA
-            </p>
-          </div>
+      <div className="flex flex-col w-full gap-1">
+        <div className=" flex bg-black bg-opacity-60 backdrop-blur-md rounded-md p-1 px-4">
+          <p className="text-gray-300 flex items-center font-bold text-2xl ">
+            FIBRA
+          </p>
         </div>
         <AnimatePresence>
           {monitor?.map(
@@ -142,12 +140,10 @@ export default function MonitoringOutput({ monitoring }: { monitoring: any }) {
           )}
         </AnimatePresence>
 
-        <div className=" flex sm:flex-row flex-col z-40 md:justify-between justify-center gap-2 bg-black bg-opacity-60 backdrop-blur-md rounded-md p-2 px-4">
-          <div className="flex justify-center">
-            <p className="text-gray-300 flex items-center font-bold text-2xl gap-4 ">
-              RÁDIO
-            </p>
-          </div>
+        <div className=" flex bg-black bg-opacity-60 backdrop-blur-md rounded-md p-1 px-4">
+          <p className="text-gray-300 flex items-center font-bold text-2xl gap-4 ">
+            RÁDIO
+          </p>
         </div>
         <AnimatePresence>
           {monitor?.map(

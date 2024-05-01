@@ -52,7 +52,7 @@ export default function InlineOutput({
   return (
     <>
       <div
-        className={`bg-black p-2 backdrop-blur-md flex flex-row w-full transition h-full rounded-md items-center gap-4 bg-opacity-80 `}
+        className={`bg-black p-1 backdrop-blur-md flex flex-row w-full transition h-full rounded-md items-center gap-4 bg-opacity-80 `}
       >
         <button
           className={`text-black rounded-md text-sm sm:text-lg py-2 font-bold min-w-[55px] sm:min-w-[70px] ${
@@ -62,22 +62,22 @@ export default function InlineOutput({
         >
           {isUp ? "UP" : "DOWN"}
         </button>
-        <div className="flex flex-col w-full">
-          <p className="w-full font-extrabold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)] text-2xl">
+        <div className="flex flex-col w-full py-1">
+          <p className="w-full font-extrabold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)] text-xl leading-5">
             {text}
           </p>
 
           <div className="mr-4 flex items-center flex-col sm:flex-row w-full gap-2">
-            <div className=" font-extrabold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)] text-2xl">
+            <div className=" font-extrabold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)] text-xl leading-5">
               {`${formattedDate} ${formattedTime}`}
             </div>
-            <div className=" ">
+            <div className="flex">
               {bases.map((item) => (
                 <span
                   key={item}
                   className={` truncate ${
                     array.find((base: any) => base.name == item)?.class
-                  } rounded-full [text-shadow:_0_0px_10px_rgb(0_0_0_/1)] px-2 text-lg sm:text-lg font-bold `}
+                  } rounded-full [text-shadow:_0_0px_10px_rgb(0_0_0_/1)] px-2 text-lg sm:text-lg font-bold !leading-5`}
                 >
                   {item}
                 </span>
