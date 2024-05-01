@@ -1,7 +1,5 @@
 "use client";
 
-import { ToastContainer } from "react-toastify";
-
 const array = [
   {
     name: "VOU",
@@ -54,9 +52,7 @@ export default function InlineOutput({
   return (
     <>
       <div
-        className={`bg-black p-2 backdrop-blur-md flex flex-row w-full transition h-full rounded-md items-center gap-4 bg-opacity-80 ${
-          isUp ? "bg-green-800" : "bg-red-800"
-        }`}
+        className={`bg-black p-2 backdrop-blur-md flex flex-row w-full transition h-full rounded-md items-center gap-4 bg-opacity-80 `}
       >
         <button
           className={`text-black rounded-md text-sm sm:text-lg py-2 font-bold min-w-[55px] sm:min-w-[70px] ${
