@@ -63,12 +63,12 @@ export default function InlineOutput({
           {isUp ? "UP" : "DOWN"}
         </button>
         <div className="flex flex-col w-full">
-          <p className="w-full font-extrabold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)] text-lg">
+          <p className="w-full font-extrabold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)] text-2xl">
             {text}
           </p>
 
           <div className="mr-4 flex items-center flex-col sm:flex-row w-full gap-2">
-            <div className=" font-extrabold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)] text-lg">
+            <div className=" font-extrabold text-gray-300 [text-shadow:_0_0px_4px_rgb(0_0_0_/1)] text-2xl">
               {`${formattedDate} ${formattedTime}`}
             </div>
             <div className=" ">
