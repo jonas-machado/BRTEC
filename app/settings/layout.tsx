@@ -27,39 +27,39 @@ export default async function RootLayout({
 
   return (
     <SocketProvider>
-      <ProtectedRoute>
-        <PageWrapper>
-          <MotionPage>
-            <div className=" absolute shadow-[inset_0_-20px_20px_0px] w-[110%] -left-6 h-screen -z-40"></div>
-            <Image
-              src={
-                currentUser?.user.backgroundImage
-                  ? currentUser?.user.backgroundImage!
-                  : `/images/backgroundConfig.gif`
-              }
-              alt="bg"
-              fill
-              className="-z-50 bg-no-repeat"
-              blurDataURL={
-                currentUser?.user.backgroundImage
-                  ? currentUser?.user.backgroundImage!
-                  : `/images/backgroundConfig.gif`
-              }
-            />
-            <NextTopLoader
-              color="#000000"
-              shadow="0 40px 50px #ffffff,0 40px 50px #ffffff"
-              showSpinner={false}
-            />
-            <AdminPage>
-              <div className="flex w-full h-full">
-                <Sidebar currentUser={currentUser} />
-                {children}
-              </div>
-            </AdminPage>
-          </MotionPage>
-        </PageWrapper>
-      </ProtectedRoute>
+      {/* <ProtectedRoute> */}
+      <PageWrapper>
+        <MotionPage>
+          <div className=" absolute shadow-[inset_0_-20px_20px_0px] w-[110%] -left-6 h-screen -z-40"></div>
+          <Image
+            src={
+              currentUser?.user.backgroundImage
+                ? currentUser?.user.backgroundImage!
+                : `/images/backgroundConfig.gif`
+            }
+            alt="bg"
+            fill
+            className="-z-50 bg-no-repeat"
+            blurDataURL={
+              currentUser?.user.backgroundImage
+                ? currentUser?.user.backgroundImage!
+                : `/images/backgroundConfig.gif`
+            }
+          />
+          <NextTopLoader
+            color="#000000"
+            shadow="0 40px 50px #ffffff,0 40px 50px #ffffff"
+            showSpinner={false}
+          />
+          {/* <AdminPage> */}
+          <div className="flex w-full h-full">
+            <Sidebar currentUser={currentUser} />
+            {children}
+          </div>
+          {/* </AdminPage> */}
+        </MotionPage>
+      </PageWrapper>
+      {/* </ProtectedRoute> */}
     </SocketProvider>
   );
 }

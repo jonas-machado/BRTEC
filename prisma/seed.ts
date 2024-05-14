@@ -173,7 +173,20 @@ async function monitoring() {
   });
 }
 
-monitoring()
+async function user() {
+  await prismadb.user.create({
+    data: {
+      name: "Jonas Machado Alves",
+      role: "ADMIN",
+      email: "jonas.m.a.1997@gmail.com",
+      hashedPassword:
+        "$2b$12$oYptLsN8a9ohmY9Qdevbye57/nPAlsb1iC9SCUogJFRDvTQeAOK9",
+      sector: "Suporte",
+    },
+  });
+}
+
+user()
   .then(async () => {
     await prismadb.$disconnect();
   })
